@@ -1,4 +1,4 @@
-// import { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 // import { makeStyles } from "@material-ui/core/styles";
 // import {
 //   Button,
@@ -12,8 +12,8 @@
 // } from "@material-ui/core";
 // import { Visibility, VisibilityOff } from "@material-ui/icons";
 // import { Link, useNavigate } from "react-router-dom";
-// import newImg from "../../assets/register.jpg";
-// import logoImg from "../../assets/1.jpg";
+// import newImg from "../../assets/signup.jpg";
+// import logoImg from "../../assets/ANS Music limited's logo.png";
 // import { useRegisterMutation } from "@/redux/slices/admin/userApi";
 // import toast from "react-hot-toast";
 
@@ -47,6 +47,10 @@
 //     backgroundColor: "#ffffff",
 //     zIndex: 2,
 //     position: "relative",
+//     [theme.breakpoints.down("xs")]: {
+//       padding: theme.spacing(2),
+//       maxWidth: "90%",
+//     },
 //   },
 //   form: {
 //     marginTop: theme.spacing(3),
@@ -86,7 +90,7 @@
 //         const errorData = error as any;
 //         toast.error(errorData.data.message);
 //       } else {
-//         console.error("Login error:", error);
+//         console.error("Register error:", error);
 //       }
 //     }
 //   }, [isSuccess, data, error, navigate]);
@@ -109,10 +113,10 @@
 //   const handleSubmit = async (e: any) => {
 //     e.preventDefault();
 //     const data = {
-//       name: formData?.name,
-//       phoneNumber: formData?.phoneNumber,
-//       email: formData?.email,
-//       password: formData?.password,
+//       name: formData.name,
+//       phoneNumber: formData.phoneNumber,
+//       email: formData.email,
+//       password: formData.password,
 //     };
 //     try {
 //       await register(data);
@@ -125,10 +129,10 @@
 //     <Grid
 //       container
 //       className={classes.root}
-//       justify="center"
+//       justifyContent="center"
 //       alignItems="center"
 //     >
-//       <Grid item xs={10} sm={8} md={6}>
+//       <Grid item xs={11} sm={8} md={6} lg={4}>
 //         <Paper className={classes.paper}>
 //           <div className="flex justify-center items-center">
 //             <img src={logoImg} alt="Company Logo" className={classes.logo} />
@@ -195,6 +199,7 @@
 //                 ),
 //               }}
 //             />
+
 //             <FormControlLabel
 //               control={
 //                 <Checkbox
@@ -206,6 +211,9 @@
 //               }
 //               label="I accept the Terms and Conditions"
 //             />
+//             <span className="text-green-600">
+//               <Link to={"/auth/terms-conditions"}>See Terms & Conditions</Link>
+//             </span>
 //             <Button
 //               type="submit"
 //               fullWidth
@@ -228,7 +236,6 @@
 
 // export default Register;
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   Checkbox,
@@ -238,13 +245,17 @@ import {
   TextField,
   Typography,
   IconButton,
+  InputAdornment,
+  Divider,
+  Link as MuiLink,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
-import newImg from "../../assets/register.jpg";
-import logoImg from "../../assets/1.jpg";
+import newImg from "../../assets/signup.jpg";
+import logoImg from "../../assets/ANS Music limited's logo.png";
 import { useRegisterMutation } from "@/redux/slices/admin/userApi";
 import toast from "react-hot-toast";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -252,7 +263,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url(${newImg})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    backgroundColor: "#f0f0f0",
     position: "relative",
     display: "flex",
     alignItems: "center",
@@ -264,38 +274,55 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       width: "100%",
       height: "100%",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
     },
   },
   paper: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(6),
     textAlign: "center",
-    color: theme.palette.text.secondary,
-    maxWidth: 400,
-    margin: "auto",
     backgroundColor: "#ffffff",
-    zIndex: 2,
+    borderRadius: "15px",
+    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
     position: "relative",
-    [theme.breakpoints.down("xs")]: {
-      padding: theme.spacing(2),
-      maxWidth: "90%",
-    },
-  },
-  form: {
-    marginTop: theme.spacing(3),
-  },
-  button: {
-    marginTop: theme.spacing(2),
-    height: 50,
+    zIndex: 2,
+    maxWidth: 420,
   },
   logo: {
-    width: 30,
+    width: 50,
+    marginBottom: theme.spacing(2),
+  },
+  form: {
+    marginTop: theme.spacing(4),
+  },
+  input: {
+    marginBottom: theme.spacing(3),
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "30px",
+    },
+  },
+  button: {
+    marginTop: theme.spacing(4),
+    padding: "12px 0",
+    borderRadius: "30px",
+    fontSize: "16px",
+    fontWeight: "bold",
+  },
+  terms: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: theme.spacing(2),
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
 }));
 
 const Register = () => {
   const classes = useStyles();
-
   const [formData, setFormData] = useState({
     name: "",
     phoneNumber: "",
@@ -363,72 +390,66 @@ const Register = () => {
     >
       <Grid item xs={11} sm={8} md={6} lg={4}>
         <Paper className={classes.paper}>
-          <div className="flex justify-center items-center">
-            <img src={logoImg} alt="Company Logo" className={classes.logo} />
-            <Typography
-              variant="h5"
-              component="h2"
-              gutterBottom
-              className="pt-3"
-            >
-              Register
-            </Typography>
-          </div>
+          {/* <img src={logoImg} alt="Company Logo" className={classes.logo} /> */}
+          <Typography variant="h4" component="h1" gutterBottom>
+            Create Account
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Get started with your free account
+          </Typography>
+          <Divider style={{ margin: "20px 0" }} />
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
-              margin="normal"
-              required
               fullWidth
-              id="name"
-              label="Name"
+              placeholder="Full Name"
               name="name"
               value={formData.name}
               onChange={handleChange}
+              className={classes.input}
             />
             <TextField
               variant="outlined"
-              margin="normal"
-              required
               fullWidth
-              id="phoneNumber"
-              label="Phone Number"
+              placeholder="Phone Number"
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
+              className={classes.input}
             />
             <TextField
               variant="outlined"
-              margin="normal"
-              required
               fullWidth
-              id="email"
-              label="Email Address"
+              placeholder="Email Address"
               name="email"
               type="email"
               value={formData.email}
               onChange={handleChange}
+              className={classes.input}
             />
             <TextField
               variant="outlined"
-              margin="normal"
-              required
               fullWidth
+              placeholder="Password"
               name="password"
-              label="Password"
               type={formData.showPassword ? "text" : "password"}
-              id="password"
               value={formData.password}
               onChange={handleChange}
+              className={classes.input}
               InputProps={{
                 endAdornment: (
-                  <IconButton onClick={handlePasswordVisibility}>
-                    {formData.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
+                  <InputAdornment position="end">
+                    <IconButton onClick={handlePasswordVisibility}>
+                      {formData.showPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
                 ),
               }}
             />
-
             <FormControlLabel
               control={
                 <Checkbox
@@ -438,25 +459,37 @@ const Register = () => {
                   name="acceptTerms"
                 />
               }
-              label="I accept the Terms and Conditions"
+              label={
+                <Typography variant="body2">
+                  I accept the{" "}
+                  <MuiLink
+                    component={Link}
+                    to="/auth/terms-conditions"
+                    className={classes.link}
+                  >
+                    Terms and Conditions
+                  </MuiLink>
+                </Typography>
+              }
+              className={classes.terms}
             />
-            <span className="text-green-600">
-              <Link to={"/auth/terms-conditions"}>See Terms & Conditions</Link>
-            </span>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.button}
-              disabled={!formData.acceptTerms} // Disable button if terms not accepted
+              disabled={!formData.acceptTerms || isLoading}
             >
-              {isLoading ? "Please wait..." : "Register"}
+              {isLoading ? "Registering..." : "Register"}
             </Button>
-            <Typography variant="body2" style={{ marginTop: 10 }}>
-              Already have an account? <Link to="/auth/login">Login</Link>
-            </Typography>
           </form>
+          <Typography variant="body2" style={{ marginTop: 20 }}>
+            Already have an account?{" "}
+            <MuiLink component={Link} to="/auth/login" className={classes.link}>
+              Login
+            </MuiLink>
+          </Typography>
         </Paper>
       </Grid>
     </Grid>
