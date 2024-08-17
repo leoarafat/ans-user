@@ -91,7 +91,7 @@ const AnalyticsPage = () => {
     // Header
     pdf.setFontSize(30);
     pdf.setFont("helvetica", "bold");
-    pdf.text("Be Musix.", 10, y);
+    pdf.text("ANS Music.", 10, y);
     y += 10;
 
     pdf.setFontSize(14);
@@ -113,7 +113,7 @@ const AnalyticsPage = () => {
     y += 10;
 
     pdf.text(
-      "Here is the total amount of royalties credited on your account (BE Musix) regarding",
+      "Here is the total amount of royalties credited on your account (ANS Music) regarding",
       10,
       y
     );
@@ -159,7 +159,7 @@ const AnalyticsPage = () => {
     y += 10;
     pdf.text("Royalty Accounting Team", 10, y);
     y += 10;
-    pdf.text("Be Musix", 10, y);
+    pdf.text("ANS Music", 10, y);
 
     // Save the PDF with a specific filename
     pdf.save("analytics_report.pdf");

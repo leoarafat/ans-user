@@ -85,7 +85,7 @@ const AgreementCard = () => {
       </Typography>
       <Typography variant="body1" paragraph>
         <strong>DIGITAL DISTRIBUTION :</strong> {""}
-        70.00% of the Net Receipts shall be paid to Contractor by Be Musix
+        70.00% of the Net Receipts shall be paid to Contractor by ANS Music
         Limited, after deduction of (i) the amounts due for Mechanical Rights if
         applicable, (ii) duties and taxes (for the avoidance of doubt, including
         withholding taxes).
@@ -101,7 +101,7 @@ const AgreementCard = () => {
         Scope Of Exclusive Rights Granted By Contactor To Distributor
       </Typography>
       <Typography variant="body1" paragraph>
-        Be Musix Limited IS GRANTED THE FOLLOWING RIGHTS FOR THE EXCLUSIVE
+        ANS Music Limited IS GRANTED THE FOLLOWING RIGHTS FOR THE EXCLUSIVE
         DISTRIBUTION PERIOD, WITHOUT PREJUDICE TO ANY OTHER RIGHTS AND
         AUTHORISATIONS GRANTED UNDER THIS AGREEMENT: (i) the exclusive right to
         act as distributor and marketer of the Content (directly or indirectly);
@@ -119,11 +119,11 @@ const AgreementCard = () => {
         other third parties' content, in user generated content (UGC) online
         sharing services (such as YouTube, TikTok, Facebook) enabling end-users
         to upload and make available to the public content that incorporates any
-        part of the Content. To this end: Be Musix Limited is, on an exclusive
+        part of the Content. To this end: ANS Music Limited is, on an exclusive
         basis, granted all necessary rights and consents in relation to the
         management of the Content via such online sharing services (including
         channel management, control of contents, etc). Contractor may instruct
-        Be Musix Limited in writing to (i) withdraw the possibility to use any
+        ANS Music Limited in writing to (i) withdraw the possibility to use any
         part of the Content on any online sharing service or to (ii) monetise
         and/or block any such content created by end-users
       </Typography>
@@ -144,7 +144,7 @@ const AgreementCard = () => {
         opportunities. Such opportunities are subject to Contractor's prior
         approval (email being sufficient). However, where governed by a
         collective agreement or a user generated content license, Contractor's
-        approval is not required. Accordingly, Be Musix Limited is granted the
+        approval is not required. Accordingly, ANS Music Limited is granted the
         right to authorize third parties to (i) use the Content (in whole or in
         part) within an audio visual work (movie, advertisement, documentary,
         multimedia program, etc.) or live show ("Synchronization Right") and
@@ -180,8 +180,8 @@ const AgreementCard = () => {
         <strong>DISTRIBUTIOR AND DSP'S GUIDELINES:</strong>
         {""}
         Delivery of any item of the Content following such guidelines shall be
-        deemed compliant, unless Be Musix Limited OR DISTRIBUTIOR informs
-        Contractor otherwise within 15 days following the delivery. Be Musix
+        deemed compliant, unless ANS Music Limited OR DISTRIBUTIOR informs
+        Contractor otherwise within 15 days following the delivery. ANS Music
         Limited may create, adjust, replace or remove Metadata to comply with
         requirements, at Contractor's cost if any. Contractor acknowledges that
         DSPs are free, at any time, to refuse, suspend or, definitively cease to
@@ -199,7 +199,7 @@ const AgreementCard = () => {
         Mechanical's Rights
       </Typography>
       <Typography variant="body1" paragraph>
-        Where DSPs require Be Musix Limited or Contractor to obtain Mechanical
+        Where DSPs require ANS Music Limited or Contractor to obtain Mechanical
         Rights licences for distributing the Content in a given territory,
         Distributor shall use its commercially reasonable endeavors to manage
         the Mechanical Rights licences (i.e. obtain and pay) on behalf of the
@@ -226,18 +226,18 @@ const AgreementCard = () => {
         Contractor shall be provided with monthly statements detailing the sums
         owed to Contractor. Statements will be available on Dashboard or send to
         contractor's email(pdf, excel), or through any other mean determined by
-        Be Musix Limited, on the first day of the second month following the
-        month during which the sums have been received by Be Musix Limited. For
+        ANS Music Limited, on the first day of the second month following the
+        month during which the sums have been received by ANS Music Limited. For
         instance: February Statements shall be available on April 1st, March
         Statements shall be available on May 1st When Contractor provides
         Distributor (through this Agreement or otherwise) with its
         identification number for VAT/GST/Sales Tax (hereinafter "VAT number"),
         Contractor warrants that this VAT number is accurate and valid.
         Contractor shall inform Distributor of any change in the VAT number
-        without delay. If a VAT number is not provided to Be Musix Limited,
+        without delay. If a VAT number is not provided to ANS Music Limited,
         Contractor warrants that it is not, and is not required to be,
         VAT/GST/Sales Tax registered. In order to speed up the invoice and
-        payment process by Be Musix Limited, Contractor exclusively mandates Be
+        payment process by ANS Music Limited, Contractor exclusively mandates Be
         Musix Limited, who accepts, to issue invoices via the Distributor's
         self-billing process, with effect as of the availability of the same.
         Accordingly, Contractor shall (ii) not issue any invoice for which the
@@ -245,7 +245,7 @@ const AgreementCard = () => {
         mandate required by law (iii) be deemed to have accepted the self-billed
         invoices (and shall confirm in writing such acceptance upon
         Distributor's request), excepted those disputed in writing, and (iv)
-        retain the invoices issued by Distributor or Be Musix Limited.
+        retain the invoices issued by Distributor or ANS Music Limited.
         <br />
         <strong>INVOICING:</strong>
         {""}
@@ -263,24 +263,24 @@ const AgreementCard = () => {
         <strong>PAYMENT/TAX INFORMATION :</strong>
         {""}
         Following availability of the last statement of the ongoing calendar
-        month, Be Musix Limited shall issue payment to Contractor on monthly
+        month, ANS Music Limited shall issue payment to Contractor on monthly
         within 30 days after receipt of each valid and undisputed invoice (or,
         in case of self-billing, following issuance by Distributor). If the
         balance of Contractor's account is less than 100 euros (or equivalent in
         the currency of the Agreement), this balance will be rolled into the
         following payment period. Invoices will be irrevocable after payment is
         made. Payment will be made by bank transfer(NPSB/RTGS or online
-        transfer). Contractor shall bear any bank fees other than Be Musix
+        transfer). Contractor shall bear any bank fees other than ANS Music
         Limited bank. All payments shall be made in BDT. Payments made by Be
         Musix Limited shall be exclusive of VAT, unless: (i) Contractor provided
         a valid VAT number; and (ii) local law requires such taxes to be
-        charged. Contractor declares having informed Be Musix Limited of its tax
-        residence country before signing this Agreement. Payment is conditioned
-        upon communication of this information. Contractor shall immediately
-        inform Be Musix Limited of any change of tax residence during the
-        Exclusive Distribution Period. Contractor shall provide its tax
-        residence certificate upon distributor's reasonable request. Should the
-        Contractor be in breach of its obligation to provide accurate
+        charged. Contractor declares having informed ANS Music Limited of its
+        tax residence country before signing this Agreement. Payment is
+        conditioned upon communication of this information. Contractor shall
+        immediately inform ANS Music Limited of any change of tax residence
+        during the Exclusive Distribution Period. Contractor shall provide its
+        tax residence certificate upon distributor's reasonable request. Should
+        the Contractor be in breach of its obligation to provide accurate
         information regarding its Tax residence country, and should distributor
         be obliged to pay any extra cost (including withholding taxes) resulting
         from such default, distributor shall be entitled to request the
@@ -430,8 +430,8 @@ const AgreementCard = () => {
         remove the Content from their services. For the avoidance of doubt, Be
         Musix Limited shall provide Contractor with statements and payments due
         in respect of the Contractor's share of Net Receipts generated during
-        the Exclusive Distribution Period but received by Be Musix Limited after
-        its expiry.
+        the Exclusive Distribution Period but received by ANS Music Limited
+        after its expiry.
       </Typography>
       <Divider sx={{ marginY: 2 }} />
       {/* Other field   */}

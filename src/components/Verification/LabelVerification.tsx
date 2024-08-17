@@ -307,20 +307,28 @@ const LabelVerification = ({ data, onChange }: any) => {
                   mb: 2,
                 }}
               >
-                <img
-                  src={
-                    dashboardImage
-                      ? URL.createObjectURL(dashboardImage)
-                      : `${imageURL}${profileData?.data?.dashboardScreenShot}`
-                  }
-                  alt="Dashboard"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: "8px",
-                  }}
-                />
+                {typeof dashboardImage === "object" ? (
+                  <img
+                    src={
+                      dashboardImage
+                        ? URL.createObjectURL(dashboardImage)
+                        : `${imageURL}${profileData?.data?.dashboardScreenShot}`
+                    }
+                    alt="Dashboard"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={`${imageURL}${profileData?.data?.dashboardScreenShot}`}
+                    alt="Copyright Image"
+                    // className="w-[350px] h-[200px]"
+                  />
+                )}
                 <IconButton
                   onClick={handleRemoveImage(
                     setDashboardImage,
@@ -400,7 +408,7 @@ const LabelVerification = ({ data, onChange }: any) => {
                   mb: 2,
                 }}
               >
-                <img
+                {/* <img
                   src={
                     copyRightImage
                       ? URL.createObjectURL(copyRightImage)
@@ -413,7 +421,29 @@ const LabelVerification = ({ data, onChange }: any) => {
                     objectFit: "cover",
                     borderRadius: "8px",
                   }}
-                />
+                /> */}
+                {typeof copyRightImage === "object" ? (
+                  <img
+                    src={
+                      copyRightImage
+                        ? URL.createObjectURL(copyRightImage)
+                        : `${imageURL}${profileData?.data?.copyrightNoticeImage}`
+                    }
+                    alt="Dashboard"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={`${imageURL}${profileData?.data?.copyrightNoticeImage}`}
+                    alt="Copyright Image"
+                    // className="w-[350px] h-[200px]"
+                  />
+                )}
                 <IconButton
                   onClick={handleRemoveImage(
                     setCopyRightImage,

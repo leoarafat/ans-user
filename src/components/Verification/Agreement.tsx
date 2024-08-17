@@ -1,16 +1,29 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Typography, Paper, Grid, Button, Divider } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Paper,
+  Grid,
+  Button,
+  Divider,
+  useTheme,
+  IconButton,
+} from "@mui/material";
 import SignatureCanvas from "react-signature-canvas";
 import { useProfileQuery } from "@/redux/slices/admin/userApi";
+import {
+  Clear as ClearIcon,
+  Download as DownloadIcon,
+} from "@mui/icons-material";
 
-import signatureImageHasan from "../../assets/sign.jpg";
 import AgreementCard from "../cards/AgreementCard";
 
 const AgreementPage = ({ data, onChange }: any) => {
-  const [signature, setSignature] = useState(null);
+  const [signature, setSignature] = useState<string | null>(null);
   const sigCanvas = useRef<SignatureCanvas>(null);
   const { data: profileData } = useProfileQuery({});
   const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     if (profileData?.data && !initialSetupDone) {
@@ -37,148 +50,208 @@ const AgreementPage = ({ data, onChange }: any) => {
         .toDataURL("image/png");
       const blob = await (await fetch(signatureDataUrl)).blob();
       onChange("agreement", { ...data?.agreement, signature: blob });
+      setSignature(signatureDataUrl);
+    }
+  };
+
+  const downloadSignature = () => {
+    if (signature) {
+      const link = document.createElement("a");
+      link.href = signature;
+      link.download = "signature.png";
+      link.click();
     }
   };
 
   const currentDate = new Date();
+
   return (
-    <Box sx={{ padding: 3 }}>
-      <Paper sx={{ padding: 3, maxWidth: 800, margin: "0 auto" }}>
-        <Typography variant="h4" gutterBottom>
+    <Box sx={{ padding: 4, backgroundColor: theme.palette.background.default }}>
+      <Paper
+        sx={{
+          padding: 4,
+          maxWidth: 1200,
+          margin: "0 auto",
+          borderRadius: 2,
+          boxShadow: 3,
+          backgroundColor: theme.palette.background.paper,
+        }}
+      >
+        <Typography variant="h4" align="center" color="primary" gutterBottom>
           Music Distribution Agreement
         </Typography>
-        <Divider sx={{ marginY: 2 }} />
-        <Grid container spacing={2}>
+        <Divider sx={{ marginY: 3 }} />
+
+        <Grid container spacing={4}>
           <Grid item xs={12} sm={6}>
             <Typography
-              style={{ textAlign: "center" }}
               variant="h6"
+              align="center"
+              color="textSecondary"
               gutterBottom
             >
               CONTRACTOR
             </Typography>
-            <Box
-              sx={{ border: "1px solid black", padding: 2, borderRadius: 1 }}
+            <Paper
+              sx={{
+                padding: 3,
+                borderRadius: 2,
+                backgroundColor: theme.palette.background.paper,
+                boxShadow: 2,
+              }}
             >
-              <Typography variant="body1">
+              <Typography variant="body1" gutterBottom>
                 <strong>Name:</strong> {profileData?.data?.name}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" gutterBottom>
                 <strong>Email:</strong> {profileData?.data?.email}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" gutterBottom>
                 <strong>Phone Number:</strong> {profileData?.data?.phoneNumber}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" gutterBottom>
                 <strong>Address:</strong> {profileData?.data?.address}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" gutterBottom>
                 <strong>NID Number:</strong> {profileData?.data?.nidNumber}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" gutterBottom>
                 <strong>Channel Name:</strong> {profileData?.data?.channelName}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" gutterBottom>
                 <strong>Channel URL:</strong>{" "}
                 <a
                   href={profileData?.data?.channelUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  style={{ color: theme.palette.primary.main }}
                 >
-                  {profileData?.data?.channelUrl?.slice(0, 40)}
+                  {profileData?.data?.channelUrl?.slice(0, 40)}...
                 </a>
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" gutterBottom>
                 <strong>Date:</strong> {currentDate.toLocaleDateString()}
               </Typography>
-            </Box>
+            </Paper>
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <Typography
-              style={{ textAlign: "center" }}
               variant="h6"
+              align="center"
+              color="textSecondary"
               gutterBottom
             >
               DISTRIBUTOR
             </Typography>
-            <Box
-              sx={{ border: "1px solid black", padding: 2, borderRadius: 1 }}
-            >
-              <Typography variant="body2" align="center">
-                For and on behalf of Be Musix
-              </Typography>
-              <Divider />
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  marginTop: 1,
-                }}
-              >
-                <Typography
-                  variant="body1"
-                  sx={{ fontFamily: "cursive", fontSize: 24 }}
-                >
-                  Hasan
-                </Typography>
-                <Divider sx={{ width: "100%", marginY: 1 }} />
-                <Typography variant="body1">
-                  <strong>Name:</strong> Hasanuzzaman
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Designation:</strong> Owner BE Musix
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Reg No:</strong> 15503142
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Legal Representative:</strong> Hasanuzzaman
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Contact:</strong> Email: support@bemusix.com <br />{" "}
-                  Call: +8801970-698456, +447441904447
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Date:</strong> {currentDate.toLocaleDateString()}
-                </Typography>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
-        <AgreementCard />
-        <Divider sx={{ marginY: 2 }} />
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            {/* Artist Signature Box */}
-            <Box
+            <Paper
               sx={{
-                border: "1px solid black",
-                padding: 2,
-                borderRadius: 1,
-                textAlign: "center",
+                padding: 3,
+                borderRadius: 2,
+                backgroundColor: theme.palette.background.paper,
+                boxShadow: 2,
               }}
             >
-              <Typography variant="body2" gutterBottom>
-                For and on behalf of {profileData?.data?.name}
-              </Typography>
-              <SignatureCanvas
-                ref={sigCanvas}
-                penColor="black"
-                canvasProps={{
-                  width: 500,
-                  height: 200,
-                  className: "sigCanvas",
+              <Typography
+                variant="h6"
+                align="center"
+                sx={{
+                  fontFamily: "cursive",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  marginBottom: 2,
                 }}
-                onEnd={handleSignatureChange}
-              />
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={clearSignature}
               >
-                Clear
-              </Button>
+                Akash
+              </Typography>
+              <Divider sx={{ marginY: 2 }} />
+              <Typography variant="body1" gutterBottom>
+                <strong>Name:</strong> Akash Sarker
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Designation:</strong> Owner ANS Music
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Reg No:</strong> 15503142
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Legal Representative:</strong> Akash Sarker
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Contact:</strong> support@ansmusiclimited.com
+                <br />
+                Call: +8801890076006, +8801711387906
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Date:</strong> {currentDate.toLocaleDateString()}
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+
+        <AgreementCard />
+
+        <Divider sx={{ marginY: 3 }} />
+
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={6}>
+            <Box
+              sx={{
+                border: `1px solid ${theme.palette.divider}`,
+                padding: 4,
+                borderRadius: 2,
+                backgroundColor: theme.palette.background.paper,
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
+              <Typography variant="body2" color="textSecondary" gutterBottom>
+                Artist Signature
+              </Typography>
+              <Box
+                sx={{
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  width: "100%",
+                  maxWidth: 500,
+                  height: 200,
+                  mb: 2,
+                  position: "relative",
+                }}
+              >
+                <SignatureCanvas
+                  ref={sigCanvas}
+                  penColor={theme.palette.text.primary}
+                  canvasProps={{
+                    width: 500,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  onEnd={handleSignatureChange}
+                />
+              </Box>
+              {signature && (
+                <div className="py-2">
+                  {" "}
+                  <IconButton
+                    color="error"
+                    onClick={clearSignature}
+                    sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      backgroundColor: theme.palette.background.paper,
+                      boxShadow: `0 2px 4px ${theme.palette.divider}`,
+                    }}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </div>
+              )}
               <Typography variant="body1" gutterBottom>
                 <strong>Name:</strong> {profileData?.data?.name}
               </Typography>
@@ -189,56 +262,64 @@ const AgreementPage = ({ data, onChange }: any) => {
                 <strong>Label:</strong> {profileData?.data?.channelName}
               </Typography>
               <Typography variant="body1" gutterBottom>
-                <strong>Date:</strong> {currentDate.toLocaleString()}
+                <strong>Date:</strong> {currentDate.toLocaleDateString()}
               </Typography>
+              {signature && (
+                <Box sx={{ marginTop: 2 }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={downloadSignature}
+                    startIcon={<DownloadIcon />}
+                  >
+                    Download Signature
+                  </Button>
+                </Box>
+              )}
             </Box>
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <Box
               sx={{
-                border: "1px solid black",
-                padding: 2,
-                borderRadius: 1,
+                border: `1px solid ${theme.palette.divider}`,
+                padding: 4,
+                borderRadius: 2,
+                backgroundColor: theme.palette.background.paper,
                 textAlign: "center",
-                height: "410px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              <Typography variant="body2" gutterBottom>
-                For and on behalf of BE Musix
+              <Typography variant="body2" color="textSecondary" gutterBottom>
+                Distributor Signature
               </Typography>
-              <div className="flex justify-center items-center flex-col w-full h-[550px]">
-                <img
-                  src={signatureImageHasan}
-                  alt="Signature"
-                  style={{ width: "160px" }}
-                />
-
-                <Typography variant="body1" gutterBottom>
-                  <strong>Company:</strong> Be Musix
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  <strong>Designation:</strong> Owner and CEO Be Musix
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  <strong>Date:</strong> {currentDate.toLocaleString()}
-                </Typography>
-                <br />
-              </div>
+              <Typography variant="body1" gutterBottom>
+                Akash Sarker
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Company:</strong> ANS Music
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Designation:</strong> Owner and CEO ANS Music
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Date:</strong> {currentDate.toLocaleDateString()}
+              </Typography>
             </Box>
           </Grid>
         </Grid>
-        <Divider sx={{ marginY: 2 }} />
-        <Typography
-          style={{ color: "#3572EF", fontWeight: "bold" }}
-          variant="h6"
-          gutterBottom
-        >
-          Note
+
+        <Divider sx={{ marginY: 3 }} />
+
+        <Typography variant="h6" color="primary" gutterBottom>
+          Important Note
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant="body1">
           If a transfer or takedown of all songs is required before the contract
-          expires, a $300 charge applies. After paying $300 you can shift to
-          another distribution.
+          expires, a $300 charge applies. After paying $300, you can shift to
+          another distribution service.
         </Typography>
       </Paper>
     </Box>

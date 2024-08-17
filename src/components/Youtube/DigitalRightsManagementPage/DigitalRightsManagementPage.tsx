@@ -33,7 +33,7 @@ const DigitalRightsManagementPage = () => {
           gutterBottom
           sx={{ marginBottom: "2rem", fontWeight: "bold" }}
         >
-          Be Musix Rights Manager
+          ANS Music Rights Manager
         </Typography>
         <Grid container spacing={2}>
           {services?.map((service, index) => (

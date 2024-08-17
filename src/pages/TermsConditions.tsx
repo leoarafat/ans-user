@@ -25,7 +25,7 @@ const TermsConditionsPage = () => {
         >
           bemusixbackstage.com
         </Link>
-        ) is offered to you by Be Musix (“Company”), by using our Website, you
+        ) is offered to you by ANS Music (“Company”), by using our Website, you
         accept these terms in full that govern your use of the Website. If you
         disagree with these terms of use or any part of these terms, you must
         not use our Website. Any use of our digital Music Distribution Services
@@ -299,7 +299,7 @@ const TermsConditionsPage = () => {
         If you believe that any Content made available on or through our Website
         or services infringes your intellectual property rights (“Infringing
         Content”) then kindly sent a notification with respect to the same
-        addressed to Be Musix at email : support@bemusix.com along with your
+        addressed to ANS Music at email : support@bemusix.com along with your
         details, the details of the Content and substantial documents to prove
         your claim. Notwithstanding what is stated herein, at no time the
         Company shall be liable or obligated, to provide/submit to you, reports

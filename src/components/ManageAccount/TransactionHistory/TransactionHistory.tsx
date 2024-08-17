@@ -104,7 +104,7 @@ const TransactionHistory = () => {
         </Typography>
         <Divider sx={{ width: "100%", my: 2 }} />
         <Typography variant="h6" gutterBottom>
-          Be Musix
+          ANS Music
         </Typography>
 
         {currentMonthBalance === null ? (
