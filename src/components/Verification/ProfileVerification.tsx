@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { useState, useEffect, useCallback } from "react";
 import { Grid, TextField } from "@material-ui/core";
 import { MdClose } from "react-icons/md";
@@ -7,9 +8,11 @@ import { useProfileQuery } from "@/redux/slices/admin/userApi";
 import { imageURL } from "@/redux/api/baseApi";
 
 const ProfileVerification = ({ data, onChange }: any) => {
-  const [selectedProfileImage, setSelectedProfileImage] = useState(null);
-  const [nidFront, setNidFront] = useState(null);
-  const [nidBack, setNidBack] = useState(null);
+  const [selectedProfileImage, setSelectedProfileImage] = useState<File | null>(
+    null
+  );
+  const [nidFront, setNidFront] = useState<File | null>(null);
+  const [nidBack, setNidBack] = useState<File | null>(null);
 
   const { data: profileData } = useProfileQuery({});
   const [initialSetupDone, setInitialSetupDone] = useState(false);
@@ -35,28 +38,30 @@ const ProfileVerification = ({ data, onChange }: any) => {
   }, [profileData, initialSetupDone, onChange]);
 
   const handleChange = useCallback(
-    (e: any) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       onChange("profile", { ...data.profile, [name]: value });
     },
     [onChange, data.profile]
   );
 
-  const handleProfileImageUpload = (event: any) => {
-    const file = event.target.files[0];
-    setSelectedProfileImage(file);
+  const handleProfileImageUpload = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    setSelectedProfileImage(file || null);
     onChange("profile", { ...data.profile, profileImage: file });
   };
 
-  const handleNidFront = (event: any) => {
-    const file = event.target.files[0];
-    setNidFront(file);
+  const handleNidFront = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setNidFront(file || null);
     onChange("profile", { ...data.profile, nidFront: file });
   };
 
-  const handleNidBack = (event: any) => {
-    const file = event.target.files[0];
-    setNidBack(file);
+  const handleNidBack = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setNidBack(file || null);
     onChange("profile", { ...data.profile, nidBack: file });
   };
 
@@ -77,160 +82,162 @@ const ProfileVerification = ({ data, onChange }: any) => {
 
   return (
     <form>
-      <Grid container spacing={3} alignItems="center">
-        <div className="flex justify-between items-center w-full">
-          {/* Profile Picture */}
-          <div className="image_upload flex items-center justify-center flex-col p-3">
-            <h4 className="mb-2 text-sm">Upload Profile Picture</h4>
-            {selectedProfileImage || profileData?.data?.image ? (
-              <div className="relative w-3/4">
-                {typeof selectedProfileImage === "object" ? (
-                  <img
-                    //@ts-ignore
-                    src={
-                      selectedProfileImage
-                        ? URL.createObjectURL(selectedProfileImage)
-                        : null
-                    }
-                    alt="PROFILE IMAGE"
-                    className="w-[300px] h-[200px]"
-                  />
-                ) : (
-                  <img
-                    src={`${imageURL}/${profileData?.data?.image}`}
-                    alt="PROFILE IMAGE"
-                    className="w-[300px] h-[200px]"
-                  />
-                )}
-                <button
-                  type="button"
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                  onClick={handleProfileRemoveImage}
-                >
-                  <MdClose />
-                </button>
-              </div>
-            ) : (
-              <label
-                htmlFor="profile-image-upload"
-                className="upload w-[230px] hover:bg-green-100 transition flex justify-center shadow-md rounded-md p-12 text-5xl cursor-pointer"
-              >
-                <input
-                  id="profile-image-upload"
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  style={{ display: "none" }}
-                  onChange={handleProfileImageUpload}
-                  required
-                />
-                <BsCloudUpload />
-              </label>
-            )}
-          </div>
-
-          {/* NID Front Image Uploader */}
-          <div className="image_upload flex items-center justify-center flex-col p-3">
-            <h4 className="mb-2 text-sm">Upload NID Front</h4>
-            {nidFront || profileData?.data?.nidFront ? (
-              <div className="relative w-3/4">
-                {typeof nidFront === "object" ? (
-                  <img
-                    //@ts-ignore
-                    src={nidFront ? URL.createObjectURL(nidFront) : null}
-                    alt="NID Front"
-                    className="w-[300px] h-[200px]"
-                  />
-                ) : (
-                  <img
-                    src={`${imageURL}/${profileData?.data?.nidFront}`}
-                    alt="NID Front"
-                    className="w-[300px] h-[200px]"
-                  />
-                )}
-                <button
-                  type="button"
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                  onClick={handleFrontRemoveImage}
-                >
-                  <MdClose />
-                </button>
-              </div>
-            ) : (
-              <label
-                htmlFor="nid-front-upload"
-                className="upload w-[230px] hover:bg-green-100 transition flex justify-center shadow-md rounded-md p-12 text-5xl cursor-pointer"
-              >
-                <input
-                  id="nid-front-upload"
-                  type="file"
-                  accept="image/*"
-                  name="nidFront"
-                  style={{ display: "none" }}
-                  onChange={handleNidFront}
-                  required
-                />
-                <BsCloudUpload />
-              </label>
-            )}
-          </div>
-
-          {/* NID Back Image Uploader */}
-          <div className="image_upload flex items-center justify-center flex-col p-3">
-            <h4 className="mb-2 text-sm">Upload NID Back</h4>
-            {nidBack || profileData?.data?.nidBack ? (
-              <div className="relative w-3/4">
-                {typeof nidBack === "object" ? (
-                  <img
-                    //@ts-ignore
-                    src={nidBack ? URL.createObjectURL(nidBack) : null}
-                    alt="NID Back"
-                    className="w-[300px] h-[200px]"
-                  />
-                ) : (
-                  <img
-                    src={`${imageURL}/${profileData?.data?.nidBack}`}
-                    alt="NID Back"
-                    className="w-[300px] h-[200px]"
-                  />
-                )}
-                <button
-                  type="button"
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                  onClick={handleBackRemoveImage}
-                >
-                  <MdClose />
-                </button>
-              </div>
-            ) : (
-              <label
-                htmlFor="nid-back-upload"
-                className="upload w-[230px] hover:bg-green-100 transition flex justify-center shadow-md rounded-md p-12 text-5xl cursor-pointer"
-              >
-                <input
-                  id="nid-back-upload"
-                  type="file"
-                  accept="image/*"
-                  name="nidBack"
-                  style={{ display: "none" }}
-                  onChange={handleNidBack}
-                  required
-                />
-                <BsCloudUpload />
-              </label>
-            )}
-          </div>
-        </div>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
-          <TextField
-            name="name"
-            label="Name"
-            variant="outlined"
-            fullWidth
-            value={data.profile.name || ""}
-            onChange={handleChange}
-          />
+          <div className="flex justify-around flex-wrap gap-4">
+            {/* Profile Picture */}
+            <div className="flex flex-col items-center p-4 border-dotted border-4 border-gray-400 rounded-lg shadow-md transition-transform hover:scale-105 w-72">
+              <h4 className="mb-2 text-lg font-semibold text-gray-700">
+                Upload Profile Picture
+              </h4>
+              {selectedProfileImage || profileData?.data?.image ? (
+                <div className="relative w-full h-48">
+                  {typeof selectedProfileImage === "object" ? (
+                    <img
+                      //@ts-ignore
+                      src={
+                        selectedProfileImage
+                          ? URL.createObjectURL(selectedProfileImage)
+                          : null
+                      }
+                      alt="PROFILE IMAGE"
+                      className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
+                    />
+                  ) : (
+                    <img
+                      src={`${imageURL}/${profileData?.data?.image}`}
+                      alt="PROFILE IMAGE"
+                      className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
+                    />
+                  )}
+                  <button
+                    type="button"
+                    className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-2 shadow-md hover:bg-red-700 transition-colors"
+                    onClick={handleProfileRemoveImage}
+                  >
+                    <MdClose />
+                  </button>
+                </div>
+              ) : (
+                <label
+                  htmlFor="profile-image-upload"
+                  className="flex flex-col items-center justify-center w-full h-full bg-gray-100 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors"
+                >
+                  <input
+                    id="profile-image-upload"
+                    type="file"
+                    accept="image/*"
+                    name="image"
+                    style={{ display: "none" }}
+                    onChange={handleProfileImageUpload}
+                    required
+                  />
+                  <BsCloudUpload className="text-6xl text-gray-500 mb-2" />
+                  <p className="text-gray-600">Click to upload</p>
+                </label>
+              )}
+            </div>
+
+            {/* NID Front Image Uploader */}
+            <div className="flex flex-col items-center p-4 border-dotted border-4 border-gray-400 rounded-lg shadow-md transition-transform hover:scale-105 w-72">
+              <h4 className="mb-2 text-lg font-semibold text-gray-700">
+                Upload NID Front
+              </h4>
+              {nidFront || profileData?.data?.nidFront ? (
+                <div className="relative w-full h-48">
+                  {typeof nidFront === "object" ? (
+                    <img
+                      //@ts-ignore
+                      src={nidFront ? URL.createObjectURL(nidFront) : null}
+                      alt="NID Front"
+                      className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
+                    />
+                  ) : (
+                    <img
+                      src={`${imageURL}/${profileData?.data?.nidFront}`}
+                      alt="NID Front"
+                      className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
+                    />
+                  )}
+                  <button
+                    type="button"
+                    className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-2 shadow-md hover:bg-red-700 transition-colors"
+                    onClick={handleFrontRemoveImage}
+                  >
+                    <MdClose />
+                  </button>
+                </div>
+              ) : (
+                <label
+                  htmlFor="nid-front-upload"
+                  className="flex flex-col items-center justify-center w-full h-full bg-gray-100 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors"
+                >
+                  <input
+                    id="nid-front-upload"
+                    type="file"
+                    accept="image/*"
+                    name="nidFront"
+                    style={{ display: "none" }}
+                    onChange={handleNidFront}
+                    required
+                  />
+                  <BsCloudUpload className="text-6xl text-gray-500 mb-2" />
+                  <p className="text-gray-600">Click to upload</p>
+                </label>
+              )}
+            </div>
+
+            {/* NID Back Image Uploader */}
+            <div className="flex flex-col items-center p-4 border-dotted border-4 border-gray-400 rounded-lg shadow-md transition-transform hover:scale-105 w-72">
+              <h4 className="mb-2 text-lg font-semibold text-gray-700">
+                Upload NID Back
+              </h4>
+              {nidBack || profileData?.data?.nidBack ? (
+                <div className="relative w-full h-48">
+                  {typeof nidBack === "object" ? (
+                    <img
+                      //@ts-ignore
+                      src={nidBack ? URL.createObjectURL(nidBack) : null}
+                      alt="NID Back"
+                      className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
+                    />
+                  ) : (
+                    <img
+                      src={`${imageURL}/${profileData?.data?.nidBack}`}
+                      alt="NID Back"
+                      className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
+                    />
+                  )}
+                  <button
+                    type="button"
+                    className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-2 shadow-md hover:bg-red-700 transition-colors"
+                    onClick={handleBackRemoveImage}
+                  >
+                    <MdClose />
+                  </button>
+                </div>
+              ) : (
+                <label
+                  htmlFor="nid-back-upload"
+                  className="flex flex-col items-center justify-center w-full h-full bg-gray-100 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors"
+                >
+                  <input
+                    id="nid-back-upload"
+                    type="file"
+                    accept="image/*"
+                    name="nidBack"
+                    style={{ display: "none" }}
+                    onChange={handleNidBack}
+                    required
+                  />
+                  <BsCloudUpload className="text-6xl text-gray-500 mb-2" />
+                  <p className="text-gray-600">Click to upload</p>
+                </label>
+              )}
+            </div>
+          </div>
         </Grid>
+
         <Grid item xs={6}>
           <TextField
             name="phoneNumber"
@@ -244,7 +251,7 @@ const ProfileVerification = ({ data, onChange }: any) => {
         <Grid item xs={6}>
           <TextField
             name="nidNumber"
-            label="Nid Number"
+            label="NID Number"
             variant="outlined"
             fullWidth
             value={data.profile.nidNumber || ""}
@@ -257,7 +264,6 @@ const ProfileVerification = ({ data, onChange }: any) => {
             label="Email"
             variant="outlined"
             fullWidth
-            disabled
             value={data.profile.email || ""}
             onChange={handleChange}
           />
