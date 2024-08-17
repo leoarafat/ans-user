@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+table {
+  font-family: "Poppins", sans-serif;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif !important;
+}
+
+.ant-layout-sider-children .ant-menu-item-selected {
+  font-weight: bold;
+  background: #7cc84e;
+  color: #000;
+}
+
+span.ant-menu-title-content {
+  color: #fff;
+}
+
+:where(.css-dev-only-do-not-override-11xg00t).ant-menu-light
+  .ant-menu-submenu-title,
+.ant-menu-submenu-title {
+  color: #fff;
+}
+
+.ant-pagination-item-active {
+  background: #7cc84e !important;
+  border: 0 !important;
+}
+
+.ant-pagination-item-active a {
+  color: #fff !important;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
+  background: #7cc84e;
+  color: white;
+  border: 0;
+}
+
+.ant-otp-input {
+  height: 80px;
+}
