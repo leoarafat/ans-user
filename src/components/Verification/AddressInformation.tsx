@@ -1,11 +1,16 @@
 import { useProfileQuery } from "@/redux/slices/admin/userApi";
 import {
-  FormControl,
+  Box,
+  Card,
+  CardContent,
   Grid,
-  InputLabel,
   MenuItem,
   Select,
   TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  FormHelperText,
 } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 
@@ -24,80 +29,122 @@ const AddressInformation = ({ data, onChange }: any) => {
       };
 
       onChange("address", initialProfileData);
-
       setInitialSetupDone(true);
     }
   }, [profileData, initialSetupDone, onChange]);
 
   const handleChange = useCallback(
-    (e: any) => {
+    (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
       const { name, value } = e.target;
       onChange("address", { ...data.address, [name]: value });
     },
     [onChange, data.address]
   );
+
   const countries = ["Bangladesh", "India", "United States", "United Kingdom"];
+
   return (
-    <form>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel>Country</InputLabel>
-            <Select
-              value={data?.address.country}
-              onChange={handleChange}
-              name="country"
-            >
-              {countries.map((country: string, index: number) => (
-                <MenuItem key={index} value={country}>
-                  {country}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+    <Card
+      sx={{
+        maxWidth: 600,
+        margin: "auto",
+        marginTop: 4,
+        borderRadius: "16px",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <CardContent>
+        <Typography
+          variant="h5"
+          sx={{
+            marginBottom: 3,
+            fontWeight: 600,
+            color: "#333",
+            textAlign: "center",
+          }}
+        >
+          Address Information
+        </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth variant="outlined" sx={{ marginBottom: 2 }}>
+              <InputLabel>Country</InputLabel>
+              <Select
+                value={data?.address.country || ""}
+                onChange={handleChange}
+                name="country"
+                label="Country"
+              >
+                {countries.map((country, index) => (
+                  <MenuItem key={index} value={country}>
+                    {country}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>Select your country</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth variant="outlined" sx={{ marginBottom: 2 }}>
+              {/* <InputLabel>State</InputLabel> */}
+              <TextField
+                name="state"
+                value={data?.address.state || ""}
+                onChange={handleChange}
+                label="State"
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+              <FormHelperText>Enter your state</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth variant="outlined" sx={{ marginBottom: 2 }}>
+              {/* <InputLabel>City</InputLabel> */}
+              <TextField
+                name="city"
+                value={data?.address.city || ""}
+                onChange={handleChange}
+                label="City"
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+              <FormHelperText>Enter your city</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth variant="outlined" sx={{ marginBottom: 2 }}>
+              {/* <InputLabel>Post Code</InputLabel> */}
+              <TextField
+                name="postCode"
+                value={data?.address.postCode || ""}
+                onChange={handleChange}
+                label="Post Code"
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+              <FormHelperText>Enter your postal code</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined">
+              {/* <InputLabel>Address</InputLabel> */}
+              <TextField
+                name="address"
+                value={data?.address.address || ""}
+                onChange={handleChange}
+                label="Address"
+                variant="outlined"
+                multiline
+                rows={4}
+                InputLabelProps={{ shrink: true }}
+              />
+              <FormHelperText>Enter your full address</FormHelperText>
+            </FormControl>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            name="state"
-            label="State"
-            variant="outlined"
-            fullWidth
-            value={data?.address.state}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            name="city"
-            label="City"
-            variant="outlined"
-            fullWidth
-            value={data?.address.city}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            name="postCode"
-            label="Post Code"
-            variant="outlined"
-            fullWidth
-            value={data?.address.postCode}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            name="address"
-            label="Address"
-            variant="outlined"
-            fullWidth
-            value={data?.address.address}
-            onChange={handleChange}
-          />
-        </Grid>
-      </Grid>
-    </form>
+      </CardContent>
+    </Card>
   );
 };
 
