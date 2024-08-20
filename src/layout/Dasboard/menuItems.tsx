@@ -11,6 +11,7 @@ import {
   VideoIcon,
   SendHorizontal,
   MusicIcon,
+  TriangleAlert,
 } from "lucide-react";
 import { RiPlayListAddFill } from "react-icons/ri";
 import { MdAttachMoney } from "react-icons/md";
@@ -35,7 +36,7 @@ export const menuItems = [
   {
     path: "/my-uploads",
     title: "My Uploads",
-    icon: <RiPlayListAddFill size={18} />,
+    icon: <RiPlayListAddFill size={18} color="#fff" />,
     subMenu: [
       {
         path: "/success-track",
@@ -108,15 +109,63 @@ export const menuItems = [
     ],
   },
   {
+    path: "/manage-claim",
+    title: "Claim Manage",
+    icon: <TriangleAlert size={18} color="#fff" />,
+    subMenu: [
+      {
+        path: "/tiktok",
+        title: "TikTokClaim",
+        icon: <SendHorizontal size={18} color="#fff" />,
+      },
+      {
+        path: "/fb-claim",
+        title: "FacebookClaim",
+        icon: <SendHorizontal style={{ fontSize: 18, color: "white" }} />,
+      },
+      {
+        path: "/youtube-claim",
+        title: "YoutubeClaim",
+        icon: <SendHorizontal size={18} style={{ color: "white" }} />,
+      },
+      {
+        path: "/youtube-takedown",
+        title: "YoutubeTakeDown",
+        icon: <SendHorizontal size={18} color="white" />,
+      },
+      {
+        path: "/youyube-manual-claim",
+        title: "YouTubeManualClaim",
+        icon: <SendHorizontal size={18} color="white" />,
+      },
+
+      {
+        path: "/fb-whitelist",
+        title: "FacebookWhiteList",
+        icon: <SendHorizontal style={{ fontSize: 18, color: "white" }} />,
+      },
+      {
+        path: "/artist-channel",
+        title: "ArtistChannelRequest",
+        icon: <SendHorizontal size={18} style={{ color: "white" }} />,
+      },
+      {
+        path: "/whitelist",
+        title: "WhiteListRequest",
+        icon: <SendHorizontal size={18} style={{ color: "white" }} />,
+      },
+    ],
+  },
+  {
     path: "/claims",
     title: "Legal",
     icon: <CiCircleInfo size={18} color="white" />,
     subMenu: [
-      {
-        path: "/manage",
-        title: "Legals",
-        icon: <SendHorizontal style={{ fontSize: 20, color: "white" }} />,
-      },
+      // {
+      //   path: "/manage",
+      //   title: "Legals",
+      //   icon: <SendHorizontal style={{ fontSize: 20, color: "white" }} />,
+      // },
       {
         path: "/artist-channel-request",
         title: "Artist Channels",

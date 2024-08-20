@@ -48,6 +48,14 @@ import SuccessAlbum from "@/components/MyUploads/SuccessAlbum/SuccessAlbum";
 import PendingApprovalMessage from "@/pages/ApprovedMessage";
 import TermsConditionsPage from "@/pages/TermsConditions";
 import CorrectionVideo from "@/components/MyUploads/CorrectionVideo/CorrectionVideo";
+import TikTokClaim from "@/components/Legal/TikTok/TikTokClaim";
+import FacebookClaim from "@/components/Legal/FaceBook/FaceBookClaim";
+import YoutubeClaim from "@/components/Legal/Youtube/YoutubeClaim";
+import YouTubeManualClaim from "@/components/Legal/Youtube/YouTubeManualClaim";
+import FacebookWhiteList from "@/components/Legal/FaceBook/FacebookWhiteList";
+import YoutubeTakeDownForm from "@/components/Legal/Youtube/YouTubeTakeDown";
+import ArtistChannelRequestForm from "@/components/Youtube/ArtistChannelRequest/ArtistChannelRequest";
+import WhiteListRequestForm from "@/components/Youtube/WhiteListRequest/WhiteListRequest";
 
 const router = createBrowserRouter([
   {
@@ -207,6 +215,71 @@ const router = createBrowserRouter([
         element: (
           <IsVerifiedRoutes>
             <NotificationList />
+          </IsVerifiedRoutes>
+        ),
+      },
+      //! Manage Claim
+      {
+        path: "/manage-claim/tiktok",
+        element: (
+          <IsVerifiedRoutes>
+            <TikTokClaim />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/manage-claim/fb-claim",
+        element: (
+          <IsVerifiedRoutes>
+            <FacebookClaim />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/manage-claim/youtube-claim",
+        element: (
+          <IsVerifiedRoutes>
+            <YoutubeClaim />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/manage-claim/youtube-takedown",
+        element: (
+          <IsVerifiedRoutes>
+            <YoutubeTakeDownForm />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/manage-claim/youyube-manual-claim",
+        element: (
+          <IsVerifiedRoutes>
+            <YouTubeManualClaim />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/manage-claim/fb-whitelist",
+        element: (
+          <IsVerifiedRoutes>
+            <FacebookWhiteList />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/manage-claim/artist-channel",
+        element: (
+          <IsVerifiedRoutes>
+            <ArtistChannelRequestForm />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/manage-claim/whitelist",
+        element: (
+          <IsVerifiedRoutes>
+            <WhiteListRequestForm />
           </IsVerifiedRoutes>
         ),
       },

@@ -8,6 +8,8 @@ import {
   CircularProgress,
   IconButton,
   InputAdornment,
+  Fade,
+  useTheme,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useChangePasswordMutation } from "@/redux/slices/admin/settingApi";
@@ -21,6 +23,8 @@ const ChangePassword = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const theme = useTheme(); // Use theme for consistency
+
   useEffect(() => {
     if (isSuccess && data) {
       toast.success("Password changed successfully");
@@ -31,17 +35,17 @@ const ChangePassword = () => {
         const errorData = error as any;
         toast.error(errorData.data.message);
       } else {
-        console.error("Login error:", error);
+        console.error("Change password error:", error);
       }
     }
   }, [data, error, isSuccess]);
 
-  const onFinish = async (event: any) => {
+  const onFinish = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const oldPassword = formData.get("oldPassword");
-    const newPassword = formData.get("newPassword");
-    const confirmPassword = formData.get("confirmPassword");
+    const oldPassword = formData.get("oldPassword") as string;
+    const newPassword = formData.get("newPassword") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
 
     try {
       await changePassword({ oldPassword, newPassword, confirmPassword });
@@ -54,17 +58,19 @@ const ChangePassword = () => {
   const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
   const handleClickShowConfirmPassword = () =>
     setShowConfirmPassword(!showConfirmPassword);
-
-  const handleMouseDownPassword = (event: any) => event.preventDefault();
+  const handleMouseDownPassword = (event: React.MouseEvent) =>
+    event.preventDefault();
 
   return (
     <Container
-      maxWidth="sm"
+      maxWidth="md"
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         mt: 8,
+        px: 2,
+        height: "100vh",
       }}
     >
       <Box
@@ -76,13 +82,27 @@ const ChangePassword = () => {
           alignItems: "center",
           p: 4,
           borderRadius: 2,
-          boxShadow: 3,
+          boxShadow: 5,
           width: "100%",
+          bgcolor: "background.paper",
+          transition: "transform 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.02)",
+            boxShadow: 10,
+          },
         }}
       >
-        <Typography variant="h4" component="h1" color="black" gutterBottom>
-          Change Password
-        </Typography>
+        <Fade in={true} timeout={500}>
+          <Typography
+            variant="h4"
+            component="h1"
+            color="text.primary"
+            gutterBottom
+            sx={{ mb: 3 }}
+          >
+            Change Password
+          </Typography>
+        </Fade>
         <TextField
           label="Current Password"
           name="oldPassword"
@@ -102,6 +122,13 @@ const ChangePassword = () => {
                 </IconButton>
               </InputAdornment>
             ),
+            sx: {
+              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+              "&:focus-within": {
+                borderColor: theme.palette.primary.main,
+                boxShadow: `0 0 0 3px ${theme.palette.primary.light}`,
+              },
+            },
           }}
         />
         <TextField
@@ -123,6 +150,13 @@ const ChangePassword = () => {
                 </IconButton>
               </InputAdornment>
             ),
+            sx: {
+              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+              "&:focus-within": {
+                borderColor: theme.palette.primary.main,
+                boxShadow: `0 0 0 3px ${theme.palette.primary.light}`,
+              },
+            },
           }}
         />
         <TextField
@@ -144,9 +178,16 @@ const ChangePassword = () => {
                 </IconButton>
               </InputAdornment>
             ),
+            sx: {
+              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+              "&:focus-within": {
+                borderColor: theme.palette.primary.main,
+                boxShadow: `0 0 0 3px ${theme.palette.primary.light}`,
+              },
+            },
           }}
         />
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 3 }}>
           <Button
             type="submit"
             variant="contained"
@@ -154,6 +195,13 @@ const ChangePassword = () => {
             disabled={isLoading}
             startIcon={isLoading ? <CircularProgress size={24} /> : null}
             fullWidth
+            sx={{
+              transition: "background-color 0.3s ease, transform 0.3s ease",
+              "&:hover": {
+                backgroundColor: theme.palette.primary.dark,
+                transform: "scale(1.05)",
+              },
+            }}
           >
             {isLoading ? "Changing..." : "Update Password"}
           </Button>

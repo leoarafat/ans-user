@@ -11,7 +11,7 @@ import {
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 
-const WhiteListRequest = () => {
+const WhiteListRequestForm = () => {
   const { data: profileData, isLoading, isError } = useProfileQuery({});
   const [addWhiteList] = useAddWhitelistRequestMutation();
 
@@ -118,4 +118,4 @@ const WhiteListRequest = () => {
   );
 };
 
-export default WhiteListRequest;
+export default WhiteListRequestForm;

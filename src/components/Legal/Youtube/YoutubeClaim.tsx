@@ -8,13 +8,16 @@ import {
   Typography,
   Box,
   CircularProgress,
+  Paper,
 } from "@mui/material";
 import toast from "react-hot-toast";
+import { useTheme } from "@mui/material/styles";
 
 const YoutubeClaim = () => {
   const { data: profileData, isLoading, isError } = useProfileQuery({});
   const [addYoutubeClaim, { isLoading: isAddLoading }] =
     useAddYoutubeClaimRequestMutation();
+  const theme = useTheme();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,12 +48,13 @@ const YoutubeClaim = () => {
           sx={{
             my: 4,
             p: 3,
-            boxShadow: 3,
             borderRadius: 2,
             textAlign: "center",
+            backgroundColor: theme.palette.primary.light,
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <CircularProgress />
+          <CircularProgress color="primary" />
         </Box>
       </Container>
     );
@@ -63,9 +67,10 @@ const YoutubeClaim = () => {
           sx={{
             my: 4,
             p: 3,
-            boxShadow: 3,
             borderRadius: 2,
             textAlign: "center",
+            backgroundColor: theme.palette.error.light,
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           }}
         >
           <Typography variant="h6" color="error">
@@ -78,86 +83,153 @@ const YoutubeClaim = () => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ my: 4, p: 3, boxShadow: 3, borderRadius: 2 }}>
-        <Typography variant="h4" gutterBottom style={{ color: "#000" }}>
+      <Box
+        sx={{
+          my: 4,
+          p: 4,
+          borderRadius: 2,
+          backgroundColor: "#f9f9f9",
+          boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            width: "60%",
+            height: "100%",
+            background: `url('https://images.unsplash.com/photo-1576517007806-d6798dd6a89c?fit=crop&w=800&h=800') no-repeat center center`,
+            backgroundSize: "cover",
+            opacity: 0.1,
+            zIndex: -1,
+          }}
+        />
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            color: theme.palette.primary.main,
+            fontWeight: "bold",
+            mb: 2,
+            textAlign: "center",
+          }}
+        >
           Hello, {profileData?.data?.name}!
         </Typography>
-        <Typography variant="subtitle1" gutterBottom style={{ color: "#000" }}>
-          Enter the Information to make a{" "}
-          <span className="text-[#FF0000] font-bold">
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          sx={{
+            color: theme.palette.text.secondary,
+            mb: 4,
+            textAlign: "center",
+          }}
+        >
+          Enter the information to make a{" "}
+          <span style={{ color: "#FF0000", fontWeight: "bold" }}>
             YouTube claim request
           </span>
         </Typography>
 
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                name="email"
-                label="Email"
-                variant="outlined"
-              />
+        <Paper
+          elevation={4}
+          sx={{
+            p: 4,
+            borderRadius: 2,
+            backgroundColor: "#fff",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  name="email"
+                  label="Email"
+                  variant="outlined"
+                  size="medium"
+                  sx={{ backgroundColor: "#fff" }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="label"
+                  name="label"
+                  label="Label Name"
+                  variant="outlined"
+                  size="medium"
+                  sx={{ backgroundColor: "#fff" }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="song"
+                  name="song"
+                  label="Song Title"
+                  variant="outlined"
+                  size="medium"
+                  sx={{ backgroundColor: "#fff" }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="upc"
+                  name="upc"
+                  label="UPC"
+                  variant="outlined"
+                  size="medium"
+                  sx={{ backgroundColor: "#fff" }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="url"
+                  name="url"
+                  label="YouTube Video URL"
+                  variant="outlined"
+                  size="medium"
+                  sx={{ backgroundColor: "#fff" }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  disabled={isAddLoading}
+                  sx={{
+                    py: 1.5,
+                    backgroundColor: theme.palette.primary.main,
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.dark,
+                    },
+                  }}
+                >
+                  {isAddLoading ? (
+                    <CircularProgress size={24} color="inherit" />
+                  ) : (
+                    "Submit Request"
+                  )}
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="label"
-                name="label"
-                label="Label Name"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="song"
-                name="song"
-                label="Song Title"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="upc"
-                name="upc"
-                label="UPC"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="url"
-                name="url"
-                label="Youtube Video URL"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                disabled={isAddLoading}
-              >
-                {isAddLoading ? (
-                  <CircularProgress size={24} />
-                ) : (
-                  "Submit Request"
-                )}
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Paper>
       </Box>
     </Container>
   );

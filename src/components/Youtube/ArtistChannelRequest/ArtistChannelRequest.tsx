@@ -19,7 +19,7 @@ interface FormData {
   upc3: string;
 }
 
-const ArtistChannelRequest = () => {
+const ArtistChannelRequestForm = () => {
   const { data: profileData, isLoading, isError } = useProfileQuery({});
   const [addArtistChannel] = useAddArtistChannelRequestMutation();
 
@@ -185,4 +185,4 @@ const ArtistChannelRequest = () => {
   );
 };
 
-export default ArtistChannelRequest;
+export default ArtistChannelRequestForm;

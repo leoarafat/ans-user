@@ -5,6 +5,8 @@ import {
   Card,
   CardContent,
   Grid,
+  Collapse,
+  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import TikTokClaim from "@/components/Legal/TikTok/TikTokClaim";
@@ -18,11 +20,21 @@ import WhiteListRequest from "../WhiteListRequest/WhiteListRequest";
 import { services } from "@/MockData/MockData";
 
 const DigitalRightsManagementPage = () => {
-  const [claimType, setClaimType] = useState("tiktok");
+  const [claimType, setClaimType] = useState<string>("tiktok");
+  const [open, setOpen] = useState<boolean>(true); // For Collapse animation
+  const theme = useTheme();
+
   useEffect(() => {
     localStorage.removeItem("releaseFormData");
     localStorage.removeItem("tracksInformation");
   }, []);
+
+  const handleCardClick = (type: string) => {
+    setClaimType(type);
+    setOpen(false); // Collapse before loading new content
+    setTimeout(() => setOpen(true), 300); // Re-open after transition
+  };
+
   return (
     <Box sx={{ minHeight: "100vh", padding: "2rem 0", color: "#000" }}>
       <Container maxWidth="lg">
@@ -38,7 +50,7 @@ const DigitalRightsManagementPage = () => {
         <Grid container spacing={2}>
           {services?.map((service, index) => (
             <Grid
-              onClick={() => setClaimType(service.type)}
+              onClick={() => handleCardClick(service.type)}
               item
               xs={12}
               sm={6}
@@ -51,13 +63,14 @@ const DigitalRightsManagementPage = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  backgroundColor: "#f9f9f9",
+                  backgroundColor: theme.palette.background.paper,
                   cursor: "pointer",
-                  color: "#000",
+                  color: theme.palette.text.primary,
                   boxShadow: 3,
+                  transition: "transform 0.3s, box-shadow 0.3s",
                   "&:hover": {
                     transform: "scale(1.05)",
-                    transition: "transform 0.3s",
+                    boxShadow: `0 8px 16px ${theme.palette.grey[400]}`,
                   },
                 }}
               >
@@ -72,14 +85,16 @@ const DigitalRightsManagementPage = () => {
           ))}
         </Grid>
         <Box mt={4}>
-          {claimType === "tiktok" && <TikTokClaim />}
-          {claimType === "facebook" && <FacebookClaim />}
-          {claimType === "youtube" && <YoutubeClaim />}
-          {claimType === "youtube-takedown" && <YoutubeTakeDown />}
-          {claimType === "youtube-manual" && <YouTubeManualClaim />}
-          {claimType === "facebook-whitelist" && <FacebookWhiteList />}
-          {claimType === "artist-channel-request" && <ArtistChannelRequest />}
-          {claimType === "white-list-request" && <WhiteListRequest />}
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            {claimType === "tiktok" && <TikTokClaim />}
+            {claimType === "facebook" && <FacebookClaim />}
+            {claimType === "youtube" && <YoutubeClaim />}
+            {claimType === "youtube-takedown" && <YoutubeTakeDown />}
+            {claimType === "youtube-manual" && <YouTubeManualClaim />}
+            {claimType === "facebook-whitelist" && <FacebookWhiteList />}
+            {claimType === "artist-channel-request" && <ArtistChannelRequest />}
+            {claimType === "white-list-request" && <WhiteListRequest />}
+          </Collapse>
         </Box>
       </Container>
     </Box>
