@@ -17,8 +17,8 @@ const Uploads = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh",
-        backgroundColor: "#0a0a0a",
+        minHeight: "80vh",
+        // backgroundColor: "#0a0a0a",
         padding: isMobile ? 2 : 5,
         color: "#f0f0f0",
       }}

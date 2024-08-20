@@ -27,11 +27,11 @@ const DashboardHome = () => {
   return (
     <Box sx={{ padding: 3 }}>
       <TotalSong />
-      <RevenueComponent />
+      {/* <RevenueComponent /> */}
       <FinancialCharts />
       <LastSixApproved />
       {/* <CorrectionRequest /> */}
-      <Grid container spacing={3} sx={{ marginTop: 3 }}>
+      <Grid sx={{ marginTop: 3, width: "100%" }}>
         <News />
       </Grid>
     </Box>

@@ -23,7 +23,7 @@ const TotalSong = () => {
       {earnStatus.map((data, index) => (
         <div
           key={index}
-          className="flex items-center  gap-5  p-5 rounded bg-[#55679C]"
+          className="flex items-center  gap-5  p-5 rounded bg-base shadow-md"
         >
           <div
             className="w-16 h-16 flex items-center justify-center rounded-full"
@@ -32,7 +32,7 @@ const TotalSong = () => {
             {data.icon}
           </div>
           <div>
-            <h3 className="text-lg font-normal text-gray-300">{data.title}</h3>
+            <h3 className="text-lg font-normal text-black">{data.title}</h3>
             <h2 className="text-3xl font-semibold text-yellow">{data.count}</h2>
           </div>
         </div>
