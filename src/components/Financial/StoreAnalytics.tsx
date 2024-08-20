@@ -157,94 +157,48 @@
 
 // export default StoreAnalytics;
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 import { Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 import { years } from "@/utils/languages";
-import { imageURL } from "@/redux/api/baseApi";
+
+ChartJS.register(Tooltip, Legend, ArcElement);
+
+const mockData = {
+  store: [
+    { name: "Store A", value: 5000 },
+    { name: "Store B", value: 3000 },
+    { name: "Store C", value: 2000 },
+    { name: "Store C", value: 2000 },
+    { name: "Store C", value: 2000 },
+    { name: "Store C", value: 2000 },
+    { name: "Store C", value: 2000 },
+  ],
+  country: [
+    { name: "Country A", value: 7000 },
+    { name: "Country B", value: 4000 },
+    { name: "Country C", value: 3000 },
+    { name: "Country C", value: 3000 },
+    { name: "Country C", value: 3000 },
+    { name: "Country C", value: 3000 },
+    { name: "Country C", value: 3000 },
+    { name: "Country C", value: 3000 },
+    { name: "Country C", value: 3000 },
+    { name: "Country C", value: 3000 },
+  ],
+};
 
 const StoreAnalytics = () => {
-  const [selectedMonths, setSelectedMonth] = useState(
-    new Date().getMonth() + 1
-  );
-  const selectedMonth = selectedMonths - 1 || 12;
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [dataStore, setDataStore] = useState([]);
-  const [countryDataStore, setcountryDataStore] = useState([]);
-  const [colorsStore, setColorsStore] = useState([]);
-  const [colorsRegion, setColorsRegion] = useState([]);
-
-  const fetchData = async (month, year) => {
-    try {
-      const response = await axios.get(
-        `${imageURL}/statics/financial-by-store`,
-        {
-          params: {
-            month,
-            year,
-          },
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-      const { data } = response.data;
-
-      setDataStore(data);
-
-      const storeColors = generateColors(data);
-      setColorsStore(storeColors);
-      setColorsRegion(storeColors);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  const fetchCountryData = async (month, year) => {
-    try {
-      const response = await axios.get(
-        `${imageURL}/statics/financial-analytics-country`,
-        {
-          params: {
-            month,
-            year,
-          },
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-      const { data } = response.data;
-
-      setcountryDataStore(data);
-
-      const storeColors = generateColors(data);
-      setColorsStore(storeColors);
-      setColorsRegion(storeColors);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const [dataStore, setDataStore] = useState(mockData.store);
+  const [countryDataStore, setCountryDataStore] = useState(mockData.country);
 
   useEffect(() => {
-    fetchData(selectedMonth, selectedYear);
-    fetchCountryData(selectedMonth, selectedYear);
+    // Fetch data with API here, using mock data for now
+    setDataStore(mockData.store);
+    setCountryDataStore(mockData.country);
   }, [selectedMonth, selectedYear]);
-
-  const generateColors = (data) => {
-    const colors = [];
-    for (let i = 0; i < data.length; i++) {
-      const color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-      colors.push(color);
-    }
-    return colors;
-  };
 
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
@@ -252,6 +206,22 @@ const StoreAnalytics = () => {
 
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
+  };
+
+  const generateChartData = (data) => {
+    return {
+      labels: data.map((item) => item.name),
+      datasets: [
+        {
+          data: data.map((item) => item.value),
+          backgroundColor: data.map(
+            () => `#${Math.floor(Math.random() * 16777215).toString(16)}`
+          ),
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+      ],
+    };
   };
 
   return (
@@ -288,44 +258,66 @@ const StoreAnalytics = () => {
       </Box>
       <Box display="flex" justifyContent="space-around">
         <Box width="45%">
-          <h2>Revenue by store | {`${selectedYear}-${selectedMonth}`}</h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <PieChart>
-              <Pie
-                data={dataStore}
-                dataKey="value"
-                nameKey="name"
-                outerRadius={150}
-                fill="#8884d8"
-              >
-                {dataStore.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colorsStore[index]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+          <h2>Revenue by Store | {`${selectedYear}-${selectedMonth}`}</h2>
+          <Doughnut
+            data={generateChartData(dataStore)}
+            options={{
+              responsive: true,
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      let label = context.label || "";
+                      if (context.parsed !== null) {
+                        label += `: $${context.parsed}`;
+                      }
+                      return label;
+                    },
+                  },
+                },
+                legend: {
+                  position: "bottom",
+                  labels: {
+                    color: "#333",
+                    font: {
+                      size: 14,
+                    },
+                  },
+                },
+              },
+            }}
+          />
         </Box>
         <Box width="45%">
           <h2>Revenue by Country | {`${selectedYear}-${selectedMonth}`}</h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <PieChart>
-              <Pie
-                data={countryDataStore}
-                dataKey="value"
-                nameKey="name"
-                outerRadius={150}
-                fill="#8884d8"
-              >
-                {countryDataStore.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colorsRegion[index]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              {/* <Legend /> */}
-            </PieChart>
-          </ResponsiveContainer>
+          <Doughnut
+            data={generateChartData(countryDataStore)}
+            options={{
+              responsive: true,
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      let label = context.label || "";
+                      if (context.parsed !== null) {
+                        label += `: $${context.parsed}`;
+                      }
+                      return label;
+                    },
+                  },
+                },
+                legend: {
+                  position: "bottom",
+                  labels: {
+                    color: "#333",
+                    font: {
+                      size: 14,
+                    },
+                  },
+                },
+              },
+            }}
+          />
         </Box>
       </Box>
     </Box>
