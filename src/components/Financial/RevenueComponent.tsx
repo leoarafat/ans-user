@@ -65,6 +65,7 @@ const RevenueComponent = () => {
             xs: 2,
             sm: 0,
           },
+
           background: "linear-gradient(135deg, #f5f5f5, #ffffff)",
         }}
       >

@@ -17,102 +17,139 @@ const Uploads = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
-        backgroundColor: "#f5f5f5",
-        padding: isMobile ? 1 : 2,
-        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+        minHeight: "100vh",
+        backgroundColor: "#0a0a0a",
+        padding: isMobile ? 2 : 5,
+        color: "#f0f0f0",
       }}
     >
       <Box
         sx={{
-          backgroundColor: "#f5f5f5",
-          padding: isMobile ? 2 : 10,
-          width: isMobile ? "100%" : "950px",
-          height: isMobile ? "auto" : "550px",
-          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+          width: "100%",
+          maxWidth: "1200px",
+          backgroundColor: "#1c1c1c",
+          borderRadius: "20px",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          boxShadow: "0px 0px 40px rgba(0, 0, 0, 0.5)",
         }}
       >
+        {/* Left Side: Icon Section */}
         <Box
           sx={{
-            textAlign: "center",
-            mb: 4,
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#2e2e2e",
+            padding: isMobile ? 2 : 5,
           }}
         >
-          <Typography variant="h6" gutterBottom>
-            Add singles, entire albums.
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 700,
+              letterSpacing: 1.5,
+              marginBottom: 2,
+            }}
+          >
+            Your Music, Your Way
           </Typography>
-          <Typography variant="body2">
-            It's also recommended to select and submit a cover for your
-            publication.
+          <Typography variant="body2" sx={{ color: "#9e9e9e" }}>
+            Upload and manage your music with ease.
           </Typography>
         </Box>
 
-        <Grid container spacing={4} justifyContent="center">
-          <Grid item xs={12} sm={6} md={6} lg={6}>
-            <Paper
-              sx={{
-                padding: 4,
-                textAlign: "center",
-                "&:hover": {
-                  boxShadow: 6,
-                  transition: "box-shadow 0.3s ease-in-out",
-                },
-                cursor: "pointer",
-                backgroundColor: "#fff",
-                borderRadius: "12px",
-              }}
-              onClick={() => navigate("/single")}
-            >
-              <IconButton
+        {/* Right Side: Options */}
+        <Box
+          sx={{
+            flex: 1,
+            backgroundColor: "#1c1c1c",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: isMobile ? 2 : 5,
+          }}
+        >
+          <Grid container spacing={isMobile ? 2 : 4}>
+            <Grid item xs={12} sm={6}>
+              <Paper
                 sx={{
-                  backgroundColor: "#e0e0e0",
-                  color: "#616161",
-                  width: 80,
-                  height: 80,
-                  marginBottom: 2,
+                  padding: isMobile ? 3 : 4,
+                  textAlign: "center",
+                  backgroundColor: "#292929",
+                  color: "#f0f0f0",
+                  borderRadius: "8px",
+                  transition: "transform 0.3s ease-in-out",
                   "&:hover": {
-                    backgroundColor: "#bdbdbd",
+                    transform: "scale(1.05)",
+                    backgroundColor: "#3a3a3a",
                   },
+                  cursor: "pointer",
+                  border: "2px solid #ff6f61",
                 }}
+                onClick={() => navigate("/single")}
               >
-                <MusicNoteIcon sx={{ fontSize: 40, color: "red" }} />
-              </IconButton>
-              <Typography variant="h6">Upload Single</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6}>
-            <Paper
-              sx={{
-                padding: 4,
-                textAlign: "center",
-                "&:hover": {
-                  boxShadow: 6,
-                  transition: "box-shadow 0.3s ease-in-out",
-                },
-                cursor: "pointer",
-                backgroundColor: "#fff",
-                borderRadius: "12px",
-              }}
-              onClick={() => navigate("/album")}
-            >
-              <IconButton
+                <IconButton
+                  sx={{
+                    backgroundColor: "#ff6f61",
+                    color: "#fff",
+                    width: 80,
+                    height: 80,
+                    marginBottom: 2,
+                    "&:hover": {
+                      backgroundColor: "#ff8a75",
+                    },
+                  }}
+                >
+                  <MusicNoteIcon sx={{ fontSize: 50 }} />
+                </IconButton>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  Upload Single
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Paper
                 sx={{
-                  backgroundColor: "#e0e0e0",
-                  color: "#616161",
-                  width: 80,
-                  height: 80,
-                  marginBottom: 2,
+                  padding: isMobile ? 3 : 4,
+                  textAlign: "center",
+                  backgroundColor: "#292929",
+                  color: "#f0f0f0",
+                  borderRadius: "8px",
+                  transition: "transform 0.3s ease-in-out",
                   "&:hover": {
-                    backgroundColor: "#bdbdbd",
+                    transform: "scale(1.05)",
+                    backgroundColor: "#3a3a3a",
                   },
+                  cursor: "pointer",
+                  border: "2px solid #ffd700",
                 }}
+                onClick={() => navigate("/album")}
               >
-                <AlbumIcon sx={{ fontSize: 40, color: "red" }} />
-              </IconButton>
-              <Typography variant="h6">Upload Album</Typography>
-            </Paper>
+                <IconButton
+                  sx={{
+                    backgroundColor: "#ffd700",
+                    color: "#fff",
+                    width: 80,
+                    height: 80,
+                    marginBottom: 2,
+                    "&:hover": {
+                      backgroundColor: "#ffdf32",
+                    },
+                  }}
+                >
+                  <AlbumIcon sx={{ fontSize: 50 }} />
+                </IconButton>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  Upload Album
+                </Typography>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
       </Box>
     </Box>
   );
