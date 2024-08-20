@@ -111,18 +111,7 @@ const TikTokClaim = () => {
             zIndex: -1,
           }}
         />
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{
-            color: theme.palette.primary.dark,
-            fontWeight: "bold",
-            mb: 2,
-            textAlign: "center",
-          }}
-        >
-          Hello, {profileData?.data?.name}!
-        </Typography>
+
         <Typography
           variant="subtitle1"
           gutterBottom

@@ -7,9 +7,11 @@ import {
   Button,
   Box,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
+import { useTheme } from "@mui/material/styles";
 
 interface FormData {
   channelLink: string;
@@ -22,7 +24,6 @@ interface FormData {
 const ArtistChannelRequestForm = () => {
   const { data: profileData, isLoading, isError } = useProfileQuery({});
   const [addArtistChannel] = useAddArtistChannelRequestMutation();
-
   const [formData, setFormData] = useState<FormData>({
     channelLink: "",
     topicLink: "",
@@ -30,6 +31,7 @@ const ArtistChannelRequestForm = () => {
     upc2: "",
     upc3: "",
   });
+  const theme = useTheme();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -59,7 +61,7 @@ const ArtistChannelRequestForm = () => {
       }
     } catch (error: any) {
       console.error("Failed to submit artist channel request:", error);
-      toast.error(error?.message);
+      toast.error("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -73,9 +75,10 @@ const ArtistChannelRequestForm = () => {
             boxShadow: 3,
             borderRadius: 2,
             textAlign: "center",
+            backgroundColor: theme.palette.background.paper,
           }}
         >
-          Loading...
+          <CircularProgress color="primary" />
         </Box>
       </Container>
     );
@@ -91,6 +94,7 @@ const ArtistChannelRequestForm = () => {
             boxShadow: 3,
             borderRadius: 2,
             textAlign: "center",
+            backgroundColor: theme.palette.error.light,
           }}
         >
           <Typography variant="h6" color="error">
@@ -103,12 +107,21 @@ const ArtistChannelRequestForm = () => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ my: 4, p: 3, boxShadow: 3, borderRadius: 2 }}>
-        <Typography variant="h4" gutterBottom style={{ color: "#000" }}>
-          Hello, {profileData?.data?.name}!
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom style={{ color: "#000" }}>
-          Enter the Information to make an artist channel request.
+      <Box
+        sx={{
+          my: 4,
+          p: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          backgroundColor: theme.palette.background.paper,
+        }}
+      >
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          sx={{ color: theme.palette.text.secondary, mb: 3 }}
+        >
+          Enter the information to make an artist channel request.
         </Typography>
 
         <form onSubmit={handleSubmit}>
@@ -122,6 +135,8 @@ const ArtistChannelRequestForm = () => {
                 variant="outlined"
                 value={formData.channelLink}
                 onChange={handleChange}
+                size="medium"
+                sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -133,6 +148,8 @@ const ArtistChannelRequestForm = () => {
                 variant="outlined"
                 value={formData.topicLink}
                 onChange={handleChange}
+                size="medium"
+                sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -144,6 +161,8 @@ const ArtistChannelRequestForm = () => {
                 variant="outlined"
                 value={formData.upc1}
                 onChange={handleChange}
+                size="medium"
+                sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -155,6 +174,8 @@ const ArtistChannelRequestForm = () => {
                 variant="outlined"
                 value={formData.upc2}
                 onChange={handleChange}
+                size="medium"
+                sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -166,6 +187,8 @@ const ArtistChannelRequestForm = () => {
                 variant="outlined"
                 value={formData.upc3}
                 onChange={handleChange}
+                size="medium"
+                sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -174,6 +197,13 @@ const ArtistChannelRequestForm = () => {
                 variant="contained"
                 color="primary"
                 fullWidth
+                sx={{
+                  py: 1.5,
+                  backgroundColor: theme.palette.primary.main,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
               >
                 Submit
               </Button>

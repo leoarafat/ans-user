@@ -7,15 +7,17 @@ import {
   Button,
   Box,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
+import { useTheme } from "@mui/material/styles";
 
 const WhiteListRequestForm = () => {
   const { data: profileData, isLoading, isError } = useProfileQuery({});
   const [addWhiteList] = useAddWhitelistRequestMutation();
-
   const [whitelistUrl, setWhitelistUrl] = useState("");
+  const theme = useTheme();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setWhitelistUrl(event.target.value);
@@ -32,12 +34,13 @@ const WhiteListRequestForm = () => {
 
       if (res?.data?.success === true) {
         toast.success("Whitelist request submitted successfully!");
+        setWhitelistUrl(""); // Clear input on success
       } else {
         toast.error("Failed to submit whitelist request. Please try again.");
       }
     } catch (error: any) {
       console.error("Failed to submit whitelist request:", error);
-      toast.error(error?.message);
+      toast.error("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -51,9 +54,10 @@ const WhiteListRequestForm = () => {
             boxShadow: 3,
             borderRadius: 2,
             textAlign: "center",
+            backgroundColor: theme.palette.background.paper,
           }}
         >
-          Loading...
+          <CircularProgress color="primary" />
         </Box>
       </Container>
     );
@@ -69,6 +73,7 @@ const WhiteListRequestForm = () => {
             boxShadow: 3,
             borderRadius: 2,
             textAlign: "center",
+            backgroundColor: theme.palette.error.light,
           }}
         >
           <Typography variant="h6" color="error">
@@ -81,11 +86,20 @@ const WhiteListRequestForm = () => {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Box sx={{ my: 4, p: 3, boxShadow: 3, borderRadius: 2 }}>
-        <Typography variant="h4" gutterBottom>
-          Whitelist Request
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+      <Box
+        sx={{
+          my: 4,
+          p: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          backgroundColor: theme.palette.background.paper,
+        }}
+      >
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          sx={{ color: theme.palette.text.secondary }}
+        >
           Enter the URL to request whitelisting
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -99,6 +113,8 @@ const WhiteListRequestForm = () => {
                 variant="outlined"
                 value={whitelistUrl}
                 onChange={handleChange}
+                size="medium"
+                sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -107,6 +123,13 @@ const WhiteListRequestForm = () => {
                 variant="contained"
                 color="primary"
                 fullWidth
+                sx={{
+                  py: 1.5,
+                  backgroundColor: theme.palette.primary.main,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
               >
                 Submit
               </Button>
