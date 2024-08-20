@@ -77,27 +77,49 @@ const Bank = () => {
   };
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Card elevation={3}>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>
-            Add Account
+    <Box sx={{ padding: 4, display: "flex", justifyContent: "center" }}>
+      <Card
+        sx={{
+          width: "100%",
+          maxWidth: 600,
+          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+          borderRadius: 3,
+          overflow: "hidden",
+        }}
+      >
+        <CardContent sx={{ padding: 4 }}>
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{ textAlign: "center", fontWeight: "bold", mb: 3 }}
+          >
+            Add Bank Account
           </Typography>
           <form onSubmit={handleAddAccount}>
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
                   id="accountName"
                   label="Account Name"
                   variant="outlined"
-                  margin="normal"
                   value={accountData.accountName}
                   onChange={handleInputChange}
+                  InputLabelProps={{
+                    style: { fontSize: "14px", color: "#555" },
+                  }}
+                  InputProps={{
+                    style: { fontSize: "16px", padding: "12px" },
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
-                <InputLabel id="bankNameLabel">Bank Name</InputLabel>
+                <InputLabel
+                  id="bankNameLabel"
+                  sx={{ fontSize: "14px", color: "#555", mb: 1 }}
+                >
+                  Bank Name
+                </InputLabel>
                 <Select
                   fullWidth
                   labelId="bankNameLabel"
@@ -105,6 +127,12 @@ const Bank = () => {
                   variant="outlined"
                   value={accountData.bankName}
                   onChange={handleBankNameChange}
+                  sx={{
+                    fontSize: "16px",
+                    padding: "12px",
+                    backgroundColor: "#fafafa",
+                    borderColor: "#ddd",
+                  }}
                 >
                   {bangladeshiBanks.map((bank, index) => (
                     <MenuItem key={index} value={bank}>
@@ -119,9 +147,14 @@ const Bank = () => {
                   id="branchName"
                   label="Branch"
                   variant="outlined"
-                  margin="normal"
                   value={accountData.branchName}
                   onChange={handleInputChange}
+                  InputLabelProps={{
+                    style: { fontSize: "14px", color: "#555" },
+                  }}
+                  InputProps={{
+                    style: { fontSize: "16px", padding: "12px" },
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -130,9 +163,14 @@ const Bank = () => {
                   id="accountNumber"
                   label="Account Number"
                   variant="outlined"
-                  margin="normal"
                   value={accountData.accountNumber}
                   onChange={handleInputChange}
+                  InputLabelProps={{
+                    style: { fontSize: "14px", color: "#555" },
+                  }}
+                  InputProps={{
+                    style: { fontSize: "16px", padding: "12px" },
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -141,9 +179,14 @@ const Bank = () => {
                   id="phoneNumber"
                   label="Phone Number"
                   variant="outlined"
-                  margin="normal"
                   value={accountData.phoneNumber}
                   onChange={handleInputChange}
+                  InputLabelProps={{
+                    style: { fontSize: "14px", color: "#555" },
+                  }}
+                  InputProps={{
+                    style: { fontSize: "16px", padding: "12px" },
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -153,8 +196,14 @@ const Bank = () => {
                   variant="contained"
                   color="primary"
                   fullWidth
+                  sx={{
+                    padding: "10px 0",
+                    fontSize: "16px",
+                    textTransform: "none",
+                    backgroundColor: alreadyHaveAccount ? "#ccc" : "#1976d2",
+                  }}
                 >
-                  Add Account
+                  {alreadyHaveAccount ? "Account Exists" : "Add Account"}
                 </Button>
               </Grid>
             </Grid>

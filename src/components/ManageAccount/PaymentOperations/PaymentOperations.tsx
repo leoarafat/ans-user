@@ -150,7 +150,7 @@ const PaymentOperations = () => {
       sx={{
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#1b1b1b",
+        // backgroundColor: "#1b1b1b",
         color: "#fff",
         display: "flex",
         justifyContent: "center",

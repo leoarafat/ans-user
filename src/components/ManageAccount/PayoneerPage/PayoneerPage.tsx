@@ -14,72 +14,98 @@ import {
 } from "@/redux/slices/bank/bankApi";
 import toast from "react-hot-toast";
 
+interface PayoneerData {
+  accountNumber: string;
+  email: string;
+}
+
 const PayoneerPage = () => {
-  const [payoneerData, setPayoneerData] = useState({
+  const [payoneerData, setPayoneerData] = useState<PayoneerData>({
     accountNumber: "",
     email: "",
   });
   const [addPioneerAccount] = useAddPioneerAccountMutation();
   const { data: accounts } = useGetMyAccountsQuery({});
-
   const alreadyHaveAccount = accounts?.data?.data?.pioneerAccount?._id;
+
   const handleAddPayoneerAccount = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await addPioneerAccount(payoneerData).unwrap();
       if (res?.success) {
-        toast.success("Pioneer Account added successfully!");
+        toast.success("Payoneer Account added successfully!");
         setPayoneerData({
           accountNumber: "",
           email: "",
         });
       } else {
-        toast.error("Failed to add Pioneer Account. Please try again.");
+        toast.error("Failed to add Payoneer Account. Please try again.");
       }
     } catch (error: any) {
-      console.error("Failed to add Pioneer Account:", error);
+      console.error("Failed to add Payoneer Account:", error);
       toast.error(error?.message || "An error occurred.");
     }
   };
 
-  const handleChange = (e: any) => {
-    setPayoneerData({
-      ...payoneerData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPayoneerData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Card elevation={3}>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>
+    <Box sx={{ padding: 4, display: "flex", justifyContent: "center" }}>
+      <Card
+        sx={{
+          width: "100%",
+          maxWidth: 500,
+          boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.1)",
+          borderRadius: 2,
+          overflow: "hidden",
+        }}
+      >
+        <CardContent sx={{ padding: 4 }}>
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{ textAlign: "center", fontWeight: "bold", mb: 3 }}
+          >
             Add Payoneer Account
           </Typography>
           <form onSubmit={handleAddPayoneerAccount}>
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  id="accountNumber"
                   name="accountNumber"
                   label="Payoneer ID"
                   variant="outlined"
-                  margin="normal"
                   value={payoneerData.accountNumber}
                   onChange={handleChange}
+                  InputLabelProps={{
+                    style: { fontSize: "14px", color: "#555" },
+                  }}
+                  InputProps={{
+                    style: { fontSize: "16px", padding: "12px" },
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  id="email"
                   name="email"
                   label="Payoneer Email"
                   variant="outlined"
-                  margin="normal"
                   value={payoneerData.email}
                   onChange={handleChange}
+                  InputLabelProps={{
+                    style: { fontSize: "14px", color: "#555" },
+                  }}
+                  InputProps={{
+                    style: { fontSize: "16px", padding: "12px" },
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -89,8 +115,19 @@ const PayoneerPage = () => {
                   variant="contained"
                   color="primary"
                   fullWidth
+                  sx={{
+                    padding: "12px",
+                    fontSize: "16px",
+                    textTransform: "none",
+                    backgroundColor: alreadyHaveAccount ? "#ccc" : "#1976d2",
+                    "&:hover": {
+                      backgroundColor: alreadyHaveAccount ? "#ccc" : "#1565c0",
+                    },
+                  }}
                 >
-                  Add Payoneer Account
+                  {alreadyHaveAccount
+                    ? "Account Exists"
+                    : "Add Payoneer Account"}
                 </Button>
               </Grid>
             </Grid>
