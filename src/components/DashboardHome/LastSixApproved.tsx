@@ -74,7 +74,7 @@ const LastSixApproved = () => {
   const audioData = songsData?.latestSingleTrack || [];
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} sx={{ marginTop: 1 }}>
       <Grid item xs={12} md={6}>
         {/* Create Audio Release */}
         <Box mb={2}>
