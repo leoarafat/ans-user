@@ -7,25 +7,54 @@ const PayoneerCard = () => {
   const alreadyHaveAccount = accounts?.data?.data?.pioneerAccount;
 
   return (
-    <Card elevation={3}>
+    <Card elevation={5} sx={{ borderRadius: 2, backgroundColor: "grey.100" }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{ fontWeight: "bold", color: "primary.main" }}
+        >
           Payoneer Account Information
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <AccountCircle fontSize="large" />
-              <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                AccountNumber: {alreadyHaveAccount?.accountNumber}
+            <Box
+              display="flex"
+              alignItems="center"
+              sx={{
+                backgroundColor: "white",
+                padding: 2,
+                borderRadius: 1,
+                boxShadow: 2,
+              }}
+            >
+              <AccountCircle
+                fontSize="large"
+                sx={{ color: "primary.main", marginRight: 2 }}
+              />
+              <Typography variant="body1">
+                <strong>Account Number:</strong>{" "}
+                {alreadyHaveAccount?.accountNumber || "N/A"}
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <Email fontSize="large" />
-              <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                Email: {alreadyHaveAccount?.email}
+            <Box
+              display="flex"
+              alignItems="center"
+              sx={{
+                backgroundColor: "white",
+                padding: 2,
+                borderRadius: 1,
+                boxShadow: 2,
+              }}
+            >
+              <Email
+                fontSize="large"
+                sx={{ color: "primary.main", marginRight: 2 }}
+              />
+              <Typography variant="body1">
+                <strong>Email:</strong> {alreadyHaveAccount?.email || "N/A"}
               </Typography>
             </Box>
           </Grid>

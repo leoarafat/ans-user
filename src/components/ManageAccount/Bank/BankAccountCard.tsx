@@ -4,7 +4,7 @@ import {
   CardContent,
   Grid,
   Typography,
-  IconButton,
+  Divider,
 } from "@mui/material";
 import { AccountBalance, Phone, AccountCircle } from "@mui/icons-material";
 import { useGetMyAccountsQuery } from "@/redux/slices/bank/bankApi";
@@ -12,56 +12,137 @@ import { useGetMyAccountsQuery } from "@/redux/slices/bank/bankApi";
 const BankAccountCard = () => {
   const { data: accounts } = useGetMyAccountsQuery({});
   const alreadyHaveAccount = accounts?.data?.data?.bankAccount;
-  console.log(alreadyHaveAccount);
 
   return (
-    <Card elevation={3}>
+    <Card
+      elevation={6}
+      sx={{
+        // maxWidth: 700,
+        margin: "auto",
+        borderRadius: 2,
+        backgroundColor: "background.paper",
+        boxShadow: 6,
+      }}
+    >
       <CardContent>
-        <Typography variant="h5" gutterBottom>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{ fontWeight: "bold", color: "primary.main", mb: 2 }}
+        >
           Bank Account Information
         </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <AccountBalance fontSize="large" />
-              <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                Bank: {alreadyHaveAccount?.bankName}
+        <Divider sx={{ marginY: 2, borderColor: "divider" }} />
+        <Grid container spacing={3}>
+          {alreadyHaveAccount ? (
+            <>
+              <Grid item xs={12}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  sx={{
+                    padding: 2,
+                    borderRadius: 1,
+                    boxShadow: 1,
+                    gap: 2,
+                  }}
+                >
+                  <AccountBalance
+                    fontSize="large"
+                    sx={{ color: "primary.main" }}
+                  />
+                  <Typography variant="body1">
+                    <strong>Bank:</strong>{" "}
+                    {alreadyHaveAccount.bankName || "N/A"}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  sx={{
+                    padding: 2,
+                    borderRadius: 1,
+                    boxShadow: 1,
+                    gap: 2,
+                  }}
+                >
+                  <AccountBalance
+                    fontSize="large"
+                    sx={{ color: "primary.main" }}
+                  />
+                  <Typography variant="body1">
+                    <strong>Branch:</strong>{" "}
+                    {alreadyHaveAccount.branchName || "N/A"}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  sx={{
+                    padding: 2,
+                    borderRadius: 1,
+                    boxShadow: 1,
+                    gap: 2,
+                  }}
+                >
+                  <AccountCircle
+                    fontSize="large"
+                    sx={{ color: "primary.main" }}
+                  />
+                  <Typography variant="body1">
+                    <strong>Account Name:</strong>{" "}
+                    {alreadyHaveAccount.accountName || "N/A"}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  sx={{
+                    padding: 2,
+                    borderRadius: 1,
+                    boxShadow: 1,
+                    gap: 2,
+                  }}
+                >
+                  <Phone fontSize="large" sx={{ color: "primary.main" }} />
+                  <Typography variant="body1">
+                    <strong>Phone Number:</strong>{" "}
+                    {alreadyHaveAccount.phoneNumber || "N/A"}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  sx={{
+                    padding: 2,
+                    borderRadius: 1,
+                    boxShadow: 1,
+                    gap: 2,
+                  }}
+                >
+                  <Phone fontSize="large" sx={{ color: "primary.main" }} />
+                  <Typography variant="body1">
+                    <strong>Account Number:</strong>{" "}
+                    {alreadyHaveAccount.accountNumber || "N/A"}
+                  </Typography>
+                </Box>
+              </Grid>
+            </>
+          ) : (
+            <Grid item xs={12}>
+              <Typography variant="body1" color="textSecondary">
+                No bank account information available.
               </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <AccountBalance fontSize="large" />
-              <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                Branch: {alreadyHaveAccount?.branchName}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <AccountCircle fontSize="large" />
-              <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                Account Name: {alreadyHaveAccount?.accountName}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <Phone fontSize="large" />
-              <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                Phone Number: {alreadyHaveAccount?.phoneNumber}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <Phone fontSize="large" />
-              <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                Account Number: {alreadyHaveAccount?.accountNumber}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Add more fields/icons if needed */}
+            </Grid>
+          )}
         </Grid>
       </CardContent>
     </Card>
