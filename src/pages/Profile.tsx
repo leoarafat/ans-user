@@ -1,53 +1,446 @@
+// import { useEffect, useState } from "react";
+// import {
+//   Container,
+//   Typography,
+//   Avatar,
+//   Box,
+//   Button,
+//   Card,
+//   CardContent,
+//   CircularProgress,
+//   Collapse,
+//   IconButton,
+//   TextField,
+//   Grid,
+//   Divider,
+// } from "@mui/material";
+// import { Edit, ExpandMore } from "@mui/icons-material";
+// import { useMyProfileQuery } from "@/redux/slices/admin/settingApi";
+// import { imageURL } from "@/redux/api/baseApi";
+// import { useEditProfilePictureMutation } from "@/redux/slices/admin/userApi";
+// import toast from "react-hot-toast";
+// import { Edit2 } from "lucide-react";
+
+// const Profile = () => {
+//   const [expanded, setExpanded] = useState(false);
+//   const [imagePreview, setImagePreview] = useState<string | null>(null);
+//   const [editMode, setEditMode] = useState(false);
+//   const [openEdit, setOpenEdit] = useState(false);
+//   const {
+//     data: profileData,
+//     isLoading: profileLoading,
+//     refetch,
+//   } = useMyProfileQuery({});
+//   const [editProfilePicture, { isLoading, isSuccess, error }] =
+//     useEditProfilePictureMutation();
+
+//   useEffect(() => {
+//     if (error) {
+//       toast.error("Error updating profile picture.");
+//     }
+//     if (isSuccess) {
+//       refetch();
+//       toast.success("Profile image updated successfully!");
+//     }
+//   }, [error, isSuccess, refetch]);
+
+//   if (profileLoading) {
+//     return (
+//       <Box
+//         sx={{
+//           display: "flex",
+//           justifyContent: "center",
+//           alignItems: "center",
+//           height: "100vh",
+//         }}
+//       >
+//         <CircularProgress />
+//       </Box>
+//     );
+//   }
+
+//   const src = profileData?.data?.image?.startsWith("https")
+//     ? profileData?.data?.image
+//     : `${imageURL}/${profileData?.data?.image}`;
+
+//   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const file = e.target.files?.[0];
+//     if (file) {
+//       const url = URL.createObjectURL(file);
+//       setImagePreview(url);
+
+//       const formData = new FormData();
+//       formData.append("image", file);
+
+//       editProfilePicture(formData);
+//     }
+//   };
+
+//   const handleExpandClick = () => {
+//     setExpanded(!expanded);
+//   };
+
+//   return (
+//     <Container maxWidth="lg" sx={{ paddingY: 4 }}>
+//       {/* Hero Section */}
+//       <Box
+//         sx={{
+//           position: "relative",
+//           width: "100%",
+//           height: 300,
+//           backgroundImage:
+//             "url('https://res.cloudinary.com/arafatleo/image/upload/v1724142235/signup_aiqgj5.jpg')",
+//           backgroundSize: "cover",
+//           backgroundPosition: "center",
+//           borderRadius: 2,
+//           marginBottom: 4,
+//           overflow: "hidden",
+//         }}
+//       >
+//         <Box
+//           sx={{
+//             position: "absolute",
+//             bottom: 0,
+//             left: 0,
+//             right: 0,
+//             height: "50%",
+//             background:
+//               "linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)",
+//             display: "flex",
+//             justifyContent: "center",
+//             alignItems: "center",
+//             padding: 2,
+//           }}
+//         >
+//           <Card
+//             sx={{
+//               display: "flex",
+//               flexDirection: "column",
+//               alignItems: "center",
+//               width: "90%",
+//               maxWidth: 400,
+//               backgroundColor: "background.paper",
+//               boxShadow: 3,
+//               borderRadius: 2,
+//             }}
+//           >
+//             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+//               <IconButton onClick={() => setOpenEdit(!openEdit)}>
+//                 <Edit2 size={20} />
+//               </IconButton>
+//             </Box>
+//             <CardContent sx={{ textAlign: "center" }}>
+//               <Box sx={{ position: "relative", mb: 2 }}>
+//                 <Avatar
+//                   src={imagePreview || src}
+//                   sx={{ width: 120, height: 120, border: "5px solid #ffffff" }}
+//                 />
+
+//                 {editMode && (
+//                   <Box
+//                     sx={{
+//                       position: "absolute",
+//                       bottom: 0,
+//                       right: 0,
+//                       backgroundColor: "#ffffff",
+//                       borderRadius: "50%",
+//                       padding: 1,
+//                       border: "2px solid #ff5722",
+//                       cursor: "pointer",
+//                     }}
+//                   >
+//                     <label htmlFor="profile-image-upload">
+//                       <input
+//                         id="profile-image-upload"
+//                         type="file"
+//                         accept="image/*"
+//                         onChange={handleImageChange}
+//                         style={{ display: "none" }}
+//                       />
+//                       <Edit color="primary" />
+//                     </label>
+//                   </Box>
+//                 )}
+//               </Box>
+//               <Typography variant="h6" gutterBottom>
+//                 {profileData?.data?.name || "User Name"}
+//               </Typography>
+//               <Typography variant="body2" color="text.secondary">
+//                 {profileData?.data?.email || "user@example.com"}
+//               </Typography>
+//               <Button
+//                 variant="contained"
+//                 sx={{ mt: 2 }}
+//                 onClick={() => setEditMode(!editMode)}
+//               >
+//                 {editMode ? "Save" : "Edit"}
+//               </Button>
+//             </CardContent>
+//           </Card>
+//         </Box>
+//       </Box>
+
+//       {/* Main Content */}
+//       <Card sx={{ boxShadow: 3, borderRadius: 2, mb: 4 }}>
+//         <CardContent>
+//           <Typography variant="h6" gutterBottom>
+//             Profile Details
+//           </Typography>
+//           <Box sx={{ marginBottom: 2 }}>
+//             <Button
+//               variant="outlined"
+//               onClick={handleExpandClick}
+//               endIcon={<ExpandMore />}
+//               sx={{ display: "flex", alignItems: "center" }}
+//             >
+//               {expanded ? "Collapse Details" : "Expand Details"}
+//             </Button>
+//             <Collapse in={expanded}>
+//               <Grid container spacing={2} sx={{ mt: 2 }}>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Name"
+//                     defaultValue={profileData?.data?.name}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Email"
+//                     defaultValue={profileData?.data?.email}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Phone"
+//                     defaultValue={profileData?.data?.phoneNumber}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Address"
+//                     defaultValue={profileData?.data?.address}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Country"
+//                     defaultValue={profileData?.data?.country}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="State"
+//                     defaultValue={profileData?.data?.state}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="City"
+//                     defaultValue={profileData?.data?.city}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Post Code"
+//                     defaultValue={profileData?.data?.postCode}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Channel Name"
+//                     defaultValue={profileData?.data?.channelName}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Channel URL"
+//                     defaultValue={profileData?.data?.channelUrl}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Subscribe Count"
+//                     defaultValue={profileData?.data?.subscribeCount}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 <Grid item xs={12} sm={6}>
+//                   <TextField
+//                     label="Videos Count"
+//                     defaultValue={profileData?.data?.videosCount}
+//                     fullWidth
+//                     InputProps={{ readOnly: true }}
+//                   />
+//                 </Grid>
+//                 {/* Add more fields as needed */}
+//               </Grid>
+//             </Collapse>
+//           </Box>
+//         </CardContent>
+//       </Card>
+
+//       {/* Images Section */}
+//       <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
+//         <CardContent>
+//           <Typography variant="h6" gutterBottom>
+//             User Images
+//           </Typography>
+//           <Grid container spacing={2}>
+//             {/* Profile Image */}
+//             <Grid item xs={12} sm={6} md={4}>
+//               <Card sx={{ borderRadius: 2 }}>
+//                 <img
+//                   src={src}
+//                   alt="Profile"
+//                   style={{ width: "100%", height: "auto", borderRadius: 2 }}
+//                 />
+//                 <CardContent>
+//                   <Typography variant="subtitle1" gutterBottom>
+//                     Profile Picture
+//                   </Typography>
+//                 </CardContent>
+//               </Card>
+//             </Grid>
+//             {/* Cover Photo */}
+//             {profileData?.data?.nidFront && (
+//               <Grid item xs={12} sm={6} md={4}>
+//                 <Card sx={{ borderRadius: 2 }}>
+//                   <img
+//                     src={`${imageURL}/${profileData?.data?.nidFront}`}
+//                     alt="Cover"
+//                     style={{ width: "100%", height: "auto", borderRadius: 2 }}
+//                   />
+//                   <CardContent>
+//                     <Typography variant="subtitle1" gutterBottom>
+//                       Nid Front
+//                     </Typography>
+//                   </CardContent>
+//                 </Card>
+//               </Grid>
+//             )}
+//             {profileData?.data?.nidBack && (
+//               <Grid item xs={12} sm={6} md={4}>
+//                 <Card sx={{ borderRadius: 2 }}>
+//                   <img
+//                     src={`${imageURL}/${profileData?.data?.nidBack}`}
+//                     alt="Cover"
+//                     style={{ width: "100%", height: "auto", borderRadius: 2 }}
+//                   />
+//                   <CardContent>
+//                     <Typography variant="subtitle1" gutterBottom>
+//                       Nid Back
+//                     </Typography>
+//                   </CardContent>
+//                 </Card>
+//               </Grid>
+//             )}
+//             {profileData?.data?.copyrightNoticeImage && (
+//               <Grid item xs={12} sm={6} md={4}>
+//                 <Card sx={{ borderRadius: 2 }}>
+//                   <img
+//                     src={`${imageURL}/${profileData?.data?.copyrightNoticeImage}`}
+//                     alt="Cover"
+//                     style={{ width: "100%", height: "auto", borderRadius: 2 }}
+//                   />
+//                   <CardContent>
+//                     <Typography variant="subtitle1" gutterBottom>
+//                       Copyright
+//                     </Typography>
+//                   </CardContent>
+//                 </Card>
+//               </Grid>
+//             )}
+//             {profileData?.data?.dashboardScreenShot && (
+//               <Grid item xs={12} sm={6} md={4}>
+//                 <Card sx={{ borderRadius: 2 }}>
+//                   <img
+//                     src={`${imageURL}/${profileData?.data?.dashboardScreenShot}`}
+//                     alt="Cover"
+//                     style={{ width: "100%", height: "auto", borderRadius: 2 }}
+//                   />
+//                   <CardContent>
+//                     <Typography variant="subtitle1" gutterBottom>
+//                       Dashboard
+//                     </Typography>
+//                   </CardContent>
+//                 </Card>
+//               </Grid>
+//             )}
+//           </Grid>
+//         </CardContent>
+//       </Card>
+//     </Container>
+//   );
+// };
+
+// export default Profile;
 import { useEffect, useState } from "react";
 import {
-  TextField,
-  Grid,
   Container,
   Typography,
-  IconButton,
   Avatar,
   Box,
+  Button,
+  Card,
+  CardContent,
   CircularProgress,
-  Tabs,
-  Tab,
+  Collapse,
+  IconButton,
+  TextField,
+  Grid,
+  Divider,
 } from "@mui/material";
-import { Edit, Upload } from "lucide-react";
-import toast from "react-hot-toast";
+import { Edit, ExpandMore } from "@mui/icons-material";
 import { useMyProfileQuery } from "@/redux/slices/admin/settingApi";
 import { imageURL } from "@/redux/api/baseApi";
 import { useEditProfilePictureMutation } from "@/redux/slices/admin/userApi";
-import PersonIcon from "@mui/icons-material/Person";
+import toast from "react-hot-toast";
+import { Edit2 } from "lucide-react";
 
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 const Profile = () => {
+  const [expanded, setExpanded] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [editMode, setEditMode] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [tabIndex, setTabIndex] = useState(0);
-
   const {
     data: profileData,
     isLoading: profileLoading,
     refetch,
   } = useMyProfileQuery({});
-  const initialFormValues = profileData?.data;
-
   const [editProfilePicture, { isLoading, isSuccess, error }] =
     useEditProfilePictureMutation();
 
   useEffect(() => {
     if (error) {
-      if ("data" in error) {
-        const errorData = error as any;
-        alert(errorData.data.message);
-      } else {
-        console.error("Login error:", error);
-      }
+      toast.error("Error updating profile picture.");
     }
-  }, [error, isSuccess]);
-  useEffect(() => {
-    localStorage.removeItem("releaseFormData");
-    localStorage.removeItem("tracksInformation");
-  }, []);
+    if (isSuccess) {
+      refetch();
+      toast.success("Profile image updated successfully!");
+    }
+  }, [error, isSuccess, refetch]);
+
   if (profileLoading) {
     return (
       <Box
@@ -67,306 +460,334 @@ const Profile = () => {
     ? profileData?.data?.image
     : `${imageURL}/${profileData?.data?.image}`;
 
-  const handleImageChange = async (e: any) => {
-    const file = e.target.files[0];
-    const url = URL.createObjectURL(file);
-    setImagePreview(url as any);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setImagePreview(url);
 
-    const formData = new FormData();
-    formData.append("image", file);
+      const formData = new FormData();
+      formData.append("image", file);
 
-    try {
-      const res = await editProfilePicture(formData);
-
-      if (res?.data?.success === true) {
-        refetch();
-        toast.success("Profile Image Updated Successfully");
-      }
-    } catch (error: any) {
-      toast.error(error.message);
+      editProfilePicture(formData);
     }
   };
 
-  const handleTabChange = (event: any, newValue: any) => {
-    setTabIndex(newValue);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg" sx={{ paddingY: 4 }}>
+      {/* Hero Section */}
       <Box
         sx={{
-          textAlign: "center",
-          padding: 4,
+          position: "relative",
+          width: "100%",
+          height: 300,
+          backgroundImage:
+            "url('https://res.cloudinary.com/arafatleo/image/upload/v1724142235/signup_aiqgj5.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           borderRadius: 2,
-          boxShadow: 3,
-          marginTop: 4,
+          marginBottom: 4,
+          overflow: "hidden",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <IconButton onClick={() => setOpenEdit(!openEdit)}>
-            <Edit size={20} />
-          </IconButton>
-        </Box>
         <Box
           sx={{
-            position: "relative",
-            width: 112,
-            height: 112,
-            margin: "0 auto",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "50%",
+            background:
+              "linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 2,
           }}
         >
-          {openEdit ? (
-            <div>
-              <input
-                onChange={handleImageChange}
-                type="file"
-                className="hidden"
-                id="imageUpload"
-                style={{ display: "none" }}
-              />
-              <label
-                htmlFor="imageUpload"
-                style={{
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width: "90%",
+              maxWidth: 400,
+              backgroundColor: "background.paper",
+              boxShadow: 3,
+              borderRadius: 2,
+              position: "relative",
+            }}
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: 10,
+                right: 10,
+                backgroundColor: "#ffffff",
+                borderRadius: "50%",
+                padding: 1,
+                border: "2px solid #ff5722",
+                cursor: "pointer",
+                zIndex: 10,
+              }}
+            >
+              <label htmlFor="profile-image-upload">
+                <input
+                  id="profile-image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  style={{ display: "none" }}
+                />
+                <Edit2 className="cursor-pointer" color="#ff5722" size={24} />
+              </label>
+            </Box>
+            <CardContent sx={{ textAlign: "center" }}>
+              <Box
+                sx={{
                   position: "relative",
-                  display: "block",
-                  width: "100%",
-                  height: "100%",
+                  mb: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 <Avatar
-                  className="cursor-pointer"
-                  src={imagePreview ? imagePreview : src}
-                  sx={{ width: 112, height: 112 }}
+                  src={imagePreview || src}
+                  sx={{ width: 120, height: 120, border: "5px solid #ffffff" }}
                 />
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    borderRadius: "50%",
-                    padding: 1,
-                    cursor: "pointer",
-                  }}
-                >
-                  <Upload color="#fff" />
-                </Box>
-              </label>
-            </div>
-          ) : (
-            <Avatar src={src} sx={{ width: 112, height: 112 }} />
-          )}
-        </Box>
-
-        <Typography
-          variant="h4"
-          sx={{
-            marginTop: 2,
-            color: "#3f51b5",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {initialFormValues?.name}
-        </Typography>
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 1,
-          }}
-        >
-          <PersonIcon sx={{ marginRight: 1, color: "#3f51b5" }} />
-          UserId: {initialFormValues?.clientId}
-        </Typography>
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 1,
-          }}
-        >
-          <MonetizationOnIcon sx={{ marginRight: 1, color: "#3f51b5" }} />
-          Revenue Share Rate:{" "}
-          <span style={{ color: "#4caf50", marginLeft: 4 }}>
-            {initialFormValues?.revenueRate}%
-          </span>
-        </Typography>
-      </Box>
-
-      <Box sx={{ width: "100%" }}>
-        <Tabs
-          value={tabIndex}
-          onChange={handleTabChange}
-          textColor="secondary"
-          indicatorColor="secondary"
-          aria-label="secondary tabs example"
-        >
-          <Tab label="Profile Info" />
-          <Tab label="Other Details" />
-        </Tabs>
-      </Box>
-
-      {tabIndex === 0 && (
-        <Box sx={{ marginTop: 4 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Name"
-                defaultValue={initialFormValues?.name}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Email"
-                defaultValue={initialFormValues?.email}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Phone Number"
-                defaultValue={initialFormValues?.phoneNumber}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Address"
-                defaultValue={initialFormValues?.address}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="City"
-                defaultValue={initialFormValues?.city}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Country"
-                defaultValue={initialFormValues?.country}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Postal Code"
-                defaultValue={initialFormValues?.postCode}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-          </Grid>
-        </Box>
-      )}
-
-      {tabIndex === 1 && (
-        <Box sx={{ marginTop: 4 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                label="Channel Name"
-                defaultValue={initialFormValues?.channelName}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Channel URL"
-                defaultValue={initialFormValues?.channelUrl}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Subscribers"
-                defaultValue={initialFormValues?.subscribeCount}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Videos Count"
-                defaultValue={initialFormValues?.videosCount}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Balance"
-                defaultValue={initialFormValues?.balance}
-                fullWidth
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h6">Other Documents</Typography>
-              <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                <Box sx={{ margin: 1 }}>
-                  <Avatar
-                    src={`${imageURL}/${initialFormValues?.signature}`}
-                    alt="Signature"
-                    sx={{ width: 100, height: 100 }}
-                  />
-                  <Typography variant="caption">Signature</Typography>
-                </Box>
-                <Box sx={{ margin: 1 }}>
-                  <Avatar
-                    src={`${imageURL}/${initialFormValues?.nidFront}`}
-                    alt="NID Front"
-                    sx={{ width: 100, height: 100 }}
-                  />
-                  <Typography variant="caption">NID Front</Typography>
-                </Box>
-                <Box sx={{ margin: 1 }}>
-                  <Avatar
-                    src={`${imageURL}/${initialFormValues?.nidBack}`}
-                    alt="NID Back"
-                    sx={{ width: 100, height: 100 }}
-                  />
-                  <Typography variant="caption">NID Back</Typography>
-                </Box>
-                <Box sx={{ margin: 1 }}>
-                  <Avatar
-                    src={`${imageURL}/${initialFormValues?.copyrightNoticeImage}`}
-                    alt="Copyright Notice"
-                    sx={{ width: 100, height: 100 }}
-                  />
-                  <Typography variant="caption">Copyright Notice</Typography>
-                </Box>
-                <Box sx={{ margin: 1 }}>
-                  <Avatar
-                    src={`${imageURL}/${initialFormValues?.dashboardScreenShot}`}
-                    alt="Dashboard Screenshot"
-                    sx={{ width: 100, height: 100 }}
-                  />
-                  <Typography variant="caption">
-                    Dashboard Screenshot
-                  </Typography>
-                </Box>
               </Box>
-            </Grid>
-          </Grid>
+              <Typography variant="h6" gutterBottom>
+                {profileData?.data?.name || "User Name"}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {profileData?.data?.email || "user@example.com"}
+              </Typography>
+              <Button
+                variant="contained"
+                sx={{ mt: 2 }}
+                onClick={() => setEditMode(!editMode)}
+              >
+                {editMode ? "Save" : "Edit"}
+              </Button>
+            </CardContent>
+          </Card>
         </Box>
-      )}
+      </Box>
+      {/* Main Content */}
+      <Card sx={{ boxShadow: 3, borderRadius: 2, mb: 4 }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            Profile Details
+          </Typography>
+          <Box sx={{ marginBottom: 2 }}>
+            <Button
+              variant="outlined"
+              onClick={handleExpandClick}
+              endIcon={<ExpandMore />}
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              {expanded ? "Collapse Details" : "Expand Details"}
+            </Button>
+            <Collapse in={expanded}>
+              <Grid container spacing={2} sx={{ mt: 2 }}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Name"
+                    defaultValue={profileData?.data?.name}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Email"
+                    defaultValue={profileData?.data?.email}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Phone"
+                    defaultValue={profileData?.data?.phoneNumber}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Address"
+                    defaultValue={profileData?.data?.address}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Country"
+                    defaultValue={profileData?.data?.country}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="State"
+                    defaultValue={profileData?.data?.state}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="City"
+                    defaultValue={profileData?.data?.city}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Post Code"
+                    defaultValue={profileData?.data?.postCode}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Channel Name"
+                    defaultValue={profileData?.data?.channelName}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Channel URL"
+                    defaultValue={profileData?.data?.channelUrl}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Subscribe Count"
+                    defaultValue={profileData?.data?.subscribeCount}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Videos Count"
+                    defaultValue={profileData?.data?.videosCount}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                {/* Add more fields as needed */}
+              </Grid>
+            </Collapse>
+          </Box>
+        </CardContent>
+      </Card>
+      {/* Images Section */}
+
+      <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            User Images
+          </Typography>
+          <Grid container spacing={2}>
+            {/* Profile Image */}
+            <Grid item xs={12} sm={6} md={4}>
+              <Card sx={{ borderRadius: 2 }}>
+                <img
+                  src={src}
+                  alt="Profile"
+                  style={{ width: "100%", height: "auto", borderRadius: 2 }}
+                />
+                <CardContent>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Profile Picture
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            {/* Cover Photo */}
+            {profileData?.data?.nidFront && (
+              <Grid item xs={12} sm={6} md={4}>
+                <Card sx={{ borderRadius: 2 }}>
+                  <img
+                    src={`${imageURL}/${profileData?.data?.nidFront}`}
+                    alt="Cover"
+                    style={{ width: "100%", height: "auto", borderRadius: 2 }}
+                  />
+                  <CardContent>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Nid Front
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+            {profileData?.data?.nidBack && (
+              <Grid item xs={12} sm={6} md={4}>
+                <Card sx={{ borderRadius: 2 }}>
+                  <img
+                    src={`${imageURL}/${profileData?.data?.nidBack}`}
+                    alt="Cover"
+                    style={{ width: "100%", height: "auto", borderRadius: 2 }}
+                  />
+                  <CardContent>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Nid Back
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+            {profileData?.data?.copyrightNoticeImage && (
+              <Grid item xs={12} sm={6} md={4}>
+                <Card sx={{ borderRadius: 2 }}>
+                  <img
+                    src={`${imageURL}/${profileData?.data?.copyrightNoticeImage}`}
+                    alt="Cover"
+                    style={{ width: "100%", height: "auto", borderRadius: 2 }}
+                  />
+                  <CardContent>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Copyright
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+            {profileData?.data?.dashboardScreenShot && (
+              <Grid item xs={12} sm={6} md={4}>
+                <Card sx={{ borderRadius: 2 }}>
+                  <img
+                    src={`${imageURL}/${profileData?.data?.dashboardScreenShot}`}
+                    alt="Cover"
+                    style={{ width: "100%", height: "auto", borderRadius: 2 }}
+                  />
+                  <CardContent>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Dashboard
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+          </Grid>
+        </CardContent>
+      </Card>
     </Container>
   );
 };
