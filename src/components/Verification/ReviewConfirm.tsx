@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Typography,
   Grid,
@@ -5,19 +6,62 @@ import {
   CardContent,
   CardMedia,
   makeStyles,
+  Avatar,
+  Paper,
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
 } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { useProfileQuery } from "@/redux/slices/admin/userApi";
 import { imageURL } from "@/redux/api/baseApi";
 import Loader from "@/utils/Loader";
 
 const useStyles = makeStyles((theme) => ({
-  card: {
-    maxWidth: 200,
-    margin: "auto",
+  root: {
+    padding: theme.spacing(4),
+    backgroundColor: "#f4f6f8",
+    borderRadius: theme.spacing(2),
+  },
+  sectionTitle: {
     marginBottom: theme.spacing(2),
+    fontWeight: 600,
+  },
+  profileContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: theme.spacing(3),
+  },
+  avatar: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    marginRight: theme.spacing(3),
+  },
+  detailsContainer: {
+    padding: theme.spacing(2),
+    backgroundColor: "#fff",
+    borderRadius: theme.spacing(2),
+    boxShadow: theme.shadows[1],
+  },
+  imageContainer: {
+    marginTop: theme.spacing(4),
+  },
+  card: {
+    borderRadius: theme.spacing(2),
+    boxShadow: theme.shadows[2],
+    overflow: "hidden",
+    cursor: "pointer",
   },
   media: {
-    height: 140,
+    height: 160,
+  },
+  cardContent: {
+    textAlign: "center",
+  },
+  divider: {
+    margin: theme.spacing(3, 0),
   },
 }));
 
@@ -25,165 +69,136 @@ const ReviewConfirm = () => {
   const classes = useStyles();
   const { data: profileData, isLoading } = useProfileQuery({});
 
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+
+  const handleClickOpen = (image: string) => {
+    setSelectedImage(image);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedImage("");
+  };
+
   if (isLoading) {
     return <Loader />;
   }
 
   return (
-    <div>
-      <Typography variant="h5" gutterBottom>
+    <div className={classes.root}>
+      <Typography variant="h4" className={classes.sectionTitle}>
         Account Details
       </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            <strong>Name:</strong> {profileData?.data?.name}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            <strong>Email:</strong> {profileData?.data?.email}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            <strong>Phone:</strong> {profileData?.data?.phoneNumber}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            <strong>Address:</strong> {profileData?.data?.address}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            <strong>City:</strong> {profileData?.data?.city}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            <strong>State:</strong> {profileData?.data?.state}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            <strong>Country:</strong> {profileData?.data?.country}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography>
-            <strong>Post Code:</strong> {profileData?.data?.postCode}
-          </Typography>
-        </Grid>
-      </Grid>
 
-      <Typography variant="h5" gutterBottom>
-        Images
+      <Paper className={classes.detailsContainer}>
+        <div className={classes.profileContainer}>
+          <Avatar
+            className={classes.avatar}
+            src={`${imageURL}${profileData?.data?.image}`}
+            alt="Profile"
+          />
+          <div>
+            <Typography variant="h6">{profileData?.data?.name}</Typography>
+            <Typography color="textSecondary">
+              {profileData?.data?.email}
+            </Typography>
+          </div>
+        </div>
+
+        <Grid container spacing={2}>
+          {[
+            { label: "Phone", value: profileData?.data?.phoneNumber },
+            { label: "Address", value: profileData?.data?.address },
+            { label: "City", value: profileData?.data?.city },
+            { label: "State", value: profileData?.data?.state },
+            { label: "Country", value: profileData?.data?.country },
+            { label: "Post Code", value: profileData?.data?.postCode },
+          ].map((item, index) => (
+            <Grid item xs={12} sm={6} key={index}>
+              <Typography variant="subtitle1">
+                <strong>{item.label}:</strong> {item.value}
+              </Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
+
+      <Divider className={classes.divider} />
+
+      <Typography variant="h4" className={classes.sectionTitle}>
+        Uploaded Documents
       </Typography>
-      <Grid container spacing={1}>
-        {" "}
-        {/* Decreased spacing */}
-        {profileData && (
-          <>
-            <Grid item xs={12} sm={2}>
-              {" "}
-              {/* Reduced sm value */}
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.media}
-                  image={`${imageURL}${profileData?.data?.image}`}
-                  title="Profile Image"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary">
-                    Profile Image
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
 
-            <Grid item xs={12} sm={2}>
-              {" "}
-              {/* Reduced sm value */}
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.media}
-                  image={`${imageURL}${profileData?.data?.nidFront}`}
-                  title="NID Front Image"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary">
-                    NID Front Image
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} sm={2}>
-              {" "}
-              {/* Reduced sm value */}
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.media}
-                  image={`${imageURL}${profileData?.data?.nidBack}`}
-                  title="NID Back Image"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary">
-                    NID Back Image
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} sm={2}>
-              {" "}
-              {/* Reduced sm value */}
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.media}
-                  image={`${imageURL}${profileData?.data?.dashboardScreenShot}`}
-                  title="Dashboard Image"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary">
-                    Dashboard Image
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} sm={2}>
-              {" "}
-              {/* Reduced sm value */}
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.media}
-                  image={`${imageURL}${profileData?.data?.copyrightNoticeImage}`}
-                  title="Copy Right Image"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary">
-                    Copy Right Image
-                  </Typography>
-                </CardContent>
-              </Card>
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.media}
-                  image={`${imageURL}${profileData?.data?.signature}`}
-                  title="Signature"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary">
-                    Signature
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </>
-        )}
+      <Grid container spacing={3} className={classes.imageContainer}>
+        {[
+          {
+            label: "NID Front",
+            image: profileData?.data?.nidFront,
+          },
+          {
+            label: "NID Back",
+            image: profileData?.data?.nidBack,
+          },
+          {
+            label: "Dashboard",
+            image: profileData?.data?.dashboardScreenShot,
+          },
+          {
+            label: "Copyright Notice",
+            image: profileData?.data?.copyrightNoticeImage,
+          },
+          {
+            label: "Signature",
+            image: profileData?.data?.signature,
+          },
+        ].map((item, index) => (
+          <Grid item xs={12} sm={4} md={2} key={index}>
+            <Card
+              className={classes.card}
+              onClick={() => handleClickOpen(item.image)}
+            >
+              <CardMedia
+                className={classes.media}
+                image={`${imageURL}${item.image}`}
+                title={item.label}
+              />
+              <CardContent className={classes.cardContent}>
+                <Typography variant="body2" color="textSecondary">
+                  {item.label}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{ style: { borderRadius: 10 } }}
+      >
+        <DialogTitle>
+          Image Preview
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            style={{ position: "absolute", right: 8, top: 8 }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          <img
+            src={`${imageURL}${selectedImage}`}
+            alt="Preview"
+            style={{ width: "100%", borderRadius: 8 }}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

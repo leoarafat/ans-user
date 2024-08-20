@@ -7,6 +7,12 @@ import {
   Step,
   StepLabel,
   Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Checkbox,
+  FormControlLabel,
+  DialogActions,
 } from "@material-ui/core";
 import ProfileVerification from "../Verification/ProfileVerification";
 import AddressInformation from "../Verification/AddressInformation";
@@ -21,8 +27,9 @@ import {
   useVerifyUserMutation,
 } from "@/redux/slices/admin/userApi";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AgreementPage from "../Verification/Agreement";
+import { Divider } from "@mui/material";
 
 const steps = [
   {
@@ -64,7 +71,12 @@ const StepperForm = () => {
   const [userName, setUserName] = useState("");
   const [phoneNumber, setPhone] = useState("");
   const [nidNumber, setNidNumber] = useState("");
-
+  const [openModal, setOpenModal] = useState(false);
+  const [conditionsAccepted, setConditionsAccepted] = useState({
+    condition1: false,
+    condition2: false,
+    condition3: false,
+  });
   const navigate = useNavigate();
   useEffect(() => {
     if (formData.profile) {
@@ -226,8 +238,21 @@ const StepperForm = () => {
     const updatedFormData = { ...formData, [step]: data };
     setFormData(updatedFormData);
   };
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
 
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+  const handleAcceptCondition = (condition: string) => (event: any) => {
+    setConditionsAccepted({
+      ...conditionsAccepted,
+      [condition]: event.target.checked,
+    });
+  };
   const handleSubmit = async () => {
+    setOpenModal(false);
     try {
       const result = await verifyUser({});
       if (result?.data?.success) {
@@ -283,13 +308,105 @@ const StepperForm = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
+            // onClick={handleSubmit}
+            onClick={handleOpenModal}
             style={{ marginLeft: 10 }}
           >
             {verifyLoading ? "Verifying..." : "Let's Verify"}
           </Button>
         )}
       </div>
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          <Typography variant="h6">Terms & Conditions</Typography>
+          <Typography variant="subtitle1">
+            Please confirm that you have understood and that you agree to the
+            following Terms & Conditions, and delivery guidelines.
+          </Typography>
+        </DialogTitle>
+        <Divider sx={{ marginY: 2 }} />
+        <DialogContent>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={conditionsAccepted.condition1}
+                onChange={handleAcceptCondition("condition1")}
+                color="primary"
+              />
+            }
+            label={
+              <Typography variant="body2">
+                I own or have legally licensed all copyrights to the sound
+                recordings, compositions and artwork embodied in this release,
+                and furthermore abide and agree to all terms as set forth in our
+                distribution agreement. (Distribution Agreement PDF)
+              </Typography>
+            }
+          />
+          <Divider sx={{ marginY: 2 }} />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={conditionsAccepted.condition2}
+                onChange={handleAcceptCondition("condition2")}
+                color="primary"
+              />
+            }
+            label={
+              <Typography variant="body1">
+                I confirm that I have truthfully indicated the Track Origin and
+                Track Properties that apply for each of my tracks in order to
+                ensure compliance with the various DSPs' requirements. I
+                understand that there are serious consequences to
+                misrepresenting my tracks and/or not declaring all the
+                appropriate Track Properties.
+              </Typography>
+            }
+          />
+          <Divider sx={{ marginY: 2 }} />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={conditionsAccepted.condition3}
+                onChange={handleAcceptCondition("condition3")}
+                color="primary"
+              />
+            }
+            label={
+              <Typography variant="body1">
+                I acknowledge and understand that playlisting services
+                guaranteeing "increased streams" use techniques that result in
+                artificial streaming, which violates music services' terms of
+                use.
+              </Typography>
+            }
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal} color="primary" variant="outlined">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            color="primary"
+            variant="contained"
+            disabled={
+              !conditionsAccepted.condition1 ||
+              !conditionsAccepted.condition2 ||
+              !conditionsAccepted.condition3 ||
+              verifyLoading
+            }
+          >
+            {verifyLoading ? "Uploading..." : "Agree and Submit"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };
