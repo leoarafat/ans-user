@@ -9,6 +9,7 @@ import CorrectionRequest from "./CorrectionRequest";
 import { useNavigate } from "react-router-dom";
 import useVerification from "@/utils/isVerified";
 import { useEffect } from "react";
+import TotalSong from "../TotalCard/TotalSong";
 
 const DashboardHome = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const DashboardHome = () => {
   }, []);
   return (
     <Box sx={{ padding: 3 }}>
+      <TotalSong />
       <RevenueComponent />
       <FinancialCharts />
       <LastSixApproved />

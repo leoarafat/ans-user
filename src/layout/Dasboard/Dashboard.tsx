@@ -79,7 +79,7 @@ const Dashboard = () => {
           overflow: "auto",
           height: "100vh",
           zIndex: 2,
-          backgroundColor: "#6482AD",
+          backgroundColor: "#55679C",
         }}
         trigger={null}
         collapsible
@@ -93,7 +93,7 @@ const Dashboard = () => {
 
         <Menu
           mode="inline"
-          style={{ background: "#6482AD", color: "white" }}
+          style={{ background: "#55679C", color: "white" }}
           defaultSelectedKeys={["1"]}
         >
           {filteredMenuItems.map((item, index) =>
@@ -115,7 +115,7 @@ const Dashboard = () => {
                         color: "#fff",
                         fontSize: "16px",
                         marginBottom: "10px",
-                        background: "#000",
+                        background: "#1E2A5E",
                       }}
                     >
                       <Link to={`${item.path}${subItem.path}`}>
@@ -145,7 +145,7 @@ const Dashboard = () => {
       <Layout>
         <Header
           style={{
-            background: "#6482AD",
+            background: "#55679C",
             height: "80px",
             display: "flex",
             justifyContent: "flex-end",
