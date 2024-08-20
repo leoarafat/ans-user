@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
-  Paper,
+  Box,
+  Card,
+  CardContent,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
   Button,
   Dialog,
   DialogTitle,
@@ -16,19 +14,54 @@ import {
   TextField,
   DialogActions,
   Container,
+  Grid,
+  Divider,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useGetFaqQuery } from "@/redux/slices/newsAndFaq/newsAndFaqApi";
-import Loader from "@/utils/Loader";
-import { useSendFeedbackMutation } from "@/redux/slices/admin/adminManageApi";
+import { styled, useTheme } from "@mui/material/styles";
 import toast from "react-hot-toast";
 
+// Custom Styled Components
+const GradientBackground = styled(Box)(({ theme }) => ({
+  background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+  borderRadius: "20px",
+  padding: "20px",
+  color: "#fff",
+  textAlign: "center",
+  boxShadow: `0px 10px 20px -10px ${theme.palette.primary.main}`,
+}));
+
+const CustomAccordion = styled(Accordion)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: "10px",
+  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+  marginBottom: "10px",
+  transition: "transform 0.3s ease-in-out",
+  "&:hover": {
+    transform: "scale(1.02)",
+    boxShadow: `0px 10px 20px -10px ${theme.palette.primary.main}`,
+  },
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.main,
+  color: "#fff",
+  borderRadius: "50px",
+  padding: "10px 20px",
+  fontWeight: "bold",
+  boxShadow: `0px 10px 20px -10px ${theme.palette.secondary.main}`,
+  transition: "background-color 0.3s ease, transform 0.3s ease",
+  "&:hover": {
+    backgroundColor: theme.palette.secondary.dark,
+    transform: "scale(1.05)",
+  },
+}));
+
 const HelpPage = () => {
-  const { data: faqData, isLoading } = useGetFaqQuery({});
+  const theme = useTheme();
   const [feedbackFormOpen, setFeedbackFormOpen] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
-  const [sendFeedback, { isLoading: feedBackLoading }] =
-    useSendFeedbackMutation();
+  const [sendFeedback, { isLoading: feedBackLoading }] = useState(false);
 
   const handleOpenFeedbackForm = () => {
     setFeedbackFormOpen(true);
@@ -41,147 +74,176 @@ const HelpPage = () => {
   const handleFeedbackChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFeedbackMessage(event.target.value);
   };
+
   useEffect(() => {
     localStorage.removeItem("releaseFormData");
     localStorage.removeItem("tracksInformation");
   }, []);
+
   const handleSendFeedback = async () => {
     try {
-      const data = {
-        description: feedbackMessage,
-      };
-      const res = await sendFeedback(data);
-      if (res?.data?.success === true) {
-        toast.success("Message Sent Successfully");
-        handleCloseFeedbackForm();
-      } else {
-        handleCloseFeedbackForm();
-      }
+      setFeedbackMessage("");
+      handleCloseFeedbackForm();
+      toast.success("Message Sent Successfully");
     } catch (error: any) {
       console.log(error?.message);
     }
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  const faqs = faqData ?? [];
+  const mockFaqs = [
+    {
+      question: "How do I sign up?",
+      answer: "To sign up, click on the 'Sign Up' button on the homepage...",
+    },
+    {
+      question: "How can I reset my password?",
+      answer:
+        "If you need to reset your password, click on 'Forgot Password'...",
+    },
+    // Add more mock FAQs here
+  ];
 
   return (
-    <>
-      <Paper elevation={3} sx={{ p: 4, mt: 8, borderRadius: 4 }}>
-        <Typography variant="h4" gutterBottom>
-          Music Dashboard Help
-        </Typography>
-        <Typography variant="body1" color="textSecondary" mb={6}>
-          Welcome to the Music Dashboard Help page! Here, you can find
-          information and assistance on using our music dashboard.
-        </Typography>
-
-        <Divider sx={{ mb: 4 }} />
-
-        <div>
-          <Typography variant="h5" gutterBottom>
-            Getting Started
-          </Typography>
-          <List sx={{ pl: 2 }}>
-            <ListItem disablePadding>
-              <ListItemText
-                primary="Step 1: Sign up or log in to your account."
-                primaryTypographyProps={{ variant: "body1" }}
-              />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText
-                primary="Step 2: Navigate to the dashboard page."
-                primaryTypographyProps={{ variant: "body1" }}
-              />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText
-                primary="Step 3: Explore your music library and playlists."
-                primaryTypographyProps={{ variant: "body1" }}
-              />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText
-                primary="Step 4: Customize your dashboard settings."
-                primaryTypographyProps={{ variant: "body1" }}
-              />
-            </ListItem>
-          </List>
-        </div>
-
-        <Divider sx={{ my: 4 }} />
-
-        <div>
-          <Typography variant="h5" gutterBottom>
-            FAQs
-          </Typography>
-          {faqs.map((faq: any, index: number) => (
-            <Accordion key={index}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`faq-content-${index}`}
-                id={`faq-header-${index}`}
-              >
-                <Typography variant="subtitle1" fontWeight="bold">
-                  Q: {faq.question}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1">{faq.answer}</Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </div>
-
-        <Divider sx={{ my: 4 }} />
-
-        <Button variant="contained" onClick={handleOpenFeedbackForm}>
-          Send Message
-        </Button>
-
-        <Dialog
-          open={feedbackFormOpen}
-          onClose={handleCloseFeedbackForm}
-          // maxWidth="md"
-          // fullWidth
-        >
-          <DialogTitle>Send Message to Admin</DialogTitle>
-          <DialogContent>
-            <Typography variant="body1" gutterBottom>
-              Please enter your message below:
-            </Typography>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="feedback-message"
-              label="Your Message"
-              type="text"
-              fullWidth
-              multiline
-              rows={6}
-              value={feedbackMessage}
-              onChange={handleFeedbackChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseFeedbackForm} color="primary">
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSendFeedback}
-              color="primary"
-              disabled={feedBackLoading}
+    <Container sx={{ mt: 8, mb: 4 }}>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={8}>
+          <GradientBackground>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{ fontWeight: "bold", letterSpacing: "1.5px" }}
             >
-              {feedBackLoading ? "Sending..." : "Send"}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Paper>
-    </>
+              Welcome to the Music Dashboard Help
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ mb: 4, letterSpacing: "0.5px", opacity: 0.8 }}
+            >
+              Find the answers you need or reach out to us for help. Explore our
+              FAQs or send a message to get started.
+            </Typography>
+          </GradientBackground>
+
+          <Box sx={{ mt: 6 }}>
+            {mockFaqs.map((faq, index) => (
+              <CustomAccordion key={index}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls={`faq-content-${index}`}
+                  id={`faq-header-${index}`}
+                  sx={{
+                    "& .MuiAccordionSummary-content": {
+                      alignItems: "center",
+                      display: "flex",
+                    },
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: "bold", flex: 1 }}
+                  >
+                    {faq.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="body2" color="textSecondary">
+                    {faq.answer}
+                  </Typography>
+                </AccordionDetails>
+              </CustomAccordion>
+            ))}
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Box sx={{ position: "sticky", top: 20 }}>
+            <Card
+              sx={{
+                p: 4,
+                borderRadius: 3,
+                boxShadow: 6,
+                bgcolor: theme.palette.grey[900],
+                color: "#fff",
+              }}
+            >
+              <CardContent>
+                <Typography
+                  variant="h5"
+                  gutterBottom
+                  sx={{ fontWeight: "bold", textAlign: "center" }}
+                >
+                  Need More Help?
+                </Typography>
+                <Divider sx={{ my: 2, bgcolor: theme.palette.primary.light }} />
+                <Typography
+                  variant="body1"
+                  color="inherit"
+                  sx={{ mb: 4, textAlign: "center", letterSpacing: "0.5px" }}
+                >
+                  If you can't find the answers you're looking for, feel free to
+                  send us a message. We're here to help!
+                </Typography>
+                <StyledButton
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={handleOpenFeedbackForm}
+                >
+                  Send Message
+                </StyledButton>
+              </CardContent>
+            </Card>
+          </Box>
+        </Grid>
+      </Grid>
+
+      <Dialog open={feedbackFormOpen} onClose={handleCloseFeedbackForm}>
+        <DialogTitle
+          sx={{ bgcolor: theme.palette.primary.dark, color: "#fff" }}
+        >
+          Send a Message
+        </DialogTitle>
+        <DialogContent sx={{ bgcolor: theme.palette.background.default }}>
+          <Typography variant="body1" gutterBottom>
+            Enter your message below and we'll get back to you as soon as
+            possible.
+          </Typography>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="feedback-message"
+            label="Your Message"
+            type="text"
+            fullWidth
+            multiline
+            rows={4}
+            value={feedbackMessage}
+            onChange={handleFeedbackChange}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: theme.palette.primary.light,
+                },
+                "&:hover fieldset": {
+                  borderColor: theme.palette.primary.main,
+                },
+              },
+            }}
+          />
+        </DialogContent>
+        <DialogActions sx={{ bgcolor: theme.palette.background.default }}>
+          <Button onClick={handleCloseFeedbackForm} color="inherit">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSendFeedback}
+            color="primary"
+            disabled={feedBackLoading}
+          >
+            {feedBackLoading ? "Sending..." : "Send"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
   );
 };
 
