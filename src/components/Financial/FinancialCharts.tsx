@@ -190,7 +190,7 @@ const FinancialCharts = () => {
   }
 
   return (
-    <Box sx={{ paddingY: 2 }}>
+    <Box>
       <Paper
         sx={{
           padding: isMobile ? 1 : 3,
