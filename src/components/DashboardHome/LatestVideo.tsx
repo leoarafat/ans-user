@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+import React from "react";
 import {
   Box,
   Typography,
@@ -10,107 +10,148 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Avatar,
 } from "@mui/material";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Link } from "react-router-dom";
-import { useGetLatestSongsQuery } from "@/redux/slices/myUploads/myUploadsApi";
 import Loader from "@/utils/Loader";
 import { imageURL } from "@/redux/api/baseApi";
 
+// Mock data for videos
+const mockVideoData = [
+  {
+    storeReleaseDate: "2024-08-15T00:00:00Z",
+    image: "https://via.placeholder.com/90x60/ff0000/ffffff?text=Video1",
+    title: "Awesome Music Video 1",
+    label: { labelName: "Label One" },
+  },
+  {
+    storeReleaseDate: "2024-08-10T00:00:00Z",
+    image: "https://via.placeholder.com/90x60/00ff00/ffffff?text=Video2",
+    title: "Cool Music Video 2",
+    label: { labelName: "Label Two" },
+  },
+  {
+    storeReleaseDate: "2024-08-05T00:00:00Z",
+    image: "https://via.placeholder.com/90x60/0000ff/ffffff?text=Video3",
+    title: "Epic Music Video 3",
+    label: { labelName: "Label Three" },
+  },
+  {
+    storeReleaseDate: "2024-07-30T00:00:00Z",
+    image: "https://via.placeholder.com/90x60/ffff00/ffffff?text=Video4",
+    title: "Amazing Music Video 4",
+    label: { labelName: "Label Four" },
+  },
+  {
+    storeReleaseDate: "2024-07-25T00:00:00Z",
+    image: "https://via.placeholder.com/90x60/ff00ff/ffffff?text=Video5",
+    title: "Great Music Video 5",
+    label: { labelName: "Label Five" },
+  },
+  {
+    storeReleaseDate: "2024-07-20T00:00:00Z",
+    image: "https://via.placeholder.com/90x60/00ffff/ffffff?text=Video6",
+    title: "Fantastic Music Video 6",
+    label: { labelName: "Label Six" },
+  },
+];
+
 const LatestVideo = () => {
-  const { data: songsData, isLoading } = useGetLatestSongsQuery({});
+  // Simulating API data with mock data
+  const { data: videoData, isLoading } = {
+    data: { latestVideo: mockVideoData },
+    isLoading: false,
+  };
+
   if (isLoading) {
     return <Loader />;
   }
-  const videoData = songsData?.data?.latestVideo || [];
-  console.log(videoData);
+
+  const videos = videoData?.latestVideo || [];
+
   return (
-    <Grid item xs={12} md={6}>
-      <label
-        htmlFor="music"
-        style={{ display: "block", margin: "4px 0" }}
-        className="p-3 border "
-      >
+    <>
+      <Box mb={2}>
         <Link to={"/release-video"}>
-          {" "}
-          <div className="flex justify-center flex-col items-center w-full h-full border-dashed border border-black py-10 cursor-pointer">
+          <Paper
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 3,
+              border: "1px dashed #ddd",
+              borderRadius: 3,
+              backgroundColor: "#f5f5f5",
+              textAlign: "center",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              "&:hover": {
+                backgroundColor: "#e0e0e0",
+                borderColor: "#ccc",
+                boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
+              },
+            }}
+          >
             <YouTubeIcon sx={{ fontSize: 60, color: "#FF0000" }} />
-            <p>Create Video Release</p>
-          </div>
-          <div className="hidden">
-            <p
-              id="music"
-              style={{
-                border: "1px solid #E0E4EC",
-                height: "52px",
-                background: "white",
-                borderRadius: "8px",
-                outline: "none",
-                cursor: "pointer",
-              }}
-            />
-          </div>
+            <Typography variant="h6" mt={1}>
+              Create Video Release
+            </Typography>
+          </Paper>
         </Link>
-      </label>
-      <Paper sx={{ padding: 2 }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 2,
-          }}
+      </Box>
+      {/* Latest Videos */}
+      <Paper
+        sx={{
+          padding: 2,
+          borderRadius: 3,
+          boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+        }}
+      >
+        <Typography
+          variant="h6"
+          mb={2}
+          sx={{ textAlign: "center", fontWeight: "bold", color: "#FF0000" }}
         >
-          <Typography variant="h6">Lates Videos</Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 2,
-            position: "relative",
-          }}
-        >
-          <p></p>
-        </Box>
+          Latest Videos
+        </Typography>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Store Release Date</TableCell>
-                <TableCell>Thumbnail</TableCell>
-                <TableCell>Video Name</TableCell>
-                <TableCell>Label Name</TableCell>
-
-                {/* <TableCell align="right">Actions</TableCell> */}
+                <TableCell sx={{ fontWeight: "bold" }}>Release Date</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Thumbnail</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Video Name</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Label Name</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {videoData?.map((track: any, index: number) => (
-                <TableRow key={index}>
+              {videos.map((video: any, index: number) => (
+                <TableRow
+                  key={index}
+                  sx={{ "&:hover": { backgroundColor: "#fafafa" } }}
+                >
                   <TableCell>
-                    {new Date(track.storeReleaseDate).toLocaleDateString()}
+                    {new Date(video.storeReleaseDate).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <img
-                      className="w-[90px] h-[60px] rounded-md"
-                      src={
-                        `${imageURL}/${track?.image}` ||
-                        "https://via.placeholder.com/90x60"
-                      }
-                      alt="Album"
+                    <Avatar
+                      src={video?.image || "https://via.placeholder.com/90x60"}
+                      alt="Thumbnail"
+                      sx={{ width: 90, height: 60 }}
                     />
                   </TableCell>
-                  <TableCell>{track.title}</TableCell>
-                  <TableCell>{track?.label?.labelName}</TableCell>
+                  <TableCell>{video.title}</TableCell>
+                  <TableCell>{video?.label?.labelName}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
-    </Grid>
+    </>
   );
 };
 

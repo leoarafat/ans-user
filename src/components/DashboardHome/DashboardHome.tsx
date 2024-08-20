@@ -30,7 +30,7 @@ const DashboardHome = () => {
       <RevenueComponent />
       <FinancialCharts />
       <LastSixApproved />
-      <CorrectionRequest />
+      {/* <CorrectionRequest /> */}
       <Grid container spacing={3} sx={{ marginTop: 3 }}>
         <News />
       </Grid>
