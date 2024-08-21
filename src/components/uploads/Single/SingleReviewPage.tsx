@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Container,
   Card,
@@ -11,14 +10,18 @@ import {
   CardMedia,
   CardHeader,
   Avatar,
+  IconButton,
+  Box,
+  Tooltip,
 } from "@mui/material";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { useEffect, useState } from "react";
 import { getArtistsByIds, getFeatureArtistsByIds } from "../Album/fetchArtist";
 import { useGetSingleLabelQuery } from "@/redux/slices/ArtistAndLabel/artistLabelApi";
-
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 const SingleTrackReviewPage = ({ data, onChange }: any) => {
-  const [audioUrl, setAudioUrl] = useState(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [artists, setArtists] = useState<any[]>([]);
   const [featureArtists, setFeatureArtists] = useState<any[]>([]);
 
@@ -31,7 +34,6 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
 
   useEffect(() => {
     if (audio && audio.audioFile) {
-      //@ts-ignore
       setAudioUrl(URL.createObjectURL(audio.audioFile));
     }
 
@@ -41,21 +43,12 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
       }
     };
   }, [audio]);
-  useEffect(() => {
-    const storedData = localStorage.getItem("tracksInformation");
-    if (storedData) {
-      onChange("trackDetails", JSON.parse(storedData).trackDetails);
-      onChange("releaseInformation", JSON.parse(storedData).releaseInformation);
-      // onChange("audio", JSON.parse(storedData).audio);
-    }
-  }, []);
+
   useEffect(() => {
     const fetchArtists = async () => {
       try {
         const artistIds = releaseInformation?.primaryArtists;
-
         const fetchedArtists = await getArtistsByIds(artistIds);
-        // console.log(featureArtists);
         setArtists(fetchedArtists);
       } catch (error) {
         console.error("Error fetching artists:", error);
@@ -64,54 +57,65 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
 
     fetchArtists();
   }, [releaseInformation?.primaryArtists]);
+
   useEffect(() => {
-    const fetchArtists = async () => {
+    const fetchFeatureArtists = async () => {
       try {
         const artistIds = releaseInformation?.featuringArtists;
-
-        const fetchedArtists = await getFeatureArtistsByIds(artistIds);
-        // console.log(featureArtists);
-        setFeatureArtists(fetchedArtists);
+        const fetchedFeatureArtists = await getFeatureArtistsByIds(artistIds);
+        setFeatureArtists(fetchedFeatureArtists);
       } catch (error) {
-        console.error("Error fetching artists:", error);
+        console.error("Error fetching featuring artists:", error);
       }
     };
 
-    fetchArtists();
+    fetchFeatureArtists();
   }, [releaseInformation?.featuringArtists]);
 
   if (!audio || !audio.audioFile) {
-    return <div>No audio file selected.</div>;
+    return <Container>No audio file selected.</Container>;
   }
+  const renderWarning = (field: any, message: string) => {
+    return !field ? (
+      <Tooltip title={message}>
+        <WarningAmberIcon color="warning" sx={{ ml: 1 }} />
+      </Tooltip>
+    ) : null;
+  };
   return (
-    <Container maxWidth="md" style={{ padding: "20px" }}>
-      <Card style={{ marginBottom: "20px" }}>
+    <Container maxWidth="lg" sx={{ paddingY: 4 }}>
+      <Card sx={{ borderRadius: 4, boxShadow: 3, marginBottom: 4 }}>
         <CardHeader
           avatar={
-            <Avatar aria-label="track">
+            <Avatar sx={{ bgcolor: "secondary.main", color: "white" }}>
               <PlayCircleOutlineIcon />
             </Avatar>
           }
           title={trackDetails?.title}
           subheader={`${releaseInformation?.releaseTitle} - ${releaseInformation?.version}`}
-          style={{ backgroundColor: "#f5f5f5" }}
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          sx={{ backgroundColor: "primary.main", color: "white" }}
         />
         <CardContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4} style={{ padding: "10px" }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
               <CardMedia
                 component="img"
                 image={
-                  audio &&
-                  audio?.coverImage &&
-                  URL.createObjectURL(audio?.coverImage)
+                  audio && audio.coverImage
+                    ? URL.createObjectURL(audio.coverImage)
+                    : "/default-cover.jpg" // Fallback image
                 }
                 alt={trackDetails?.title}
-                style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                sx={{ borderRadius: 2, boxShadow: 2 }}
               />
             </Grid>
-            <Grid item xs={12} sm={8} style={{ padding: "10px" }}>
-              <List style={{ width: "100%" }}>
+            <Grid item xs={12} md={6}>
+              <List sx={{ width: "100%" }}>
                 <ListItem>
                   <ListItemText
                     primary="Artists"
@@ -119,13 +123,14 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
                       artists?.data
                         ? artists.data
                             .map(
-                              (artist: { primaryArtistName: any }) =>
+                              (artist: { primaryArtistName: string }) =>
                                 artist.primaryArtistName
                             )
                             .join(", ")
-                        : ""
+                        : "N/A"
                     }
                   />
+                  {renderWarning(artists?.data, "Artists information missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
@@ -134,11 +139,11 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
                       featureArtists?.data
                         ? featureArtists.data
                             .map(
-                              (artist: { primaryArtistName: any }) =>
+                              (artist: { primaryArtistName: string }) =>
                                 artist.primaryArtistName
                             )
                             .join(", ")
-                        : ""
+                        : "N/A"
                     }
                   />
                 </ListItem>
@@ -147,244 +152,223 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
                     primary="Genre"
                     secondary={`${releaseInformation?.genre} / ${releaseInformation?.subgenre}`}
                   />
+                  {renderWarning(
+                    releaseInformation?.genre,
+                    "Genre information missing"
+                  )}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Label"
                     secondary={
-                      isLoading ? "Loading.." : labelData?.data?.labelName
+                      isLoading ? "Loading..." : labelData?.data?.labelName
                     }
                   />
+                  {renderWarning(labelData?.data?.labelName, "Label missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Release Date"
                     secondary={releaseInformation?.releaseDate}
                   />
+                  {renderWarning(
+                    releaseInformation?.releaseDate,
+                    "Release date missing"
+                  )}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Price"
                     secondary={`$${trackDetails?.price}`}
                   />
+                  {renderWarning(trackDetails?.price, "Price missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Producer"
                     secondary={trackDetails?.producer}
                   />
+                  {renderWarning(trackDetails?.producer, "Producer missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Lyrics"
                     secondary={trackDetails?.lyrics}
                   />
+                  {renderWarning(trackDetails?.lyrics, "Lyrics missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Remixer"
                     secondary={trackDetails?.remixer}
                   />
+                  {renderWarning(trackDetails?.remixer, "Remixer missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Author"
                     secondary={trackDetails?.author}
                   />
+                  {renderWarning(trackDetails?.author, "Author missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Composer"
                     secondary={trackDetails?.composer}
                   />
+                  {renderWarning(trackDetails?.composer, "Composer missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Arranger"
                     secondary={trackDetails?.arranger}
                   />
+                  {renderWarning(trackDetails?.arranger, "Arranger missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="P Line"
                     secondary={releaseInformation?.pLine}
                   />
+                  {renderWarning(releaseInformation?.pLine, "P Line missing")}
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="C Line"
+                    secondary={releaseInformation?.cLine}
+                  />
+                  {renderWarning(releaseInformation?.cLine, "C Line missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Production Year"
                     secondary={releaseInformation?.productionYear}
                   />
+                  {renderWarning(
+                    releaseInformation?.productionYear,
+                    "Production Year missing"
+                  )}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Publisher"
                     secondary={trackDetails?.publisher}
                   />
+                  {renderWarning(trackDetails?.publisher, "Publisher missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText primary="ISRC" secondary={trackDetails?.isrc} />
+                  {renderWarning(trackDetails?.isrc, "ISRC missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Preview Start"
                     secondary={trackDetails?.previewStart}
                   />
+                  {renderWarning(
+                    trackDetails?.previewStart,
+                    "Preview Start missing"
+                  )}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Track Title Language"
                     secondary={trackDetails?.trackTitleLanguage}
                   />
+                  {renderWarning(
+                    trackDetails?.trackTitleLanguage,
+                    "Track Title Language missing"
+                  )}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Lyrics Language"
                     secondary={trackDetails?.lyricsLanguage}
                   />
+                  {renderWarning(
+                    trackDetails?.lyricsLanguage,
+                    "Lyrics Language missing"
+                  )}
                 </ListItem>
               </List>
             </Grid>
           </Grid>
-          <audio controls style={{ width: "100%", marginTop: "20px" }}>
-            <source src={audioUrl} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+          <Box sx={{ marginTop: 4 }}>
+            <audio controls style={{ width: "100%" }}>
+              <source src={audioUrl} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </Box>
         </CardContent>
       </Card>
-      <Card style={{ marginBottom: "20px" }}>
+
+      <Card sx={{ borderRadius: 4, boxShadow: 3 }}>
+        <CardHeader
+          title="Additional Details"
+          sx={{ backgroundColor: "primary.main", color: "white" }}
+        />
         <CardContent>
-          <Grid container spacing={2}>
-            <Grid item xs={6} style={{ padding: "10px" }}>
-              <Typography variant="body1">
-                <strong>Content Type:</strong> {trackDetails?.contentType}
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="body1" color="text.primary">
+                <strong>Content Type:</strong> {trackDetails?.contentType}{" "}
+                {renderWarning(
+                  trackDetails?.contentType,
+                  "Content Type missing"
+                )}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" color="text.primary">
                 <strong>Track Type:</strong> {trackDetails?.primaryTrackType}
+                {renderWarning(
+                  trackDetails?.primaryTrackType,
+                  "primaryTrackType missing"
+                )}
               </Typography>
-              <Typography variant="body1">
-                <strong>Instrumental:</strong> {trackDetails?.instrumental}
+              <Typography variant="body1" color="text.primary">
+                <strong>Instrumental:</strong>{" "}
+                {trackDetails?.instrumental ? "Yes" : "No"}
+                {renderWarning(
+                  trackDetails?.instrumental,
+                  "instrumental missing"
+                )}
               </Typography>
             </Grid>
-            <Grid item xs={6} style={{ padding: "10px" }}>
-              <Typography variant="body1">
+            <Grid item xs={12} md={6}>
+              <Typography variant="body1" color="text.primary">
                 <strong>ISRC:</strong> {trackDetails?.isrc}
+                {renderWarning(trackDetails?.isrc, "Content Type missing")}
               </Typography>
-              <Typography variant="body1">
-                <strong>Catalogue Number:</strong>{" "}
+              <Typography variant="body1" color="text.primary">
+                <strong>Catalogue Number:</strong>
                 {releaseInformation?.catalogNumber}
+                {renderWarning(
+                  releaseInformation?.catalogNumber,
+                  "catalogNumber missing"
+                )}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" color="text.primary">
                 <strong>Parental Advisory:</strong>{" "}
-                {trackDetails?.parentalAdvisory}
+                {trackDetails?.parentalAdvisory ? "Yes" : "No"}
+                {renderWarning(
+                  trackDetails?.parentalAdvisory,
+                  "parentalAdvisory missing"
+                )}
               </Typography>
             </Grid>
           </Grid>
         </CardContent>
       </Card>
-      <Card style={{ marginBottom: "20px" }}>
+
+      <Card sx={{ borderRadius: 4, boxShadow: 3, marginTop: 4 }}>
         <CardHeader
-          title="Release Information"
-          style={{ backgroundColor: "#f5f5f5" }}
+          title="Additional Information"
+          sx={{ backgroundColor: "primary.main", color: "white" }}
         />
         <CardContent>
-          <List style={{ width: "100%" }}>
-            <ListItem>
-              <ListItemText
-                primary="Release Title"
-                secondary={releaseInformation?.releaseTitle}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Version Subtitle"
-                secondary={releaseInformation?.version}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Primary Artists"
-                secondary={
-                  artists?.data
-                    ? artists.data
-                        .map(
-                          (artist: { primaryArtistName: any }) =>
-                            artist.primaryArtistName
-                        )
-                        .join(", ")
-                    : ""
-                }
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Featuring Artists"
-                secondary={releaseInformation?.featuringArtists.join(", ")}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Various Artists Compilation"
-                secondary={
-                  releaseInformation?.variousArtistsCompilation ? "Yes" : "No"
-                }
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Genre"
-                secondary={`${releaseInformation?.genre} / ${releaseInformation?.subgenre}`}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Label"
-                secondary={isLoading ? "Loading.." : labelData?.data?.labelName}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Format"
-                secondary={releaseInformation?.format}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Physical Release Date"
-                secondary={releaseInformation?.releaseDate}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="P Line"
-                secondary={releaseInformation?.pLine}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="C Line"
-                secondary={releaseInformation?.cLine}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Production Year"
-                secondary={releaseInformation?.productionYear}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="UPC/EAN"
-                secondary={releaseInformation?.upc}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Producer Catalogue Number"
-                secondary={releaseInformation?.catalogNumber}
-              />
-            </ListItem>
-          </List>
+          <Typography variant="body1" color="text.primary">
+            <strong>Description:</strong>{" "}
+            {trackDetails?.description || "No description available"}
+          </Typography>
         </CardContent>
       </Card>
     </Container>
