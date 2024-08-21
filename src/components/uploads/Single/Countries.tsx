@@ -7,6 +7,9 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  Box,
+  Card,
+  CardContent,
 } from "@mui/material";
 import Loader from "@/utils/Loader";
 
@@ -129,15 +132,21 @@ const Countries: React.FC<Props> = ({ onChange }) => {
 
   return (
     <Container maxWidth="lg">
-      {loading ? (
-        <Loader />
-      ) : (
-        <Grid container spacing={3}>
-          {renderContinent("Asia")}
-          {renderContinent("Africa")}
-          {renderContinent("Europe")}
-        </Grid>
-      )}
+      <Box>
+        <Card>
+          <CardContent>
+            {loading ? (
+              <Loader />
+            ) : (
+              <Grid container spacing={3}>
+                {renderContinent("Asia")}
+                {renderContinent("Africa")}
+                {renderContinent("Europe")}
+              </Grid>
+            )}
+          </CardContent>
+        </Card>
+      </Box>
     </Container>
   );
 };

@@ -379,8 +379,31 @@ const UploaderStepperForm = () => {
   const StepComponent = steps[activeStep].component;
 
   return (
-    <Container maxWidth="md">
-      <Box textAlign="center" mb={4}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        position: "relative",
+        backgroundImage: `url(https://res.cloudinary.com/arafatleo/image/upload/v1724142235/signup_aiqgj5.jpg)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "20px",
+        minHeight: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        textAlign="center"
+        mb={4}
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for text readability
+          zIndex: -1,
+        }}
+      >
         <Typography variant="h4" gutterBottom>
           Distribute Your Music with ANS Music
         </Typography>
@@ -405,8 +428,8 @@ const UploaderStepperForm = () => {
         mt={4}
       >
         <Button
-          variant="outlined"
-          color="primary"
+          variant="contained"
+          color="secondary"
           onClick={handleBack}
           disabled={activeStep === 0}
           style={{ flexGrow: 1, marginRight: 10 }}

@@ -11,6 +11,7 @@ import {
   Tooltip,
   Card,
   CardContent,
+  Divider,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -23,6 +24,7 @@ import {
 import { years } from "@/utils/languages";
 import { useSearchParams } from "react-router-dom";
 import { useGetDraftsSongQuery } from "@/redux/slices/myUploads/myUploadsApi";
+import { useCustomStyles } from "./Styles";
 
 const formats: string[] = ["Single", "Album", "EP"];
 
@@ -78,8 +80,7 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
   const { data: artistData } = useGetArtistsQuery({});
   const [searchParams] = useSearchParams();
   const draftId = searchParams.get("id");
-
-  const { data: draftData } = useGetDraftsSongQuery(draftId);
+  const classes = useCustomStyles();
 
   const artistOptions =
     //@ts-ignore
@@ -210,6 +211,7 @@ eg.: Appetite for Destruction, Thriller, etc..."
                   </span>
                 </Tooltip>
                 <TextField
+                  className={classes.input}
                   required
                   fullWidth
                   label="Release Title"
@@ -239,6 +241,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                 </Tooltip>
                 <TextField
                   // required
+                  className={classes.input}
                   fullWidth
                   label="Version/Subtitle"
                   variant="outlined"
@@ -277,6 +280,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       }
                       renderInput={(params) => (
                         <TextField
+                          className={classes.input}
                           {...params}
                           required
                           label="Primary Artist"
@@ -333,6 +337,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       }
                       renderInput={(params) => (
                         <TextField
+                          className={classes.input}
                           {...params}
                           label="Featuring"
                           variant="outlined"
@@ -359,18 +364,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   </Grid>
                 </Grid>
               ))}
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="variousArtists"
-                      checked={formData.variousArtists}
-                      onChange={handleChange}
-                    />
-                  }
-                  label="Various Artists / Compilation"
-                />
-              </Grid>
+
               <Grid item xs={12} md={6}>
                 <Tooltip title="Select As Your Wish">
                   <span className="text-red-600 font-bold pr-2 cursor-pointer">
@@ -383,6 +377,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   onChange={handleGenreChange}
                   renderInput={(params) => (
                     <TextField
+                      className={classes.input}
                       required
                       {...params}
                       label="Genre"
@@ -405,6 +400,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   onChange={handleSubgenreChange}
                   renderInput={(params) => (
                     <TextField
+                      className={classes.input}
                       required
                       {...params}
                       label="Subgenre"
@@ -431,6 +427,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   onChange={(event, newValue) => handleLabelChange(newValue)}
                   renderInput={(params) => (
                     <TextField
+                      className={classes.input}
                       required
                       {...params}
                       label="Label"
@@ -458,6 +455,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   }
                   renderInput={(params) => (
                     <TextField
+                      className={classes.input}
                       required
                       {...params}
                       label="Format"
@@ -475,6 +473,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                 </Tooltip>
                 <TextField
                   required
+                  className={classes.input}
                   fullWidth
                   type="date"
                   label="Release Date"
@@ -492,6 +491,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   </span>
                 </Tooltip>
                 <TextField
+                  className={classes.input}
                   required
                   fullWidth
                   label="P Line"
@@ -508,6 +508,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   </span>
                 </Tooltip>
                 <TextField
+                  className={classes.input}
                   required
                   fullWidth
                   label="C Line"
@@ -534,6 +535,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   }
                   renderInput={(params) => (
                     <TextField
+                      className={classes.input}
                       required
                       {...params}
                       label="Production Year"
@@ -550,6 +552,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   </span>
                 </Tooltip>
                 <TextField
+                  className={classes.input}
                   fullWidth
                   label="UPC"
                   variant="outlined"
@@ -565,6 +568,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   </span>
                 </Tooltip>
                 <TextField
+                  className={classes.input}
                   fullWidth
                   label="Catalog Number"
                   variant="outlined"

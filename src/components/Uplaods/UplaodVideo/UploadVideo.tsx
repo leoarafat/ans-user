@@ -826,7 +826,7 @@ import {
   useGetArtistsQuery,
   useGetApprovedLabelsQuery,
 } from "@/redux/slices/ArtistAndLabel/artistLabelApi";
-import { useUploadVideoMutation } from "@/redux/slices/uploadVideoAudio/uploadVideoAudioApi";
+
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { allLanguage } from "@/utils/languages";
@@ -950,14 +950,14 @@ const UploadVideo = () => {
   };
 
   const onSubmit = async (data: IFormInput) => {
-    // if (
-    //   !conditionsAccepted.condition1 ||
-    //   !conditionsAccepted.condition2 ||
-    //   !conditionsAccepted.condition3
-    // ) {
-    //   setOpenModal(true);
-    //   return;
-    // }
+    if (
+      !conditionsAccepted.condition1 ||
+      !conditionsAccepted.condition2 ||
+      !conditionsAccepted.condition3
+    ) {
+      setOpenModal(true);
+      return;
+    }
     setOpenModal(false);
 
     try {
@@ -1166,7 +1166,7 @@ const UploadVideo = () => {
     <Container>
       <Card>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(handleSubmitWithConditions)}>
             <Grid container spacing={3}>
               {/* <Grid item xs={6}>
                 <Stack spacing={2}>
@@ -1644,53 +1644,115 @@ const UploadVideo = () => {
       </Card>
 
       {/* Terms and Conditions Modal */}
-      <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Accept Terms and Conditions</DialogTitle>
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          <Typography variant="h6">Terms & Conditions</Typography>
+          <Typography variant="subtitle1">
+            Please confirm that you have understood and that you agree to the
+            following Terms & Conditions, and delivery guidelines.
+          </Typography>
+        </DialogTitle>
         <DialogContent>
           <FormControlLabel
             control={
               <Checkbox
                 checked={conditionsAccepted.condition1}
                 onChange={handleAcceptCondition("condition1")}
+                color="primary"
               />
             }
-            label="I agree to the first condition"
+            label={
+              <Typography variant="body1">
+                I understand and agree to the ISRC Terms & Conditions.
+                <Typography variant="body2">
+                  If you asked Be Musix to generate your ISRC codes, you hereby
+                  agree to{" "}
+                  <Link
+                    className="text-blue-600 underline"
+                    to="https://bemusix.com/"
+                    target="_blank"
+                  >
+                    Be Musix's conditions for generating ISRCs.
+                  </Link>
+                </Typography>
+              </Typography>
+            }
           />
           <FormControlLabel
             control={
               <Checkbox
                 checked={conditionsAccepted.condition2}
                 onChange={handleAcceptCondition("condition2")}
+                color="primary"
               />
             }
-            label="I agree to the second condition"
+            label={
+              <Typography variant="body1">
+                I understand and agree to the Youtube Content Guidelines.
+                <Typography variant="body2">
+                  Some content cannot be safely distributed and monetized on the
+                  platform. Please be sure you have read and follow the{" "}
+                  <Link
+                    className="text-blue-600 underline"
+                    to="https://bemusix.com/"
+                    target="_blank"
+                  >
+                    Youtube Content Guidelines.
+                  </Link>
+                </Typography>
+              </Typography>
+            }
           />
           <FormControlLabel
             control={
               <Checkbox
                 checked={conditionsAccepted.condition3}
                 onChange={handleAcceptCondition("condition3")}
+                color="primary"
               />
             }
-            label="I agree to the third condition"
+            label={
+              <Typography variant="body1">
+                I understand and agree to the Be Musix Content Delivery
+                Guidelines for Audio Stores.
+                <Typography variant="body2">
+                  Some content is not eligible to be distributed on Apple Music,
+                  Spotify, and Youtube Audio Fingerprint. Please be sure you
+                  have read and understand the{" "}
+                  <Link
+                    className="text-blue-600 underline"
+                    to="https://bemusix.com/"
+                    target="_blank"
+                  >
+                    Be Musix Content Delivery Guidelines for Audio Stores.
+                  </Link>
+                </Typography>
+              </Typography>
+            }
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseModal} color="primary">
+          <Button onClick={handleCloseModal} color="primary" variant="outlined">
             Cancel
           </Button>
           <Button
-            onClick={() => setOpenModal(false)}
+            onClick={handleSubmit(handleSubmitWithConditions)}
             color="primary"
+            variant="contained"
             disabled={
-              !(
-                conditionsAccepted.condition1 &&
-                conditionsAccepted.condition2 &&
-                conditionsAccepted.condition3
-              )
+              uploadProgress ||
+              !conditionsAccepted.condition1 ||
+              !conditionsAccepted.condition2 ||
+              !conditionsAccepted.condition3 ||
+              uploadProgress
             }
           >
-            Accept
+            {uploadProgress ? "Uploading..." : "Agree and Submit"}
           </Button>
         </DialogActions>
       </Dialog>
