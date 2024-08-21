@@ -240,7 +240,7 @@
 import { Avatar, Layout, Menu, Tooltip } from "antd";
 import { Bell, LogOut } from "lucide-react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/original-logo.jpg";
 import { isLoggedIn, removeUserInfo } from "@/redux/services/auth.service";
 import { authKey } from "@/constants/storageKey";
 import { useMyProfileQuery } from "@/redux/slices/admin/settingApi";
@@ -251,7 +251,6 @@ import useApproved from "@/utils/isApproved";
 import "./Dashboard.css";
 import { menuItems } from "./menuItems";
 import { useEffect, useState } from "react";
-import { HomeOutlined } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
@@ -326,7 +325,7 @@ const Dashboard = () => {
             src={logo}
             alt="Company Logo"
             style={{
-              width: collapsed ? "50px" : "120px",
+              width: collapsed ? "50px" : "170px",
               margin: "20px auto",
               display: "block",
               transition: "width 0.3s",
