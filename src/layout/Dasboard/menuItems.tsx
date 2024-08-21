@@ -12,11 +12,21 @@ import {
   SendHorizontal,
   MusicIcon,
   TriangleAlert,
+  LogOut,
 } from "lucide-react";
 import { RiPlayListAddFill } from "react-icons/ri";
 import { MdAttachMoney } from "react-icons/md";
 import PendingReleaseIcon from "@mui/icons-material/HourglassFull";
 import { ShieldAlert } from "lucide-react";
+import { removeUserInfo } from "@/redux/services/auth.service";
+
+import { authKey } from "@/constants/storageKey";
+
+const handleLogout = () => {
+  removeUserInfo(authKey);
+  localStorage.removeItem("releaseFormData");
+  localStorage.removeItem("tracksInformation");
+};
 export const menuItems = [
   {
     path: "/",
@@ -246,5 +256,10 @@ export const menuItems = [
     path: "/help",
     title: "Help",
     icon: <HelpCircleIcon size={18} />,
+  },
+  {
+    title: "Logout",
+    icon: <LogOut size={18} />,
+    onClick: handleLogout,
   },
 ];

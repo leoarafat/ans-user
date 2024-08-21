@@ -313,12 +313,18 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("rememberedEmail");
+    const storedPassword = localStorage.getItem("rememberedPassword");
     if (storedEmail) {
       setEmail(storedEmail);
+      setRememberMe(true);
+    }
+    if (storedPassword) {
+      setPassword(storedPassword);
       setRememberMe(true);
     }
   }, []);
@@ -350,8 +356,10 @@ const Login = () => {
     }
     if (rememberMe) {
       localStorage.setItem("rememberedEmail", email.value);
+      localStorage.setItem("rememberedPassword", password.value);
     } else {
       localStorage.removeItem("rememberedEmail");
+      localStorage.removeItem("rememberedPassword");
     }
   };
 
@@ -385,6 +393,8 @@ const Login = () => {
               id="password"
               label="Password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               type={showPassword ? "text" : "password"}
               autoComplete="current-password"
               className={classes.inputField}
