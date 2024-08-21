@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -15,7 +15,7 @@ import {
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import newImg from "../../assets/signup.jpg";
-import logoImg from "../../assets/ANS Music limited's logo.png";
+
 import { useRegisterMutation } from "@/redux/slices/admin/userApi";
 import toast from "react-hot-toast";
 import { makeStyles } from "@material-ui/core/styles";

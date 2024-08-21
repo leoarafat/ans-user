@@ -832,6 +832,7 @@ import toast from "react-hot-toast";
 import { allLanguage } from "@/utils/languages";
 import axios from "axios";
 import { imageURL } from "@/redux/api/baseApi";
+import { makeStyles } from "@material-ui/core/styles";
 
 interface IFormInput {
   video: File | null;
@@ -851,8 +852,37 @@ interface IFormInput {
   description: string;
   storeReleaseDate: string;
 }
-
+const useStyles = makeStyles((theme) => ({
+  form: {
+    marginTop: theme.spacing(4),
+  },
+  input: {
+    // marginBottom: theme.spacing(3),
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "30px",
+    },
+  },
+  button: {
+    padding: "12px 0",
+    borderRadius: "30px",
+    fontSize: "16px",
+    fontWeight: "bold",
+  },
+  terms: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: theme.spacing(2),
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
+}));
 const UploadVideo = () => {
+  const classes = useStyles();
   const { control, handleSubmit, watch, setValue } = useForm<IFormInput>({
     defaultValues: {
       video: null,
@@ -886,7 +916,6 @@ const UploadVideo = () => {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedSubgenre, setSelectedSubgenre] = useState<string>("");
   const navigate = useNavigate();
-  const [uploadVideo, { isLoading }] = useUploadVideoMutation();
 
   const { data: labelData } = useGetApprovedLabelsQuery({});
   const { data: artistData } = useGetArtistsQuery({});
@@ -1093,6 +1122,7 @@ const UploadVideo = () => {
                           fullWidth
                           label={label}
                           variant="outlined"
+                          className={classes.input}
                         />
                       )}
                     />
@@ -1137,12 +1167,8 @@ const UploadVideo = () => {
       <Card>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Typography variant="h6" gutterBottom>
-              Upload Video
-            </Typography>
-
             <Grid container spacing={3}>
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <Stack spacing={2}>
                   <Typography variant="subtitle1">Video File</Typography>
                   <Button
@@ -1215,6 +1241,140 @@ const UploadVideo = () => {
                     <Typography color="error">{thumbnailError}</Typography>
                   )}
                 </Stack>
+              </Grid> */}
+              <Grid item xs={6}>
+                <Card variant="outlined">
+                  <CardContent>
+                    <Stack spacing={2}>
+                      <Typography variant="subtitle1" fontWeight="bold">
+                        Video File
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          border: "1px dashed #ccc",
+                          borderRadius: 2,
+                          padding: 2,
+                          backgroundColor: "#f9f9f9",
+                          transition: "background-color 0.3s",
+                          "&:hover": {
+                            backgroundColor: "#f0f0f0",
+                          },
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          component="label"
+                          startIcon={<PhotoCamera />}
+                          sx={{
+                            backgroundColor: "#3f51b5",
+                            color: "#fff",
+                            "&:hover": {
+                              backgroundColor: "#303f9f",
+                            },
+                          }}
+                        >
+                          {videoFile ? "Change Video" : "Upload Video"}
+                          <input
+                            type="file"
+                            hidden
+                            accept="video/*"
+                            onChange={handleVideoUpload}
+                          />
+                        </Button>
+                        {videoFile && (
+                          <Box mt={2} width="100%">
+                            <video width="100%" controls>
+                              <source src={URL.createObjectURL(videoFile)} />
+                              Your browser does not support the video tag.
+                            </video>
+                            <IconButton
+                              color="error"
+                              onClick={handleVideoRemove}
+                              sx={{ marginTop: 2, alignSelf: "center" }}
+                            >
+                              <MdClose />
+                            </IconButton>
+                          </Box>
+                        )}
+                      </Box>
+                    </Stack>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={6}>
+                <Card variant="outlined">
+                  <CardContent>
+                    <Stack spacing={2}>
+                      <Typography variant="subtitle1" fontWeight="bold">
+                        Thumbnail Image
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          border: "1px dashed #ccc",
+                          borderRadius: 2,
+                          padding: 2,
+                          backgroundColor: "#f9f9f9",
+                          transition: "background-color 0.3s",
+                          "&:hover": {
+                            backgroundColor: "#f0f0f0",
+                          },
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          component="label"
+                          startIcon={<PhotoCamera />}
+                          sx={{
+                            backgroundColor: "#3f51b5",
+                            color: "#fff",
+                            "&:hover": {
+                              backgroundColor: "#303f9f",
+                            },
+                          }}
+                        >
+                          {thumbnail ? "Change Thumbnail" : "Upload Thumbnail"}
+                          <input
+                            type="file"
+                            hidden
+                            accept="image/jpeg"
+                            onChange={handleThumbnailUpload}
+                          />
+                        </Button>
+                        {thumbnail && (
+                          <Box mt={2} width="100%">
+                            <Avatar
+                              variant="rounded"
+                              src={URL.createObjectURL(thumbnail)}
+                              sx={{
+                                width: "100%",
+                                height: 200,
+                              }}
+                            />
+                            <IconButton
+                              color="error"
+                              onClick={handleThumbnailRemoveImage}
+                              sx={{ marginTop: 2, alignSelf: "center" }}
+                            >
+                              <MdClose />
+                            </IconButton>
+                          </Box>
+                        )}
+                        {thumbnailError && (
+                          <Typography color="error" textAlign="center">
+                            {thumbnailError}
+                          </Typography>
+                        )}
+                      </Box>
+                    </Stack>
+                  </CardContent>
+                </Card>
               </Grid>
               <Grid item xs={6}>
                 <FormControl fullWidth>
@@ -1224,6 +1384,7 @@ const UploadVideo = () => {
                     control={control}
                     render={({ field }) => (
                       <Select
+                        style={{ borderRadius: "30px" }}
                         {...field}
                         labelId="videoType-label"
                         label="Video Type"
@@ -1249,6 +1410,7 @@ const UploadVideo = () => {
                       variant="outlined"
                       fullWidth
                       required
+                      className={classes.input}
                     />
                   )}
                 />
@@ -1276,6 +1438,7 @@ const UploadVideo = () => {
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          className={classes.input}
                           fullWidth
                           label="Label"
                           variant="outlined"
@@ -1322,6 +1485,7 @@ const UploadVideo = () => {
                     options={genres.map((genre) => genre.name)}
                     renderInput={(params) => (
                       <TextField
+                        className={classes.input}
                         {...params}
                         label="Genre"
                         variant="outlined"
@@ -1340,6 +1504,7 @@ const UploadVideo = () => {
                     options={getSubgenres()}
                     renderInput={(params) => (
                       <TextField
+                        className={classes.input}
                         {...params}
                         label="Subgenre"
                         variant="outlined"
@@ -1350,28 +1515,13 @@ const UploadVideo = () => {
                 </FormControl>
               </Grid>
 
-              {/* <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <Autocomplete
-                    options={allLanguage?.map((lang) => lang)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Language"
-                        name="language"
-                        variant="outlined"
-                        fullWidth
-                      />
-                    )}
-                  />
-                </FormControl>
-              </Grid> */}
               <Grid item xs={12}>
                 <Controller
                   name="language"
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      className={classes.input}
                       {...field}
                       fullWidth
                       select
@@ -1398,6 +1548,7 @@ const UploadVideo = () => {
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      className={classes.input}
                       {...field}
                       label="ISRC Code"
                       variant="outlined"
@@ -1414,6 +1565,7 @@ const UploadVideo = () => {
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      className={classes.input}
                       {...field}
                       label="UPC Code"
                       variant="outlined"
@@ -1430,6 +1582,7 @@ const UploadVideo = () => {
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      className={classes.input}
                       {...field}
                       label="Description"
                       variant="outlined"
@@ -1447,6 +1600,7 @@ const UploadVideo = () => {
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      className={classes.input}
                       {...field}
                       label="Store Release Date"
                       variant="outlined"
@@ -1479,9 +1633,9 @@ const UploadVideo = () => {
                   variant="contained"
                   color="primary"
                   fullWidth
-                  disabled={isLoading}
+                  disabled={uploadProgress}
                 >
-                  {isLoading ? "Uploading..." : "Upload Video"}
+                  {uploadProgress ? "Uploading..." : "Upload Video"}
                 </Button>
               </Grid>
             </Grid>
