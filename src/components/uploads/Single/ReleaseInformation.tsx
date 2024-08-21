@@ -9,6 +9,8 @@ import {
   FormControlLabel,
   IconButton,
   Tooltip,
+  Card,
+  CardContent,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -193,373 +195,387 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
   };
 
   return (
-    <Container maxWidth="md">
-      <Box sx={{ my: 4 }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Tooltip
-              title="Please enter a title for this release:
+    <Container maxWidth="lg" sx={{ mt: 1 }}>
+      <Box>
+        <Card sx={{ p: 3, mb: 3, boxShadow: 3 }}>
+          <CardContent>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <Tooltip
+                  title="Please enter a title for this release:
 eg.: Appetite for Destruction, Thriller, etc..."
-            >
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <TextField
-              required
-              fullWidth
-              label="Release Title"
-              variant="outlined"
-              placeholder=" Please enter a title for this release: eg.: Appetite for Destruction, Thriller, etc..."
-              name="releaseTitle"
-              value={formData.releaseTitle}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip
-              title="Please use version field to enter further information for the release.
-eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
-            >
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <TextField
-              // required
-              fullWidth
-              label="Version/Subtitle"
-              variant="outlined"
-              placeholder="Use this field to add further details to your release title"
-              name="version"
-              value={formData.version}
-              onChange={handleChange}
-            />
-          </Grid>
-          {formData?.primaryArtists?.map((artist, index) => (
-            <Grid
-              item
-              xs={12}
-              md={6}
-              key={index}
-              container
-              alignItems="center"
-              spacing={1}
-            >
-              <Grid item xs={12}>
-                <Tooltip title="Select As Your Wish">
-                  <span className="text-red-600 font-bold  cursor-pointer">
+                >
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
                     ?
                   </span>
                 </Tooltip>
-                <Autocomplete
-                  options={artistOptions}
-                  getOptionLabel={(option) => option.label}
-                  value={
-                    artistOptions.find((option) => option.value === artist) ||
-                    null
-                  }
-                  onChange={(event, newValue) =>
-                    handlePrimaryArtistChange(index, newValue)
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      required
-                      label="Primary Artist"
-                      variant="outlined"
-                    />
-                  )}
-                  isOptionEqualToValue={(option, value) =>
-                    option.value === value
-                  }
-                  freeSolo
-                />
-              </Grid>
-              <Grid item className="flex justify-between">
-                <IconButton
-                  onClick={() => removePrimaryArtist(index)}
-                  disabled={formData?.primaryArtists?.length === 1}
-                >
-                  <RemoveCircleOutlineIcon />
-                </IconButton>
-                {index === formData?.primaryArtists?.length - 1 && (
-                  <IconButton onClick={addPrimaryArtist}>
-                    <AddCircleOutlineIcon />
-                  </IconButton>
-                )}
-              </Grid>
-            </Grid>
-          ))}
-          {formData?.featuringArtists?.map((artist, index) => (
-            <Grid
-              item
-              xs={12}
-              md={6}
-              key={index}
-              container
-              alignItems="center"
-              spacing={1}
-            >
-              <Grid item xs={12}>
-                <Tooltip title="Select As Your Wish">
-                  <span className="text-red-600 font-bold cursor-pointer">
-                    ?
-                  </span>
-                </Tooltip>
-                <Autocomplete
-                  options={artistOptions}
-                  getOptionLabel={(option) => option.label}
-                  value={
-                    artistOptions.find(
-                      (option: any) => option.value === artist
-                    ) || null
-                  }
-                  onChange={(event, newValue) =>
-                    handleFeaturingArtistChange(index, newValue)
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Featuring"
-                      variant="outlined"
-                    />
-                  )}
-                  isOptionEqualToValue={(option, value) =>
-                    option.value === value
-                  }
-                  freeSolo
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <IconButton
-                  onClick={() => removeFeaturingArtist(index)}
-                  disabled={formData.featuringArtists.length === 1}
-                >
-                  <RemoveCircleOutlineIcon />
-                </IconButton>
-                {index === formData.featuringArtists.length - 1 && (
-                  <IconButton onClick={addFeaturingArtist}>
-                    <AddCircleOutlineIcon />
-                  </IconButton>
-                )}
-              </Grid>
-            </Grid>
-          ))}
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="variousArtists"
-                  checked={formData.variousArtists}
-                  onChange={handleChange}
-                />
-              }
-              label="Various Artists / Compilation"
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="Select As Your Wish">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <Autocomplete
-              options={genres?.map((genre: any) => genre.name) || []}
-              value={formData.genre}
-              onChange={handleGenreChange}
-              renderInput={(params) => (
                 <TextField
-                  required
-                  {...params}
-                  label="Genre"
-                  variant="outlined"
-                  name="genre"
-                />
-              )}
-              freeSolo
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="Select As Your Wish">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <Autocomplete
-              options={getSubgenres()}
-              value={formData.subgenre}
-              onChange={handleSubgenreChange}
-              renderInput={(params) => (
-                <TextField
-                  required
-                  {...params}
-                  label="Subgenre"
-                  variant="outlined"
-                  name="subgenre"
-                />
-              )}
-              freeSolo
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="Select As Your Wish">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <Autocomplete
-              options={labelOptions}
-              getOptionLabel={(option) => option.label}
-              value={
-                labelOptions.find((opt) => opt.value === formData.label) || null
-              }
-              onChange={(event, newValue) => handleLabelChange(newValue)}
-              renderInput={(params) => (
-                <TextField
-                  required
-                  {...params}
-                  label="Label"
-                  variant="outlined"
                   required
                   fullWidth
+                  label="Release Title"
+                  variant="outlined"
+                  placeholder=" Please enter a title for this release: eg.: Appetite for Destruction, Thriller, etc..."
+                  name="releaseTitle"
+                  value={formData.releaseTitle}
+                  onChange={handleChange}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: 2,
+                      backgroundColor: "#f5f5f5",
+                    },
+                    "& .MuiInputLabel-root": { color: "#333" },
+                    "& .MuiInputBase-input": { color: "#333" },
+                  }}
                 />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="Single: 1-2 Tracks, EP: 3-6 Tracks, Album: Ab 7 Tracks">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <Autocomplete
-              options={formats}
-              value={formData.format}
-              onChange={(event, newValue) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  format: newValue || "",
-                }))
-              }
-              renderInput={(params) => (
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip
+                  title="Please use version field to enter further information for the release.
+eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
+                >
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <TextField
+                  // required
+                  fullWidth
+                  label="Version/Subtitle"
+                  variant="outlined"
+                  placeholder="Use this field to add further details to your release title"
+                  name="version"
+                  value={formData.version}
+                  onChange={handleChange}
+                />
+              </Grid>
+              {formData?.primaryArtists?.map((artist, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  key={index}
+                  container
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Grid item xs={12}>
+                    <Tooltip title="Select As Your Wish">
+                      <span className="text-red-600 font-bold  cursor-pointer">
+                        ?
+                      </span>
+                    </Tooltip>
+                    <Autocomplete
+                      options={artistOptions}
+                      getOptionLabel={(option) => option.label}
+                      value={
+                        artistOptions.find(
+                          (option) => option.value === artist
+                        ) || null
+                      }
+                      onChange={(event, newValue) =>
+                        handlePrimaryArtistChange(index, newValue)
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          required
+                          label="Primary Artist"
+                          variant="outlined"
+                        />
+                      )}
+                      isOptionEqualToValue={(option, value) =>
+                        option.value === value
+                      }
+                      freeSolo
+                    />
+                  </Grid>
+                  <Grid item className="flex justify-between">
+                    <IconButton
+                      onClick={() => removePrimaryArtist(index)}
+                      disabled={formData?.primaryArtists?.length === 1}
+                    >
+                      <RemoveCircleOutlineIcon />
+                    </IconButton>
+                    {index === formData?.primaryArtists?.length - 1 && (
+                      <IconButton onClick={addPrimaryArtist}>
+                        <AddCircleOutlineIcon />
+                      </IconButton>
+                    )}
+                  </Grid>
+                </Grid>
+              ))}
+              {formData?.featuringArtists?.map((artist, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  key={index}
+                  container
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Grid item xs={12}>
+                    <Tooltip title="Select As Your Wish">
+                      <span className="text-red-600 font-bold cursor-pointer">
+                        ?
+                      </span>
+                    </Tooltip>
+                    <Autocomplete
+                      options={artistOptions}
+                      getOptionLabel={(option) => option.label}
+                      value={
+                        artistOptions.find(
+                          (option: any) => option.value === artist
+                        ) || null
+                      }
+                      onChange={(event, newValue) =>
+                        handleFeaturingArtistChange(index, newValue)
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Featuring"
+                          variant="outlined"
+                        />
+                      )}
+                      isOptionEqualToValue={(option, value) =>
+                        option.value === value
+                      }
+                      freeSolo
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <IconButton
+                      onClick={() => removeFeaturingArtist(index)}
+                      disabled={formData.featuringArtists.length === 1}
+                    >
+                      <RemoveCircleOutlineIcon />
+                    </IconButton>
+                    {index === formData.featuringArtists.length - 1 && (
+                      <IconButton onClick={addFeaturingArtist}>
+                        <AddCircleOutlineIcon />
+                      </IconButton>
+                    )}
+                  </Grid>
+                </Grid>
+              ))}
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="variousArtists"
+                      checked={formData.variousArtists}
+                      onChange={handleChange}
+                    />
+                  }
+                  label="Various Artists / Compilation"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="Select As Your Wish">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <Autocomplete
+                  options={genres?.map((genre: any) => genre.name) || []}
+                  value={formData.genre}
+                  onChange={handleGenreChange}
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      label="Genre"
+                      variant="outlined"
+                      name="genre"
+                    />
+                  )}
+                  freeSolo
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="Select As Your Wish">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <Autocomplete
+                  options={getSubgenres()}
+                  value={formData.subgenre}
+                  onChange={handleSubgenreChange}
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      label="Subgenre"
+                      variant="outlined"
+                      name="subgenre"
+                    />
+                  )}
+                  freeSolo
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="Select As Your Wish">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <Autocomplete
+                  options={labelOptions}
+                  getOptionLabel={(option) => option.label}
+                  value={
+                    labelOptions.find((opt) => opt.value === formData.label) ||
+                    null
+                  }
+                  onChange={(event, newValue) => handleLabelChange(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      label="Label"
+                      variant="outlined"
+                      required
+                      fullWidth
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="Single: 1-2 Tracks, EP: 3-6 Tracks, Album: Ab 7 Tracks">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <Autocomplete
+                  options={formats}
+                  value={formData.format}
+                  onChange={(event, newValue) =>
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      format: newValue || "",
+                    }))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      label="Format"
+                      variant="outlined"
+                    />
+                  )}
+                  freeSolo
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="Indicate the original release date. If may be the release date of the physical version for instance. If there is none, use the same day as your digital release date.">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
                 <TextField
                   required
-                  {...params}
-                  label="Format"
+                  fullWidth
+                  type="date"
+                  label="Release Date"
                   variant="outlined"
+                  name="releaseDate"
+                  value={formData.releaseDate}
+                  onChange={handleChange}
+                  InputLabelProps={{ shrink: true }}
                 />
-              )}
-              freeSolo
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="Indicate the original release date. If may be the release date of the physical version for instance. If there is none, use the same day as your digital release date.">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <TextField
-              required
-              fullWidth
-              type="date"
-              label="Release Date"
-              variant="outlined"
-              name="releaseDate"
-              value={formData.releaseDate}
-              onChange={handleChange}
-              InputLabelProps={{ shrink: true }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="The producer of the release (℗) is the rightowner that financed the recording of the track.">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <TextField
-              required
-              fullWidth
-              label="P Line"
-              variant="outlined"
-              name="pLine"
-              value={formData.pLine}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="The cover producer (©) is the rightowner that financed the production of the artwork/packaging.">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <TextField
-              required
-              fullWidth
-              label="C Line"
-              variant="outlined"
-              name="cLine"
-              value={formData.cLine}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="The year in which the release has been produced and recorded. If more than one, please indicate the final year of production.">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <Autocomplete
-              options={years}
-              value={formData.productionYear}
-              onChange={(event, newValue) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  productionYear: newValue || "",
-                }))
-              }
-              renderInput={(params) => (
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="The producer of the release (℗) is the rightowner that financed the recording of the track.">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
                 <TextField
                   required
-                  {...params}
-                  label="Production Year"
+                  fullWidth
+                  label="P Line"
                   variant="outlined"
+                  name="pLine"
+                  value={formData.pLine}
+                  onChange={handleChange}
                 />
-              )}
-              freeSolo
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="Select As Your Wish">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <TextField
-              fullWidth
-              label="UPC"
-              variant="outlined"
-              name="upc"
-              value={formData.upc}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Tooltip title="Select As Your Wish">
-              <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                ?
-              </span>
-            </Tooltip>
-            <TextField
-              fullWidth
-              label="Catalog Number"
-              variant="outlined"
-              name="catalogNumber"
-              value={formData.catalogNumber}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="The cover producer (©) is the rightowner that financed the production of the artwork/packaging.">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <TextField
+                  required
+                  fullWidth
+                  label="C Line"
+                  variant="outlined"
+                  name="cLine"
+                  value={formData.cLine}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="The year in which the release has been produced and recorded. If more than one, please indicate the final year of production.">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <Autocomplete
+                  options={years}
+                  value={formData.productionYear}
+                  onChange={(event, newValue) =>
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      productionYear: newValue || "",
+                    }))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      label="Production Year"
+                      variant="outlined"
+                    />
+                  )}
+                  freeSolo
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="Select As Your Wish">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <TextField
+                  fullWidth
+                  label="UPC"
+                  variant="outlined"
+                  name="upc"
+                  value={formData.upc}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Tooltip title="Select As Your Wish">
+                  <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                    ?
+                  </span>
+                </Tooltip>
+                <TextField
+                  fullWidth
+                  label="Catalog Number"
+                  variant="outlined"
+                  name="catalogNumber"
+                  value={formData.catalogNumber}
+                  onChange={handleChange}
+                />
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
       </Box>
     </Container>
   );

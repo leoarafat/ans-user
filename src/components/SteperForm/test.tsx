@@ -23,13 +23,7 @@ import {
   useUploadSingleAudioMutation,
 } from "@/redux/slices/uploadVideoAudio/uploadVideoAudioApi";
 import toast from "react-hot-toast";
-import {
-  Box,
-  Checkbox,
-  Container,
-  FormControlLabel,
-  LinearProgress,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, LinearProgress } from "@mui/material";
 import axios from "axios";
 import { imageURL } from "@/redux/api/baseApi";
 
@@ -94,7 +88,7 @@ const steps = [
   { title: "Review Details", component: SingleReviewPage },
 ];
 
-const UploaderStepperForm = () => {
+const Test = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     audio: { audioFile: new File([], ""), coverImage: new File([], "") },
@@ -379,15 +373,10 @@ const UploaderStepperForm = () => {
   const StepComponent = steps[activeStep].component;
 
   return (
-    <Container maxWidth="md">
-      <Box textAlign="center" mb={4}>
-        <Typography variant="h4" gutterBottom>
-          Distribute Your Music with ANS Music
-        </Typography>
-        <Typography variant="body1" color="textSecondary">
-          Follow the steps below to complete your upload.
-        </Typography>
-      </Box>
+    <Grid container direction="column">
+      <Typography variant="h4" align="center" gutterBottom>
+        Let's Distribute Your Music With ANS Music
+      </Typography>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((step) => (
           <Step key={step.title}>
@@ -395,52 +384,53 @@ const UploaderStepperForm = () => {
           </Step>
         ))}
       </Stepper>
-      <Box mt={4}>
-        <StepComponent data={formData} onChange={handleDataChange} />
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mt={4}
-      >
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleBack}
-          disabled={activeStep === 0}
-          style={{ flexGrow: 1, marginRight: 10 }}
-        >
+      <div style={{ flexGrow: 1, marginBottom: 20 }}>
+        {
+          //@ts-ignore
+          <StepComponent data={formData} onChange={handleDataChange} />
+        }
+      </div>
+      <div style={{ textAlign: "right" }}>
+        <Button disabled={activeStep === 0} onClick={handleBack}>
           Back
         </Button>
-        {activeStep < steps.length - 1 ? (
+        {activeStep < steps.length - 1 && (
           <Button
             variant="contained"
             color="primary"
             onClick={handleNext}
-            style={{ flexGrow: 1, marginLeft: 10 }}
+            style={{ marginLeft: 10 }}
           >
             Next
           </Button>
-        ) : (
+        )}
+        {activeStep === steps.length - 1 && (
           <>
             <LinearProgress
               className="py-2 my-2"
               variant="determinate"
               value={uploadProgress}
-              style={{ width: "100%", marginTop: 10 }}
-            />
+            />{" "}
             <Button
               variant="contained"
               color="primary"
               onClick={handleOpenModal}
-              style={{ flexGrow: 1, marginLeft: 10 }}
+              style={{ marginLeft: 10 }}
             >
-              Upload
+              Let's Upload
+            </Button>
+            <Button
+              onClick={handleDrafts}
+              variant="contained"
+              color="primary"
+              style={{ marginLeft: 10 }}
+              disabled={draftsLoading}
+            >
+              Save Drafts
             </Button>
           </>
         )}
-      </Box>
+      </div>
       <Dialog
         open={openModal}
         onClose={handleCloseModal}
@@ -552,8 +542,8 @@ const UploaderStepperForm = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </Grid>
   );
 };
 
-export default UploaderStepperForm;
+export default Test;
