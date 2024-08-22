@@ -220,7 +220,7 @@ export const menuItems = [
   },
   {
     path: "/manage-account",
-    title: "Payout Details",
+    title: "Account Details",
     icon: <MdPayments size={18} color="#fff" />,
     subMenu: [
       {
@@ -230,7 +230,7 @@ export const menuItems = [
       },
       {
         path: "/my-account",
-        title: "Payout Info",
+        title: "Account Info",
         icon: <MdPayments size={18} />,
       },
     ],

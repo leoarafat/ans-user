@@ -120,7 +120,7 @@ const LastSixApproved = () => {
             mb={2}
             sx={{ textAlign: "center", fontWeight: "bold", color: "#00796b" }}
           >
-            Last 6 Approved Tracks
+            Latest Songs
           </Typography>
           <TableContainer component={Paper}>
             <Table>
