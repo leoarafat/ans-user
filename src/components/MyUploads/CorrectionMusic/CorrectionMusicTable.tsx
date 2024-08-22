@@ -71,7 +71,16 @@ const CorrectionSongsTable = ({ searchQuery }: any) => {
               {filteredRows
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any, index: any) => (
-                  <TableRow key={index}>
+                  <TableRow
+                    key={index}
+                    sx={{
+                      transition: "background-color 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: "#ECDFCC",
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
                     <TableCell>
                       <img
                         className="w-[70px] h-[40px] rounded-md "

@@ -140,7 +140,15 @@ const SuccessSongsTable = ({ searchQuery }: any) => {
                   <React.Fragment key={index}>
                     {row.songType === "album" ? (
                       <>
-                        <TableRow>
+                        <TableRow
+                          sx={{
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                              backgroundColor: "#ECDFCC",
+                              cursor: "pointer",
+                            },
+                          }}
+                        >
                           <TableCell>
                             <img
                               className="w-[70px] h-[40px] rounded-md "
@@ -181,7 +189,15 @@ const SuccessSongsTable = ({ searchQuery }: any) => {
                         </TableRow>
                       </>
                     ) : (
-                      <TableRow>
+                      <TableRow
+                        sx={{
+                          transition: "background-color 0.3s ease",
+                          "&:hover": {
+                            backgroundColor: "#ECDFCC",
+                            cursor: "pointer",
+                          },
+                        }}
+                      >
                         <TableCell>
                           <img
                             className="w-[70px] h-[40px] rounded-md "

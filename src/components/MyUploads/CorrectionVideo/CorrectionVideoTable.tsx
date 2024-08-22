@@ -15,7 +15,7 @@ import { imageURL } from "@/redux/api/baseApi";
 import Loader from "@/utils/Loader";
 import { ShieldAlert } from "lucide-react";
 import CorrectionMessageModal from "./CorrectionMessageModa";
-import CorrectionVideoMessageModal from "./CorrectionMessageModa";
+// import CorrectionVideoMessageModal from "./CorrectionMessageModa";
 const CorrectionVideosTable = ({ searchQuery }: any) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -72,7 +72,16 @@ const CorrectionVideosTable = ({ searchQuery }: any) => {
               {filteredRows
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any, index: any) => (
-                  <TableRow key={index}>
+                  <TableRow
+                    key={index}
+                    sx={{
+                      transition: "background-color 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: "#ECDFCC",
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
                     <TableCell>
                       <img
                         className="w-[70px] h-[40px] rounded-md "
@@ -113,7 +122,7 @@ const CorrectionVideosTable = ({ searchQuery }: any) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <CorrectionVideoMessageModal
+      <CorrectionMessageModal
         open={open}
         setOpen={setOpen}
         data={correctionMessage}

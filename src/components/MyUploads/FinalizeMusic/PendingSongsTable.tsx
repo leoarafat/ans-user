@@ -70,7 +70,15 @@ const PendingSongsTable = ({ searchQuery, statusFilter }: any) => {
                     {row.songType === "album" ? (
                       <>
                         {/* {console.log(row)} */}
-                        <TableRow>
+                        <TableRow
+                          sx={{
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                              backgroundColor: "#ECDFCC",
+                              cursor: "pointer",
+                            },
+                          }}
+                        >
                           <TableCell>
                             <img
                               className="w-[70px] h-[40px] rounded-md "
@@ -105,7 +113,15 @@ const PendingSongsTable = ({ searchQuery, statusFilter }: any) => {
                         </TableRow>
                       </>
                     ) : (
-                      <TableRow>
+                      <TableRow
+                        sx={{
+                          transition: "background-color 0.3s ease",
+                          "&:hover": {
+                            backgroundColor: "#ECDFCC",
+                            cursor: "pointer",
+                          },
+                        }}
+                      >
                         <TableCell>
                           <img
                             className="w-[70px] h-[40px] rounded-md "
