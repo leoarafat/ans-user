@@ -63,11 +63,11 @@ export const menuItems = [
         title: "Correction Request",
         icon: <ShieldAlert size={18} style={{ color: "white" }} />,
       },
-      {
-        path: "/drafts",
-        title: "Drafts",
-        icon: <CiCircleInfo size={18} color="white" />,
-      },
+      // {
+      //   path: "/drafts",
+      //   title: "Drafts",
+      //   icon: <CiCircleInfo size={18} color="white" />,
+      // },
       {
         path: "/videos",
         title: "Videos",
