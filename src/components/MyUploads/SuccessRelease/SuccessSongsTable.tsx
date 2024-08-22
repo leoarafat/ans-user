@@ -129,7 +129,7 @@ const SuccessSongsTable = ({ searchQuery }: any) => {
                 <TableCell>ISRC</TableCell>
                 <TableCell>Territories</TableCell>
                 <TableCell>Store</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>Details</TableCell>
               </TableRow>
             </TableHead>
 

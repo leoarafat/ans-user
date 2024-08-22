@@ -3,7 +3,6 @@ import {
   Modal,
   Box,
   Typography,
-  TextField,
   Grid,
   Paper,
   Card,
@@ -11,55 +10,13 @@ import {
   IconButton,
   CardContent,
   Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Button,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { styled } from "@mui/system";
 import { DownloadIcon } from "lucide-react";
 import { useState } from "react";
-
-const useStyles = makeStyles({
-  form: {
-    width: "100%",
-    maxWidth: "800px",
-    margin: "auto",
-    padding: "20px",
-  },
-  media: {
-    height: 200,
-    position: "relative",
-  },
-  downloadButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
-    "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 1)",
-    },
-  },
-  previewImage: {
-    width: "100%",
-    height: "auto",
-  },
-  audio: {
-    width: "100%",
-  },
-});
-
-const CustomTextField = styled(TextField)(({ theme }) => ({
-  "& .MuiInputBase-root": {
-    borderRadius: 8,
-    backgroundColor: "#f5f5f5",
-    marginBottom: theme.spacing(2),
-    "& input": {
-      paddingTop: theme.spacing(1.5),
-      paddingBottom: theme.spacing(1.5),
-    },
-  },
-  "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: "#d3d3d3",
-  },
-}));
 
 const modalStyle = {
   position: "absolute",
@@ -70,9 +27,11 @@ const modalStyle = {
   maxWidth: 1000,
   maxHeight: "90%",
   overflowY: "auto",
-  bgcolor: "background.paper",
+  bgcolor: "#f9f9f9",
+  color: "#333",
   boxShadow: 24,
   p: 4,
+  borderRadius: "12px",
 };
 
 const previewModalStyle = {
@@ -85,8 +44,34 @@ const previewModalStyle = {
   p: 4,
 };
 
+const sectionTitleStyle = {
+  color: "#007acc",
+  fontSize: "1.2rem",
+  fontWeight: 600,
+  marginBottom: "10px",
+  textTransform: "uppercase",
+};
+
+const contentTextStyle = {
+  color: "#555",
+  fontSize: "1rem",
+};
+
+const cardStyle = {
+  backgroundColor: "#ffffff",
+  borderRadius: "8px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  overflow: "hidden",
+};
+
+const imageCardStyle = {
+  height: 250,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  cursor: "pointer",
+};
+
 const MusicDetailsModal = ({ open, handleClose, data }: any) => {
-  const classes = useStyles();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
 
@@ -121,314 +106,119 @@ const MusicDetailsModal = ({ open, handleClose, data }: any) => {
         aria-describedby="modal-description"
       >
         <Box sx={modalStyle}>
-          <Paper elevation={3} sx={{ p: 4 }}>
-            <Typography variant="h5" component="h2" mb={2}>
-              All Details
-            </Typography>
-            <Card>
-              <CardMedia
-                className={classes.media}
-                image={`${imageURL}/${data?.image}`}
-                title="Track Image"
-                onClick={() => handleImageClick(data?.image)}
+          <Typography
+            variant="h4"
+            component="h2"
+            mb={3}
+            sx={{ color: "#333", fontWeight: 700 }}
+          >
+            Music Details
+          </Typography>
+
+          <Card sx={cardStyle}>
+            <CardMedia
+              sx={{
+                ...imageCardStyle,
+                backgroundImage: `url(${imageURL}/${data?.image})`,
+              }}
+              title="Track Image"
+              onClick={() => handleImageClick(data?.image)}
+            >
+              <IconButton
+                sx={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  backgroundColor: "rgba(255, 255, 255, 0.7)",
+                  "&:hover": { backgroundColor: "rgba(255, 255, 255, 1)" },
+                }}
+                onClick={() => handleDownload(data?.image)}
               >
-                <IconButton
-                  className={classes.downloadButton}
-                  onClick={() => handleDownload(data?.image)}
-                >
-                  <DownloadIcon />
-                </IconButton>
-              </CardMedia>
-              <CardContent>
-                <audio className={classes.audio} controls>
-                  <source src={`${imageURL}/${data?.audio}`} type="audio/mp3" />
-                  Your browser does not support the audio element.
-                </audio>
-              </CardContent>
-            </Card>
-            <Divider sx={{ mb: 2 }} />
-            <Grid container spacing={3}>
-              {/* Primary Artist */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Primary Artist
+                <DownloadIcon />
+              </IconButton>
+            </CardMedia>
+            <CardContent>
+              <audio style={{ width: "100%" }} controls>
+                <source src={`${imageURL}/${data?.audio}`} type="audio/mp3" />
+                Your browser does not support the audio element.
+              </audio>
+            </CardContent>
+          </Card>
+
+          <Divider sx={{ my: 3, backgroundColor: "#ddd" }} />
+
+          <Grid container spacing={4}>
+            {[
+              {
+                title: "Primary Artist",
+                content: data?.primaryArtist
+                  ?.map((artist: any) => artist.primaryArtistName)
+                  .join(", "),
+              },
+              { title: "Writer", content: data?.writer?.join(", ") },
+              { title: "Composer", content: data?.composer },
+              {
+                title: "Music Director",
+                content: data?.musicDirector?.join(", "),
+              },
+              { title: "Producer", content: data?.producer },
+              { title: "Label", content: data?.label?.labelName },
+              { title: "Subtitle", content: data?.subtitle },
+              { title: "P Line", content: data?.pLine },
+              { title: "C Line", content: data?.cLine },
+              { title: "Primary Track Type", content: data?.primaryTrackType },
+              { title: "Is Release", content: data?.isRelease ? "Yes" : "No" },
+              {
+                title: "Instrumental",
+                content: data?.instrumental ? "Yes" : "No",
+              },
+              {
+                title: "Secondary Track Type",
+                content: data?.secondaryTrackType,
+              },
+              { title: "Parental Advisory", content: data?.parentalAdvisory },
+              { title: "UPC EAN", content: data?.upc },
+              {
+                title: "Producer Catalog Number",
+                content: data?.catalogNumber,
+              },
+              { title: "Production Year", content: data?.productionYear },
+              { title: "Catalog Number", content: data?.catalogNumber },
+              { title: "Genre", content: data?.genre },
+              { title: "Sub Genre", content: data?.subGenre },
+              { title: "Track Language", content: data?.trackLanguage },
+              { title: "Lyrics Language", content: data?.lyricsLanguage },
+              { title: "Release Date", content: data?.releaseDate },
+              {
+                title: "Advance Purchase Date",
+                content: data?.advancePurchaseDate,
+              },
+              { title: "Lyrics", content: data?.lyrics },
+            ].map(({ title, content }, index) => (
+              <Grid item xs={12} sm={6} key={index}>
+                <Typography sx={sectionTitleStyle}>{title}</Typography>
+                <Typography sx={contentTextStyle}>
+                  {content || "N/A"}
                 </Typography>
-                {data?.primaryArtist?.map((artist: any, index: any) => (
-                  <CustomTextField
-                    key={index}
-                    value={artist?.primaryArtistName}
-                    disabled
-                    fullWidth
-                    variant="outlined"
-                  />
-                ))}
               </Grid>
-              {data?.writer?.length > 0 && (
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Writer
-                  </Typography>
-                  {data?.writer?.map((writer: any, index: any) => (
-                    <CustomTextField
-                      key={index}
-                      value={writer}
-                      disabled
-                      fullWidth
-                      variant="outlined"
-                    />
-                  ))}
-                </Grid>
-              )}
-              {/* Composer */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Composer
-                </Typography>
-                <CustomTextField
-                  value={data?.composer}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Music Director */}
-              {data?.musicDirector?.length > 0 && (
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Music Director
-                  </Typography>
-                  {data?.musicDirector?.map((director: any, index: any) => (
-                    <CustomTextField
-                      key={index}
-                      value={director}
-                      disabled
-                      fullWidth
-                      variant="outlined"
-                    />
-                  ))}
-                </Grid>
-              )}
-              {/* Producer */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Producer
-                </Typography>
-                <CustomTextField
-                  value={data?.producer}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Label */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Label
-                </Typography>
-                <CustomTextField
-                  value={data?.label?.labelName}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Subtitle */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Subtitle
-                </Typography>
-                <CustomTextField
-                  value={data?.subtitle}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* P Line */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  P Line
-                </Typography>
-                <CustomTextField
-                  value={data?.pLine}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* C Line */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  C Line
-                </Typography>
-                <CustomTextField
-                  value={data?.cLine}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Primary Track Type */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Primary Track Type
-                </Typography>
-                <CustomTextField
-                  value={data?.primaryTrackType}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Is Release */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Is Release
-                </Typography>
-                <CustomTextField
-                  value={data?.isRelease}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Instrumental */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Instrumental
-                </Typography>
-                <CustomTextField
-                  value={data?.instrumental}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Secondary Track Type */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Secondary Track Type
-                </Typography>
-                <CustomTextField
-                  value={data?.secondaryTrackType}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Parental Advisory */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Parental Advisory
-                </Typography>
-                <CustomTextField
-                  value={data?.parentalAdvisory}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* UPC EAN */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  UPC EAN
-                </Typography>
-                <CustomTextField
-                  value={data?.upc}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Producer Catalog Number */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Producer Catalog Number
-                </Typography>
-                <CustomTextField
-                  value={data?.catalogNumber}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Production Year */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Production Year
-                </Typography>
-                <CustomTextField
-                  value={data?.productionYear}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Catalog Number */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Catalog Number
-                </Typography>
-                <CustomTextField
-                  value={data?.catalogNumber}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Genre */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Genre
-                </Typography>
-                <CustomTextField
-                  value={data?.genre}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Sub Genre */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Sub Genre
-                </Typography>
-                <CustomTextField
-                  value={data?.subGenre}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Track Language */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Track Language
-                </Typography>
-                <CustomTextField
-                  value={data?.trackTitleLanguage}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              {/* Lyrics Language */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Lyrics Language
-                </Typography>
-                <CustomTextField
-                  value={data?.lyricsLanguage}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-            </Grid>
-          </Paper>
+            ))}
+          </Grid>
+          <Box sx={{ mt: 4, textAlign: "center" }}>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#007acc",
+                "&:hover": { backgroundColor: "#005fa3" },
+              }}
+              onClick={handleClose}
+            >
+              Close
+            </Button>
+          </Box>
         </Box>
       </Modal>
 
+      {/* Preview Image Modal */}
       <Modal
         open={previewOpen}
         onClose={handlePreviewClose}
@@ -438,8 +228,8 @@ const MusicDetailsModal = ({ open, handleClose, data }: any) => {
         <Box sx={previewModalStyle}>
           <img
             src={previewImage}
-            alt="Full-size preview"
-            className={classes.previewImage}
+            alt="Preview"
+            style={{ maxWidth: "100%", borderRadius: "8px" }}
           />
         </Box>
       </Modal>
