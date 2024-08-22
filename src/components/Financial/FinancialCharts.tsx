@@ -140,9 +140,10 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import {
-  ComposedChart,
+  BarChart,
+  Bar,
+  LineChart,
   Line,
-  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -152,10 +153,9 @@ import {
 } from "recharts";
 import dayjs from "dayjs";
 import Loader from "@/utils/Loader";
-import { imageURL } from "@/redux/api/baseApi";
 
 const mockData = Array.from({ length: 12 }, (_, index) => ({
-  date: `${dayjs().year()}-${index + 1 < 10 ? "0" + (index + 1) : index + 1}`,
+  month: `${dayjs().month(index).format("MMM")}`,
   amount: Math.random() * 1000,
 }));
 
@@ -166,11 +166,9 @@ const FinancialCharts = () => {
   const [loading, setLoading] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  // Mock data fetch function (to be replaced with actual API call later)
   const fetchFinancialData = async (year: any) => {
     setLoading(true);
     try {
-      // Simulate data fetch delay
       setTimeout(() => {
         setFinancialData(mockData);
         setLoading(false);
@@ -193,10 +191,11 @@ const FinancialCharts = () => {
     <Box>
       <Paper
         sx={{
-          padding: isMobile ? 1 : 3,
-          backgroundColor: "#f5f5f5",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-          borderRadius: "12px",
+          padding: isMobile ? 2 : 4,
+          backgroundColor: "#ffffff",
+          color: "#333333",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          borderRadius: "16px",
         }}
       >
         <Box
@@ -204,23 +203,24 @@ const FinancialCharts = () => {
           flexDirection={isMobile ? "column" : "row"}
           justifyContent="space-between"
           alignItems="center"
-          mb={2}
+          mb={isMobile ? 2 : 4}
         >
           <Typography
-            variant={isMobile ? "h6" : "h5"}
+            variant={isMobile ? "h6" : "h4"}
             gutterBottom
-            sx={{ fontWeight: "bold" }}
+            sx={{ fontWeight: "bold", color: "#333333" }}
           >
-            Financial Analytics for {selectedYear}
+            Financial Overview for {selectedYear}
           </Typography>
-          <FormControl>
+          <FormControl sx={{ minWidth: 120 }}>
             <Select
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
               sx={{
-                bgcolor: "#ffffff",
+                bgcolor: "#f0f0f0",
+                color: "#333333",
                 borderRadius: "8px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
               }}
             >
               {Array.from({ length: 10 }, (_, index) => (
@@ -231,42 +231,52 @@ const FinancialCharts = () => {
             </Select>
           </FormControl>
         </Box>
-        <ResponsiveContainer width="100%" height={isMobile ? 200 : 400}>
-          <ComposedChart
+        <ResponsiveContainer width="100%" height={isMobile ? 300 : 500}>
+          <BarChart
             data={financialData}
             margin={{
               top: 20,
-              right: 20,
-              bottom: 20,
+              right: 30,
               left: 20,
+              bottom: 5,
             }}
+            barGap={8}
           >
-            <CartesianGrid stroke="#e0e0e0" />
-            <XAxis dataKey="date" />
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Area
-              type="monotone"
-              dataKey="amount"
-              fill="url(#colorAmount)"
-              stroke="#8884d8"
-              strokeWidth={2}
-            />
-            <Line
-              type="monotone"
-              dataKey="amount"
-              stroke="#ff7300"
-              strokeWidth={2}
-            />
-            <defs>
-              <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0.2} />
-              </linearGradient>
-            </defs>
-          </ComposedChart>
+            <Legend verticalAlign="top" height={36} />
+            <Bar dataKey="amount" fill="#8884d8" />
+          </BarChart>
         </ResponsiveContainer>
+        <Box mt={4}>
+          <ResponsiveContainer width="100%" height={isMobile ? 250 : 400}>
+            <LineChart
+              data={financialData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Legend verticalAlign="top" height={36} />
+              <Line
+                type="monotone"
+                dataKey="amount"
+                stroke="#00C49F"
+                strokeWidth={3}
+                dot={{ r: 5 }}
+                activeDot={{ r: 8 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </Box>
       </Paper>
     </Box>
   );
