@@ -47,6 +47,8 @@ import { allLanguage } from "@/utils/languages";
 import axios from "axios";
 import { imageURL } from "@/redux/api/baseApi";
 import { makeStyles } from "@material-ui/core/styles";
+import AddLabelModal from "@/components/ArtisLabelManagement/Label/AddLabelModa";
+import AddArtistModal from "@/components/ArtisLabelManagement/Artist/AddArtistModal";
 
 interface IFormInput {
   video: File | null;
@@ -131,7 +133,8 @@ const UploadVideo = () => {
       storeReleaseDate: "",
     },
   });
-
+  const [open, setOpen] = useState(false);
+  const [openArtist, setOpenArtist] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [conditionsAccepted, setConditionsAccepted] = useState({
@@ -275,7 +278,12 @@ const UploadVideo = () => {
       toast.error("Video Upload Failed");
     }
   };
-
+  const showModal = () => {
+    setOpen(true);
+  };
+  const showArtistModal = () => {
+    setOpenArtist(true);
+  };
   const handleCloseModal = () => {
     setOpenModal(false);
   };
@@ -751,6 +759,8 @@ const UploadVideo = () => {
                     />
                   )}
                 />
+
+                <Button onClick={showModal}>Create Label</Button>
               </Grid>
 
               <Grid item xs={6}>
@@ -760,6 +770,7 @@ const UploadVideo = () => {
                   "primaryArtistName",
                   true
                 )}
+                <Button onClick={showArtistModal}>Create Artist</Button>
               </Grid>
 
               <Grid item xs={6}>
@@ -1072,6 +1083,8 @@ const UploadVideo = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      <AddLabelModal open={open} setOpen={setOpen} />
+      <AddArtistModal open={openArtist} setOpen={setOpenArtist} />
     </Container>
   );
 };
