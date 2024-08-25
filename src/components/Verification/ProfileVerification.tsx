@@ -141,7 +141,7 @@ const ProfileVerification = ({ data, onChange }: any) => {
             {/* NID Front Image Uploader */}
             <div className="flex flex-col items-center p-4 border-dotted border-4 border-gray-400 rounded-lg shadow-md transition-transform hover:scale-105 w-72">
               <h4 className="mb-2 text-lg font-semibold text-gray-700">
-                Upload NID Front
+                Upload ID Front
               </h4>
               {nidFront || profileData?.data?.nidFront ? (
                 <div className="relative w-full h-48">
@@ -190,7 +190,7 @@ const ProfileVerification = ({ data, onChange }: any) => {
             {/* NID Back Image Uploader */}
             <div className="flex flex-col items-center p-4 border-dotted border-4 border-gray-400 rounded-lg shadow-md transition-transform hover:scale-105 w-72">
               <h4 className="mb-2 text-lg font-semibold text-gray-700">
-                Upload NID Back
+                Upload ID Back
               </h4>
               {nidBack || profileData?.data?.nidBack ? (
                 <div className="relative w-full h-48">

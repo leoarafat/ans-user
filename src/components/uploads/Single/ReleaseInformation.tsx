@@ -23,7 +23,7 @@ import {
 } from "@/redux/slices/ArtistAndLabel/artistLabelApi";
 import { years } from "@/utils/languages";
 import { useSearchParams } from "react-router-dom";
-import { useGetDraftsSongQuery } from "@/redux/slices/myUploads/myUploadsApi";
+
 import { useCustomStyles } from "./Styles";
 
 const formats: string[] = ["Single", "Album", "EP"];
@@ -145,12 +145,6 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
       primaryArtists: [...prevData.primaryArtists, ""],
     }));
 
-  const addFeaturingArtist = () =>
-    setFormData((prevData) => ({
-      ...prevData,
-      featuringArtists: [...prevData.featuringArtists, ""],
-    }));
-
   const removePrimaryArtist = (index: number) => {
     const newPrimaryArtists = [...formData.primaryArtists];
     newPrimaryArtists.splice(index, 1);
@@ -159,7 +153,11 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
       primaryArtists: newPrimaryArtists,
     }));
   };
-
+  const addFeaturingArtist = () =>
+    setFormData((prevData) => ({
+      ...prevData,
+      featuringArtists: [...prevData.featuringArtists, ""],
+    }));
   const removeFeaturingArtist = (index: number) => {
     const newFeaturingArtists = [...formData.featuringArtists];
     newFeaturingArtists.splice(index, 1);
@@ -168,7 +166,14 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
       featuringArtists: newFeaturingArtists,
     }));
   };
-
+  const handleFeaturingArtistChange = (index: number, value: any) => {
+    const newFeaturingArtists = [...formData.featuringArtists];
+    newFeaturingArtists[index] = value ? value.value : "";
+    setFormData((prevData) => ({
+      ...prevData,
+      featuringArtists: newFeaturingArtists,
+    }));
+  };
   const handlePrimaryArtistChange = (index: number, value: any) => {
     const newPrimaryArtists = [...formData.primaryArtists];
     newPrimaryArtists[index] = value ? value.value : "";
@@ -178,14 +183,6 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
     }));
   };
 
-  const handleFeaturingArtistChange = (index: number, value: any) => {
-    const newFeaturingArtists = [...formData.featuringArtists];
-    newFeaturingArtists[index] = value ? value.value : "";
-    setFormData((prevData) => ({
-      ...prevData,
-      featuringArtists: newFeaturingArtists,
-    }));
-  };
   const handleLabelChange = (
     newValue: { label: string; value: string } | null
   ) => {

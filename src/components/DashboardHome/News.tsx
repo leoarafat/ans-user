@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import { useNewsQuery } from "@/redux/slices/newsAndFaq/newsAndFaqApi";
 import { formatDate } from "@/utils/formatedDate";
@@ -39,6 +40,14 @@ const mockNewsData = [
     source: "Health Authority",
     image: "https://via.placeholder.com/600x400",
   },
+  {
+    title: "Health Alert: New Guidelines Released",
+    createdAt: "2024-08-13T00:00:00Z",
+    description:
+      "New health guidelines have been released, providing updated information on health practices and recommendations.",
+    source: "Health Authority",
+    image: "https://via.placeholder.com/600x400",
+  },
 ];
 
 const News = () => {
@@ -58,7 +67,7 @@ const News = () => {
   return (
     <Grid container spacing={3}>
       {newsData.map((newsItem: any, index: number) => (
-        <Grid item xs={12} sm={6} md={4} key={index}>
+        <Grid item xs={12} sm={6} md={3} key={index}>
           <Card sx={{ maxWidth: 345, boxShadow: 3 }}>
             <CardMedia
               component="img"
