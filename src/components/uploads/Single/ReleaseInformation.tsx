@@ -5,13 +5,11 @@ import {
   Grid,
   TextField,
   Box,
-  Checkbox,
-  FormControlLabel,
   IconButton,
   Tooltip,
   Card,
   CardContent,
-  Divider,
+  Button,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -25,6 +23,9 @@ import { years } from "@/utils/languages";
 import { useSearchParams } from "react-router-dom";
 
 import { useCustomStyles } from "./Styles";
+import AddLabelModal from "@/components/ArtisLabelManagement/Label/AddLabelModa";
+import AddArtistModal from "@/components/ArtisLabelManagement/Artist/AddArtistModal";
+import { AddCircleOutline } from "@mui/icons-material";
 
 const formats: string[] = ["Single", "Album", "EP"];
 
@@ -79,9 +80,9 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
   const { data: labelData } = useGetApprovedLabelsQuery({});
   const { data: artistData } = useGetArtistsQuery({});
   const [searchParams] = useSearchParams();
-  const draftId = searchParams.get("id");
   const classes = useCustomStyles();
-
+  const [open, setOpen] = useState(false);
+  const [openArtist, setOpenArtist] = useState(false);
   const artistOptions =
     //@ts-ignore
     artistData?.data?.data?.map((artist: any) => ({
@@ -103,7 +104,12 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
   // useEffect(() => {
   //   setFormData(draftData?.data);
   // }, [draftData]);
-
+  const showModal = () => {
+    setOpen(true);
+  };
+  const showArtistModal = () => {
+    setOpenArtist(true);
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -248,6 +254,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   onChange={handleChange}
                 />
               </Grid>
+
               {formData?.primaryArtists?.map((artist, index) => (
                 <Grid
                   item
@@ -264,6 +271,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                         ?
                       </span>
                     </Tooltip>
+
                     <Autocomplete
                       options={artistOptions}
                       getOptionLabel={(option) => option.label}
@@ -302,6 +310,9 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                         <AddCircleOutlineIcon />
                       </IconButton>
                     )}
+                    <Button variant="outlined" onClick={showArtistModal}>
+                      Create Artist
+                    </Button>
                   </Grid>
                 </Grid>
               ))}
@@ -414,6 +425,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                     ?
                   </span>
                 </Tooltip>
+
                 <Autocomplete
                   options={labelOptions}
                   getOptionLabel={(option) => option.label}
@@ -434,13 +446,21 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                     />
                   )}
                 />
+                <div className="py-1" onClick={showModal}>
+                  <IconButton>
+                    <AddCircleOutline />
+                  </IconButton>
+                  <Button>Create Label</Button>
+                </div>
               </Grid>
+
               <Grid item xs={12} md={6}>
                 <Tooltip title="Single: 1-2 Tracks, EP: 3-6 Tracks, Album: Ab 7 Tracks">
                   <span className="text-red-600 font-bold pr-2 cursor-pointer">
                     ?
                   </span>
                 </Tooltip>
+
                 <Autocomplete
                   options={formats}
                   value={formData.format}
@@ -578,6 +598,8 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
           </CardContent>
         </Card>
       </Box>
+      <AddLabelModal open={open} setOpen={setOpen} />
+      <AddArtistModal open={openArtist} setOpen={setOpenArtist} />
     </Container>
   );
 };

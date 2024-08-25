@@ -7,9 +7,9 @@ import {
   CircularProgress,
   Button,
 } from "@mui/material";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import { useEffect } from "react";
 
 const containerStyle = {
   display: "flex",
@@ -80,6 +80,13 @@ const musicIconStyle = {
   animation: "musicBounce 2s infinite", // Custom music animation
 };
 
+const contactInfoStyle = {
+  marginTop: "16px",
+  fontSize: "1rem",
+  color: "#333",
+  lineHeight: "1.5",
+};
+
 const PendingApprovalMessage = () => {
   const navigate = useNavigate();
   const userVerifiedInfo = useApproved();
@@ -115,6 +122,13 @@ const PendingApprovalMessage = () => {
           </Button>
           <Typography variant="body2" sx={footerStyle}>
             Thank you for your patience and understanding.
+          </Typography>
+          <Typography variant="body1" sx={contactInfoStyle}>
+            If you have any questions or need assistance, please contact us at:
+            <br />
+            <strong>Email:</strong> support@ansmusiclimited.com
+            <br />
+            <strong>Phone:</strong> +880 1711387906
           </Typography>
         </Box>
       </Paper>
