@@ -216,7 +216,7 @@ const Dashboard = () => {
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <Link to="/settings/profile">
                       <Avatar
-                        src={`${imageURL}/${myProfile?.image}`}
+                        src={`${myProfile?.image}`}
                         style={{
                           width: "40px",
                           height: "40px",
