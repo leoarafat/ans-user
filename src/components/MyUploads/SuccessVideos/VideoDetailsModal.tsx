@@ -75,7 +75,7 @@ const VideoDetailsModal = ({ open, handleClose, data }: any) => {
             <CardMedia
               className={classes.media}
               component="img"
-              image={`${imageURL}/${data?.image}`}
+              image={`${data?.image}`}
               title="Track Image"
             />
           </Card>
@@ -152,7 +152,7 @@ const VideoDetailsModal = ({ open, handleClose, data }: any) => {
               </Typography>
               <div className={classes.videoContainer}>
                 <video className={classes.video} controls>
-                  <source src={`${imageURL}/${data?.video}`} type="video/mp4" />
+                  <source src={`${data?.video}`} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>

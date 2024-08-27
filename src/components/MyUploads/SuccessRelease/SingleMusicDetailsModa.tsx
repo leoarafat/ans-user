@@ -76,7 +76,7 @@ const MusicDetailsModal = ({ open, handleClose, data }: any) => {
   const [previewImage, setPreviewImage] = useState("");
 
   const handleDownload = async (image: any) => {
-    const response = await fetch(`${imageURL}/${image}`);
+    const response = await fetch(`${image}`);
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -89,7 +89,7 @@ const MusicDetailsModal = ({ open, handleClose, data }: any) => {
   };
 
   const handleImageClick = (image: any) => {
-    setPreviewImage(`${imageURL}/${image}`);
+    setPreviewImage(`${image}`);
     setPreviewOpen(true);
   };
 
@@ -119,7 +119,7 @@ const MusicDetailsModal = ({ open, handleClose, data }: any) => {
             <CardMedia
               sx={{
                 ...imageCardStyle,
-                backgroundImage: `url(${imageURL}/${data?.image})`,
+                backgroundImage: `url(${data?.image})`,
               }}
               title="Track Image"
               onClick={() => handleImageClick(data?.image)}
@@ -139,7 +139,7 @@ const MusicDetailsModal = ({ open, handleClose, data }: any) => {
             </CardMedia>
             <CardContent>
               <audio style={{ width: "100%" }} controls>
-                <source src={`${imageURL}/${data?.audio}`} type="audio/mp3" />
+                <source src={`${data?.audio}`} type="audio/mp3" />
                 Your browser does not support the audio element.
               </audio>
             </CardContent>

@@ -81,7 +81,7 @@ const StoreModal: React.FC<StoreModalProps> = ({
                     <TableCell>{store?.storeId?.title}</TableCell>
                     <TableCell>
                       <img
-                        src={`${imageURL}/${store?.storeId?.image}`}
+                        src={`${store?.storeId?.image}`}
                         alt={store?.storeId?.title}
                         style={{ width: 60, height: 60, borderRadius: "50%" }}
                       />
