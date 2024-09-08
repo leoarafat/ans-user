@@ -1,18 +1,20 @@
+import { useTotalSongQuery } from "@/redux/slices/home/homeApi";
 import { MusicIcon, VideoIcon } from "lucide-react";
 
 const TotalSong = () => {
-  //   const { data }: any = useGetEarnStatusQuery(undefined);
+  const { data }: any = useTotalSongQuery({});
+  console.log(data);
   const earnStatus = [
     {
       title: "Total Songs",
-      count: 20,
+      count: data?.data?.totalAudio,
       icon: <MusicIcon size={30} />,
       color: "#D2F6FF",
       bgColor: "#1E1E1E",
     },
     {
       title: "Total Videos",
-      count: 30,
+      count: data?.data?.totalVideo,
       icon: <VideoIcon size={30} />,
       color: "#D2F6FF",
       bgColor: "#1E1E1E",
