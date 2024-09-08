@@ -20,6 +20,8 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled, useTheme } from "@mui/material/styles";
 import toast from "react-hot-toast";
+import { useGetFaqQuery } from "@/redux/slices/newsAndFaq/newsAndFaqApi";
+import { useSendFeedbackMutation } from "@/redux/slices/admin/adminManageApi";
 
 // Custom Styled Components
 const GradientBackground = styled(Box)(({ theme }) => ({
@@ -61,7 +63,10 @@ const HelpPage = () => {
   const theme = useTheme();
   const [feedbackFormOpen, setFeedbackFormOpen] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
-  const [sendFeedback, { isLoading: feedBackLoading }] = useState(false);
+  const [sendFeedback, { isLoading: feedBackLoading }] =
+    useSendFeedbackMutation();
+
+  const { data: faqData } = useGetFaqQuery({});
 
   const handleOpenFeedbackForm = () => {
     setFeedbackFormOpen(true);
@@ -82,26 +87,20 @@ const HelpPage = () => {
 
   const handleSendFeedback = async () => {
     try {
-      setFeedbackMessage("");
-      handleCloseFeedbackForm();
-      toast.success("Message Sent Successfully");
+      const data = {
+        description: feedbackMessage,
+      };
+      const res = await sendFeedback(data);
+      if (res?.data?.success === true) {
+        toast.success("Message Sent Successfully");
+        handleCloseFeedbackForm();
+      } else {
+        handleCloseFeedbackForm();
+      }
     } catch (error: any) {
-      console.log(error?.message);
+      toast.error(error?.message);
     }
   };
-
-  const mockFaqs = [
-    {
-      question: "How do I sign up?",
-      answer: "To sign up, click on the 'Sign Up' button on the homepage...",
-    },
-    {
-      question: "How can I reset my password?",
-      answer:
-        "If you need to reset your password, click on 'Forgot Password'...",
-    },
-    // Add more mock FAQs here
-  ];
 
   return (
     <Container sx={{ mt: 8, mb: 4 }}>
@@ -125,7 +124,7 @@ const HelpPage = () => {
           </GradientBackground>
 
           <Box sx={{ mt: 6 }}>
-            {mockFaqs.map((faq, index) => (
+            {faqData?.map((faq: any, index: number) => (
               <CustomAccordion key={index}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}

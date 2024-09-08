@@ -60,7 +60,7 @@ const NewsCard = ({ newsItem }: NewsCardProps) => {
     >
       <CardMedia
         component="img"
-        height="140"
+        className="h-[300px]"
         image={newsItem.image || "https://via.placeholder.com/600x400"}
         alt={newsItem.title}
       />

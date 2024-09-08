@@ -9,12 +9,10 @@ import {
   CardContent,
   CircularProgress,
   Collapse,
-  IconButton,
   TextField,
   Grid,
-  Divider,
 } from "@mui/material";
-import { Edit, ExpandMore } from "@mui/icons-material";
+import { ExpandMore } from "@mui/icons-material";
 import { useMyProfileQuery } from "@/redux/slices/admin/settingApi";
 import { imageURL } from "@/redux/api/baseApi";
 import { useEditProfilePictureMutation } from "@/redux/slices/admin/userApi";
@@ -25,10 +23,10 @@ const Profile = () => {
   const [expanded, setExpanded] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [editMode, setEditMode] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
+
   const {
     data: profileData,
-    isLoading: profileLoading,
+
     refetch,
   } = useMyProfileQuery({});
   const [editProfilePicture, { isLoading, isSuccess, error }] =
@@ -44,7 +42,7 @@ const Profile = () => {
     }
   }, [error, isSuccess, refetch]);
 
-  if (profileLoading) {
+  if (isLoading) {
     return (
       <Box
         sx={{
@@ -89,7 +87,7 @@ const Profile = () => {
           width: "100%",
           height: 300,
           backgroundImage:
-            "url('https://res.cloudinary.com/arafatleo/image/upload/v1724142235/signup_aiqgj5.jpg')",
+            "url(https://res.cloudinary.com/arafatleo/image/upload/v1724142235/signup_aiqgj5.jpg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: 2,
