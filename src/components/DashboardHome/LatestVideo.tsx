@@ -15,7 +15,6 @@ import {
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Link } from "react-router-dom";
 import Loader from "@/utils/Loader";
-import { imageURL } from "@/redux/api/baseApi";
 
 // Mock data for videos
 const mockVideoData = [

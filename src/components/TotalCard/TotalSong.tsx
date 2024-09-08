@@ -3,7 +3,7 @@ import { MusicIcon, VideoIcon } from "lucide-react";
 
 const TotalSong = () => {
   const { data }: any = useTotalSongQuery({});
-  console.log(data);
+
   const earnStatus = [
     {
       title: "Total Songs",

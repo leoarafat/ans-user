@@ -17,61 +17,16 @@ import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import { Link } from "react-router-dom";
 import LatestVideo from "./LatestVideo";
 import Loader from "@/utils/Loader";
-import { imageURL } from "@/redux/api/baseApi";
-
-// Mock data
-const mockSongsData = {
-  latestSingleTrack: [
-    {
-      releaseDate: "2024-07-01",
-      image: "https://via.placeholder.com/90x60",
-      title: "Track One",
-      label: { labelName: "Label One" },
-    },
-    {
-      releaseDate: "2024-07-10",
-      image: "https://via.placeholder.com/90x60",
-      title: "Track Two",
-      label: { labelName: "Label Two" },
-    },
-    {
-      releaseDate: "2024-07-15",
-      image: "https://via.placeholder.com/90x60",
-      title: "Track Three",
-      label: { labelName: "Label Three" },
-    },
-    {
-      releaseDate: "2024-07-20",
-      image: "https://via.placeholder.com/90x60",
-      title: "Track Four",
-      label: { labelName: "Label Four" },
-    },
-    {
-      releaseDate: "2024-07-25",
-      image: "https://via.placeholder.com/90x60",
-      title: "Track Five",
-      label: { labelName: "Label Five" },
-    },
-    {
-      releaseDate: "2024-08-01",
-      image: "https://via.placeholder.com/90x60",
-      title: "Track Six",
-      label: { labelName: "Label Six" },
-    },
-  ],
-};
+import { useGetLatestSongsQuery } from "@/redux/slices/myUploads/myUploadsApi";
 
 const LastSixApproved = () => {
-  const { data: songsData, isLoading } = {
-    data: mockSongsData,
-    isLoading: false,
-  }; // Use mock data
+  const { data: songsData, isLoading } = useGetLatestSongsQuery({});
 
   if (isLoading) {
     return <Loader />;
   }
 
-  const audioData = songsData?.latestSingleTrack || [];
+  const audioData = songsData?.data?.latestSingleTrack || [];
 
   return (
     <Grid container spacing={3} sx={{ marginTop: 1 }}>
@@ -135,7 +90,7 @@ const LastSixApproved = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {audioData.map((track, index) => (
+                {audioData.map((track: any, index: number) => (
                   <TableRow
                     key={index}
                     sx={{ "&:hover": { backgroundColor: "#fafafa" } }}
