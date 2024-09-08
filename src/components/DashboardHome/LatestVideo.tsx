@@ -15,59 +15,17 @@ import {
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Link } from "react-router-dom";
 import Loader from "@/utils/Loader";
-
-// Mock data for videos
-const mockVideoData = [
-  {
-    storeReleaseDate: "2024-08-15T00:00:00Z",
-    image: "https://via.placeholder.com/90x60/ff0000/ffffff?text=Video1",
-    title: "Awesome Music Video 1",
-    label: { labelName: "Label One" },
-  },
-  {
-    storeReleaseDate: "2024-08-10T00:00:00Z",
-    image: "https://via.placeholder.com/90x60/00ff00/ffffff?text=Video2",
-    title: "Cool Music Video 2",
-    label: { labelName: "Label Two" },
-  },
-  {
-    storeReleaseDate: "2024-08-05T00:00:00Z",
-    image: "https://via.placeholder.com/90x60/0000ff/ffffff?text=Video3",
-    title: "Epic Music Video 3",
-    label: { labelName: "Label Three" },
-  },
-  {
-    storeReleaseDate: "2024-07-30T00:00:00Z",
-    image: "https://via.placeholder.com/90x60/ffff00/ffffff?text=Video4",
-    title: "Amazing Music Video 4",
-    label: { labelName: "Label Four" },
-  },
-  {
-    storeReleaseDate: "2024-07-25T00:00:00Z",
-    image: "https://via.placeholder.com/90x60/ff00ff/ffffff?text=Video5",
-    title: "Great Music Video 5",
-    label: { labelName: "Label Five" },
-  },
-  {
-    storeReleaseDate: "2024-07-20T00:00:00Z",
-    image: "https://via.placeholder.com/90x60/00ffff/ffffff?text=Video6",
-    title: "Fantastic Music Video 6",
-    label: { labelName: "Label Six" },
-  },
-];
+import { useGetLatestSongsQuery } from "@/redux/slices/myUploads/myUploadsApi";
 
 const LatestVideo = () => {
   // Simulating API data with mock data
-  const { data: videoData, isLoading } = {
-    data: { latestVideo: mockVideoData },
-    isLoading: false,
-  };
+  const { data: videoData, isLoading } = useGetLatestSongsQuery({});
 
   if (isLoading) {
     return <Loader />;
   }
 
-  const videos = videoData?.latestVideo || [];
+  const videos = videoData?.data?.latestVideo || [];
 
   return (
     <>
