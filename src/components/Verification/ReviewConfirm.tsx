@@ -96,7 +96,7 @@ const ReviewConfirm = () => {
         <div className={classes.profileContainer}>
           <Avatar
             className={classes.avatar}
-            src={`${imageURL}${profileData?.data?.image}`}
+            src={`${profileData?.data?.image}`}
             alt="Profile"
           />
           <div>
@@ -161,7 +161,7 @@ const ReviewConfirm = () => {
             >
               <CardMedia
                 className={classes.media}
-                image={`${imageURL}${item.image}`}
+                image={`${item.image}`}
                 title={item.label}
               />
               <CardContent className={classes.cardContent}>
@@ -193,7 +193,7 @@ const ReviewConfirm = () => {
         </DialogTitle>
         <DialogContent dividers>
           <img
-            src={`${imageURL}${selectedImage}`}
+            src={`${selectedImage}`}
             alt="Preview"
             style={{ width: "100%", borderRadius: 8 }}
           />
