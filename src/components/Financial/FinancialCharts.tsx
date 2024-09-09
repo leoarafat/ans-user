@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // import React, { useEffect, useState } from "react";
 // import {
 //   Paper,
@@ -307,30 +308,49 @@ import {
 } from "recharts";
 import dayjs from "dayjs";
 import Loader from "@/utils/Loader";
-
-const mockData = Array.from({ length: 12 }, (_, index) => ({
-  month: `${dayjs().month(index).format("MMM")}`,
-  revenue: Math.random() * 1000,
-  profit: Math.random() * 400,
-  expenses: Math.random() * 600,
-}));
+import { imageURL } from "@/redux/api/baseApi";
+import axios from "axios";
 
 const FinancialCharts = () => {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
-  const [financialData, setFinancialData] = useState(mockData);
-  const [loading, setLoading] = useState(false);
+  const [financialData, setFinancialData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  // Fetch financial data based on the selected year
   const fetchFinancialData = async (year: any) => {
     setLoading(true);
     try {
-      setTimeout(() => {
-        setFinancialData(mockData);
-        setLoading(false);
-      }, 1000);
+      const url = `${imageURL}/statics/financial-analytics`;
+      const response = await axios.get(url, {
+        params: { year },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+
+      if (response && response.data && response.data.data) {
+        const fetchedData = response.data.data;
+
+        // Map API response to a format compatible with recharts
+        const dataMap = new Map(
+          fetchedData.map((item: any) => [item.month, item.amount])
+        );
+
+        const months = Array.from({ length: 12 }, (_, index) => {
+          const monthName = dayjs().month(index).format("MMMM");
+          return {
+            month: monthName,
+            revenue: dataMap.get(monthName) || 0,
+          };
+        });
+        //@ts-ignore
+        setFinancialData(months);
+      }
     } catch (error) {
       console.error("Error fetching financial data:", error);
+    } finally {
       setLoading(false);
     }
   };
@@ -371,7 +391,7 @@ const FinancialCharts = () => {
           <FormControl sx={{ minWidth: 120 }}>
             <Select
               value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
+              onChange={(e: any) => setSelectedYear(e.target.value)}
               sx={{
                 bgcolor: "#f0f0f0",
                 color: "#333333",
@@ -387,6 +407,8 @@ const FinancialCharts = () => {
             </Select>
           </FormControl>
         </Box>
+
+        {/* Bar Chart */}
         <ResponsiveContainer width="100%" height={isMobile ? 300 : 500}>
           <BarChart
             data={financialData}
@@ -403,10 +425,12 @@ const FinancialCharts = () => {
             <YAxis />
             <Tooltip />
             <Legend verticalAlign="top" height={36} />
-            <Bar dataKey="expenses" stackId="a" fill="#FFBB28" />
-            <Bar dataKey="profit" stackId="a" fill="#00C49F" />
+            <Bar dataKey="revenue" stackId="a" fill="#FFBB28" />
+            <Bar dataKey="revenue" stackId="a" fill="#00C49F" />
           </BarChart>
         </ResponsiveContainer>
+
+        {/* Line Chart */}
         <Box mt={4}>
           <ResponsiveContainer width="100%" height={isMobile ? 250 : 400}>
             <LineChart
