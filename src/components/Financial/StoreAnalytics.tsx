@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
@@ -7,30 +7,6 @@ import { imageURL } from "@/redux/api/baseApi";
 import axios from "axios";
 
 ChartJS.register(Tooltip, Legend, ArcElement);
-
-const mockData = {
-  store: [
-    { name: "Store A", value: 5000 },
-    { name: "Store B", value: 3000 },
-    { name: "Store C", value: 2000 },
-    { name: "Store C", value: 2000 },
-    { name: "Store C", value: 2000 },
-    { name: "Store C", value: 2000 },
-    { name: "Store C", value: 2000 },
-  ],
-  country: [
-    { name: "Country A", value: 7000 },
-    { name: "Country B", value: 4000 },
-    { name: "Country C", value: 3000 },
-    { name: "Country C", value: 3000 },
-    { name: "Country C", value: 3000 },
-    { name: "Country C", value: 3000 },
-    { name: "Country C", value: 3000 },
-    { name: "Country C", value: 3000 },
-    { name: "Country C", value: 3000 },
-    { name: "Country C", value: 3000 },
-  ],
-};
 
 const StoreAnalytics = () => {
   const [selectedMonth, setSelectedMonth] = useState(() => {
@@ -44,7 +20,7 @@ const StoreAnalytics = () => {
   });
   const [dataStore, setDataStore] = useState([]);
   const [countryDataStore, setcountryDataStore] = useState([]);
-  const fetchData = async (month, year) => {
+  const fetchData = async (month: any, year: any) => {
     try {
       const response = await axios.get(
         `${imageURL}/statics/financial-by-store`,
@@ -65,7 +41,7 @@ const StoreAnalytics = () => {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchCountryData = async (month, year) => {
+  const fetchCountryData = async (month: any, year: any) => {
     try {
       const response = await axios.get(
         `${imageURL}/statics/financial-analytics-country`,
@@ -92,20 +68,20 @@ const StoreAnalytics = () => {
     fetchCountryData(selectedMonth, selectedYear);
   }, [selectedMonth, selectedYear]);
 
-  const handleMonthChange = (event) => {
+  const handleMonthChange = (event: any) => {
     setSelectedMonth(event.target.value);
   };
 
-  const handleYearChange = (event) => {
+  const handleYearChange = (event: any) => {
     setSelectedYear(event.target.value);
   };
 
-  const generateChartData = (data) => {
+  const generateChartData = (data: any) => {
     return {
-      labels: data.map((item) => item.name),
+      labels: data.map((item: any) => item.name),
       datasets: [
         {
-          data: data.map((item) => item.value),
+          data: data.map((item: any) => item.value),
           backgroundColor: data.map(
             () => `#${Math.floor(Math.random() * 16777215).toString(16)}`
           ),
