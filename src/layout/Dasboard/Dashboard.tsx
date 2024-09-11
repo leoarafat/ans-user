@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Avatar, Layout, Menu, Tooltip } from "antd";
 import { Bell, LogOut } from "lucide-react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/original-logo.jpg";
-import { isLoggedIn, removeUserInfo } from "@/redux/services/auth.service";
+import {
+  isLoggedIn,
+  removeUserInfo,
+  storeUserInfo,
+} from "@/redux/services/auth.service";
 import { authKey } from "@/constants/storageKey";
 import { useMyProfileQuery } from "@/redux/slices/admin/settingApi";
 import { imageURL } from "@/redux/api/baseApi";
@@ -30,16 +34,24 @@ const Dashboard = () => {
   const userVerifiedInfo = useApproved();
   const isVerifiedUser = userInfo?.isVerified;
   const isApproved = userVerifiedInfo?.isApproved;
+  const location = useLocation();
 
-  if (!isUser) {
-    navigate("/auth/login");
-  }
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const token = params.get("token");
 
+    if (token) {
+      storeUserInfo({ accessToken: token });
+    }
+  }, [location]);
   useEffect(() => {
     if (!isApproved) {
       navigate("/pending");
     }
   }, []);
+  if (!isUser) {
+    navigate("/auth/login");
+  }
 
   const { data: userData } = useMyProfileQuery({});
   const myProfile = userData?.data;
