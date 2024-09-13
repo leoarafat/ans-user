@@ -36,4 +36,5 @@ export const tagsList = [
   "store",
   "note",
   "drafts",
+  "channel",
 ] as const;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Tab, Tabs, Typography, Paper } from "@mui/material";
 import LabelManage from "./Label/LabelPage";
 import ArtistManage from "./Artist/ArtistPage";
+import VevoChannelManage from "./ManageVevoChannel/VevoChannelPage";
 
 const ArtistLabelManagement = () => {
   const [activeTab, setActiveTab] = useState("one");
@@ -73,6 +74,18 @@ const ArtistLabelManagement = () => {
               },
             }}
           />
+          <Tab
+            value="three"
+            label="Manage Channel"
+            sx={{
+              fontWeight: "bold",
+              color: "#333",
+              "&.Mui-selected": {
+                color: "#1976d2",
+                borderBottom: "2px solid #1976d2",
+              },
+            }}
+          />
         </Tabs>
         <Box
           sx={{
@@ -84,6 +97,7 @@ const ArtistLabelManagement = () => {
         >
           {activeTab === "one" && <LabelManage />}
           {activeTab === "two" && <ArtistManage />}
+          {activeTab === "three" && <VevoChannelManage />}
         </Box>
       </Paper>
     </Box>
