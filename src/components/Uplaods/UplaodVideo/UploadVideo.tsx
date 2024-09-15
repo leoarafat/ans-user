@@ -1000,7 +1000,7 @@ const UploadVideo = () => {
                   agree to{" "}
                   <Link
                     className="text-blue-600 underline"
-                    to="https://bemusix.com/"
+                    to="https://ansmusiclimited.com/"
                     target="_blank"
                   >
                     Be Musix's conditions for generating ISRCs.
@@ -1025,7 +1025,7 @@ const UploadVideo = () => {
                   platform. Please be sure you have read and follow the{" "}
                   <Link
                     className="text-blue-600 underline"
-                    to="https://bemusix.com/"
+                    to="https://ansmusiclimited.com/"
                     target="_blank"
                   >
                     Youtube Content Guidelines.
@@ -1052,7 +1052,7 @@ const UploadVideo = () => {
                   have read and understand the{" "}
                   <Link
                     className="text-blue-600 underline"
-                    to="https://bemusix.com/"
+                    to="https://ansmusiclimited.com/"
                     target="_blank"
                   >
                     Be Musix Content Delivery Guidelines for Audio Stores.

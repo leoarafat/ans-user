@@ -461,7 +461,7 @@ const Test = () => {
                   agree to{" "}
                   <Link
                     className="text-blue-600 underline"
-                    to="https://bemusix.com/"
+                    to="https://ansmusiclimited.com/"
                     target="_blank"
                   >
                     ANS Music's conditions for generating ISRCs.
@@ -486,7 +486,7 @@ const Test = () => {
                   platform. Please be sure you have read and follow the{" "}
                   <Link
                     className="text-blue-600 underline"
-                    to="https://bemusix.com/"
+                    to="https://ansmusiclimited.com/"
                     target="_blank"
                   >
                     Youtube Content Guidelines.
@@ -513,7 +513,7 @@ const Test = () => {
                   have read and understand the{" "}
                   <Link
                     className="text-blue-600 underline"
-                    to="https://bemusix.com/"
+                    to="https://ansmusiclimited.com/"
                     target="_blank"
                   >
                     ANS Music Content Delivery Guidelines for Audio Stores.
