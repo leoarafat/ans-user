@@ -108,7 +108,7 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
                 image={
                   audio && audio.coverImage
                     ? URL.createObjectURL(audio.coverImage)
-                    : "/default-cover.jpg" // Fallback image
+                    : "/default-cover.jpg"
                 }
                 alt={trackDetails?.title}
                 sx={{ borderRadius: 2, boxShadow: 2 }}
@@ -188,21 +188,18 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
                     primary="Producer"
                     secondary={trackDetails?.producer}
                   />
-                  {renderWarning(trackDetails?.producer, "Producer missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Lyrics"
                     secondary={trackDetails?.lyrics}
                   />
-                  {renderWarning(trackDetails?.lyrics, "Lyrics missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Remixer"
                     secondary={trackDetails?.remixer}
                   />
-                  {renderWarning(trackDetails?.remixer, "Remixer missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
@@ -223,7 +220,6 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
                     primary="Arranger"
                     secondary={trackDetails?.arranger}
                   />
-                  {renderWarning(trackDetails?.arranger, "Arranger missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText
@@ -244,31 +240,26 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
                     primary="Production Year"
                     secondary={releaseInformation?.productionYear}
                   />
-                  {renderWarning(
-                    releaseInformation?.productionYear,
-                    "Production Year missing"
-                  )}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Publisher"
                     secondary={trackDetails?.publisher}
                   />
-                  {renderWarning(trackDetails?.publisher, "Publisher missing")}
                 </ListItem>
                 <ListItem>
                   <ListItemText primary="ISRC" secondary={trackDetails?.isrc} />
-                  {renderWarning(trackDetails?.isrc, "ISRC missing")}
+                  {/* {renderWarning(trackDetails?.isrc, "ISRC missing")} */}
                 </ListItem>
                 <ListItem>
                   <ListItemText
                     primary="Preview Start"
                     secondary={trackDetails?.previewStart}
                   />
-                  {renderWarning(
+                  {/* {renderWarning(
                     trackDetails?.previewStart,
                     "Preview Start missing"
-                  )}
+                  )} */}
                 </ListItem>
                 <ListItem>
                   <ListItemText
@@ -336,23 +327,23 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
             <Grid item xs={12} md={6}>
               <Typography variant="body1" color="text.primary">
                 <strong>ISRC:</strong> {trackDetails?.isrc}
-                {renderWarning(trackDetails?.isrc, "Content Type missing")}
+                {/* {renderWarning(trackDetails?.isrc, "ISRC missing")} */}
               </Typography>
               <Typography variant="body1" color="text.primary">
                 <strong>Catalogue Number:</strong>
                 {releaseInformation?.catalogNumber}
-                {renderWarning(
+                {/* {renderWarning(
                   releaseInformation?.catalogNumber,
                   "catalogNumber missing"
-                )}
+                )} */}
               </Typography>
               <Typography variant="body1" color="text.primary">
                 <strong>Parental Advisory:</strong>{" "}
                 {trackDetails?.parentalAdvisory ? "Yes" : "No"}
-                {renderWarning(
+                {/* {renderWarning(
                   trackDetails?.parentalAdvisory,
                   "parentalAdvisory missing"
-                )}
+                )} */}
               </Typography>
             </Grid>
           </Grid>

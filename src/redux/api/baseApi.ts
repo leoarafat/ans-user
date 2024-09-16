@@ -6,7 +6,6 @@ import axios from "axios";
 import { tagsList } from "../tag-types";
 const authToken = getFromLocalStorage(authKey);
 // http://localhost:7001
-// https://backend.bemusix.com
 // /https://api.ansbackstage.com
 export const baseApi = createApi({
   reducerPath: "api",

@@ -117,7 +117,12 @@ const PendingApprovalMessage = () => {
           </Typography>
           <CircularProgress sx={circularProgressStyle} size={60} />
           <br />
-          <Button sx={exploreButtonStyle} onClick={() => navigate("/explore")}>
+          <Button
+            sx={exploreButtonStyle}
+            onClick={() =>
+              window.open("https://ansmusiclimited.com/", "_blank")
+            }
+          >
             Explore Platform
           </Button>
           <Typography variant="body2" sx={footerStyle}>
