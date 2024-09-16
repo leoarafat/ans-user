@@ -67,6 +67,15 @@ interface IFormInput {
   subGenre: string;
   language: string;
   isrc: string;
+  audioIsrc: string;
+  vevoChannel: string;
+  keywords: string;
+  copyright: string;
+  copyrightYear: string;
+  territoryPolicy: string;
+  visibility: string;
+  time: string;
+  repertoireOwner: string;
   upc: string;
   description: string;
   storeReleaseDate: string;
@@ -131,6 +140,15 @@ const UploadVideo = () => {
       upc: "",
       description: "",
       storeReleaseDate: "",
+      audioIsrc: "",
+      vevoChannel: "",
+      keywords: "",
+      copyright: "",
+      copyrightYear: "",
+      territoryPolicy: "",
+      visibility: "",
+      time: "",
+      repertoireOwner: "",
     },
   });
   const [open, setOpen] = useState(false);
@@ -217,6 +235,15 @@ const UploadVideo = () => {
       formData.append("youtubePremiere", data.youtubePremiere);
       formData.append("isExist", data.isExist);
       formData.append("isKids", data.isKids);
+      formData.append("audioIsrc", data.audioIsrc);
+      formData.append("vevoChannel", data.vevoChannel);
+      formData.append("keywords", data.keywords);
+      formData.append("copyright", data.copyright);
+      formData.append("copyrightYear", data.copyrightYear);
+      formData.append("territoryPolicy", data.territoryPolicy);
+      formData.append("visibility", data.visibility);
+      formData.append("time", data.time);
+      formData.append("repertoireOwner", data.repertoireOwner);
 
       const formattedPrimaryArtists = data.primaryArtist.map(
         (artist) => artist._id
@@ -437,17 +464,6 @@ const UploadVideo = () => {
             </Grid>
           </Grid>
         ))}
-        {/* <div className="w-[300px] text-center">
-          <Button
-            variant="outlined"
-            color="primary"
-            startIcon={<Add />}
-            //@ts-ignore
-            onClick={() => append({ [name]: "" })}
-          >
-            
-          </Button>
-        </div> */}
       </Stack>
     );
   };
@@ -724,6 +740,35 @@ const UploadVideo = () => {
                   />
                 </FormControl>
               </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id="territoryPolicy?-label">
+                    Territory Policy
+                  </InputLabel>
+                  <Controller
+                    name="territoryPolicy"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        style={{ borderRadius: "30px" }}
+                        {...field}
+                        labelId="territoryPolicy?-label"
+                        label="territoryPolicy"
+                      >
+                        <MenuItem value="Monetize Worldwide">
+                          Monetize Worldwide
+                        </MenuItem>
+                        <MenuItem value="Select Country">
+                          Select Country
+                        </MenuItem>
+                        <MenuItem value="Block Worldwide">
+                          Block Worldwide
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
 
               <Grid item xs={12}>
                 <Controller
@@ -762,7 +807,22 @@ const UploadVideo = () => {
 
                 <Button onClick={showModal}>Create Label</Button>
               </Grid>
-
+              <Grid item xs={12}>
+                <Controller
+                  name="vevoChannel"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      className={classes.input}
+                      {...field}
+                      label="VEVO Channel"
+                      variant="outlined"
+                      fullWidth
+                      // required
+                    />
+                  )}
+                />
+              </Grid>
               <Grid item xs={6}>
                 {renderArrayFields(
                   "primaryArtist",
@@ -883,7 +943,22 @@ const UploadVideo = () => {
                   )}
                 />
               </Grid>
-
+              <Grid item xs={6}>
+                <Controller
+                  name="audioIsrc"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      className={classes.input}
+                      {...field}
+                      label="Audio ISRC"
+                      variant="outlined"
+                      fullWidth
+                      // required
+                    />
+                  )}
+                />
+              </Grid>
               <Grid item xs={6}>
                 <Controller
                   name="upc"
@@ -918,6 +993,23 @@ const UploadVideo = () => {
                   )}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name="keywords"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      className={classes.input}
+                      {...field}
+                      label="Keywords"
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows={4}
+                    />
+                  )}
+                />
+              </Grid>
 
               <Grid item xs={12}>
                 <Controller
@@ -939,7 +1031,87 @@ const UploadVideo = () => {
                   )}
                 />
               </Grid>
-
+              <Grid item xs={6}>
+                <Controller
+                  name="copyright"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      className={classes.input}
+                      {...field}
+                      label="Copyright©"
+                      variant="outlined"
+                      fullWidth
+                      // required
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="copyrightYear"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      className={classes.input}
+                      {...field}
+                      label="Copyright© Year"
+                      variant="outlined"
+                      type="number"
+                      fullWidth
+                      // required
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="visibility"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      className={classes.input}
+                      {...field}
+                      label="Visibility"
+                      variant="outlined"
+                      fullWidth
+                      // required
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="repertoireOwner"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      className={classes.input}
+                      {...field}
+                      label="Repertoire Owner"
+                      variant="outlined"
+                      fullWidth
+                      // required
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name="time"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      className={classes.input}
+                      {...field}
+                      label="Time"
+                      variant="outlined"
+                      fullWidth
+                      // required
+                    />
+                  )}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <Box>
                   <LinearProgress
