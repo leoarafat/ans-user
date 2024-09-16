@@ -19,11 +19,11 @@ const TermsConditionsPage = () => {
         </Link>{" "}
         &amp;{" "}
         <Link
-          href="https://bemusixbackstage.com"
+          href="https://ansbackstage.com"
           target="_blank"
           rel="noopener noreferrer"
         >
-          bemusixbackstage.com
+          ansbackstage.com
         </Link>
         ) is offered to you by ANS Music (“Company”), by using our Website, you
         accept these terms in full that govern your use of the Website. If you
@@ -299,9 +299,9 @@ const TermsConditionsPage = () => {
         If you believe that any Content made available on or through our Website
         or services infringes your intellectual property rights (“Infringing
         Content”) then kindly sent a notification with respect to the same
-        addressed to ANS Music at email : support@bemusix.com along with your
-        details, the details of the Content and substantial documents to prove
-        your claim. Notwithstanding what is stated herein, at no time the
+        addressed to ANS Music at email : support@ansmusiclimited.com along with
+        your details, the details of the Content and substantial documents to
+        prove your claim. Notwithstanding what is stated herein, at no time the
         Company shall be liable or obligated, to provide/submit to you, reports
         received from any music distribution platforms with respect to any
         Infringing Content and/or revenue earned from use or exploitation of the
@@ -347,7 +347,7 @@ const TermsConditionsPage = () => {
         <strong>CONTACT US</strong>
         <br />
         If you have any questions about these Terms & Conditions, please contact
-        us at support@bemusix.com.
+        us at support@ansmusiclimited.com.
       </Typography>
 
       <Divider style={{ margin: "20px 0" }} />
