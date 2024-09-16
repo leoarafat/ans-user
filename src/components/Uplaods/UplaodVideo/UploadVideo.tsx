@@ -115,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const UploadVideo = () => {
   const classes = useStyles();
+  const [isrc, setIsrc] = useState("");
   const { control, handleSubmit, watch, setValue } = useForm<IFormInput>({
     defaultValues: {
       video: null,
@@ -136,7 +137,7 @@ const UploadVideo = () => {
       genre: "",
       subGenre: "",
       language: "",
-      isrc: "",
+      isrc: isrc,
       upc: "",
       description: "",
       storeReleaseDate: "",
@@ -145,12 +146,13 @@ const UploadVideo = () => {
       keywords: "",
       copyright: "",
       copyrightYear: "",
-      territoryPolicy: "",
+      territoryPolicy: "Monetize Worldwide",
       visibility: "",
       time: "",
       repertoireOwner: "",
     },
   });
+
   const [open, setOpen] = useState(false);
   const [openArtist, setOpenArtist] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -166,6 +168,13 @@ const UploadVideo = () => {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedSubgenre, setSelectedSubgenre] = useState<string>("");
   const navigate = useNavigate();
+
+  function generateISRC() {
+    const prefix = "BDA1U24";
+    const randomNumber = Math.floor(Math.random() * 99999) + 1;
+    const paddedNumber = randomNumber.toString().padStart(5, "0");
+    return `${prefix}${paddedNumber}`;
+  }
 
   const { data: labelData } = useGetApprovedLabelsQuery({});
   const { data: artistData } = useGetArtistsQuery({});
@@ -187,6 +196,10 @@ const UploadVideo = () => {
   useEffect(() => {
     localStorage.removeItem("releaseFormData");
     localStorage.removeItem("tracksInformation");
+  }, []);
+  useEffect(() => {
+    const newIsrc = generateISRC();
+    setIsrc(newIsrc);
   }, []);
 
   const handleSubmitWithConditions: SubmitHandler<IFormInput> = (data) => {
@@ -939,6 +952,7 @@ const UploadVideo = () => {
                       variant="outlined"
                       fullWidth
                       required
+                      value={isrc}
                     />
                   )}
                 />
@@ -954,6 +968,7 @@ const UploadVideo = () => {
                       label="Audio ISRC"
                       variant="outlined"
                       fullWidth
+
                       // required
                     />
                   )}
