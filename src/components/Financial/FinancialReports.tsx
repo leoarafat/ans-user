@@ -215,7 +215,7 @@
 //     // Header
 //     pdf.setFontSize(30);
 //     pdf.setFont("helvetica", "bold");
-//     pdf.text("Be Musix.", 10, y);
+//     pdf.text("ANS Music.", 10, y);
 //     y += 10;
 //     pdf.setFontSize(14);
 //     pdf.setFont("helvetica", "normal");
@@ -268,7 +268,7 @@
 //     y += 10;
 //     pdf.text("Royalty Accounting Team", 10, y);
 //     y += 10;
-//     pdf.text("Be Musix", 10, y);
+//     pdf.text("ANS Music", 10, y);
 //     pdf.save(`transaction_${row._id?.slice(0, 6)}.pdf`);
 //   };
 //   console.log(filteredHistory);
@@ -618,7 +618,7 @@ const FinancialReports = () => {
     // Header
     pdf.setFontSize(30);
     pdf.setFont("helvetica", "bold");
-    pdf.text("Be Musix.", 10, y);
+    pdf.text("ANS Music.", 10, y);
     y += 10;
     pdf.setFontSize(14);
     pdf.setFont("helvetica", "normal");
@@ -669,7 +669,7 @@ const FinancialReports = () => {
     y += 10;
     pdf.text("Royalty Accounting Team", 10, y);
     y += 10;
-    pdf.text("Be Musix", 10, y);
+    pdf.text("ANS Music", 10, y);
 
     // Save PDF
     pdf.save(`transaction_${row._id?.slice(0, 6)}.pdf`);

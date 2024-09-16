@@ -996,14 +996,14 @@ const UploadVideo = () => {
               <Typography variant="body1">
                 I understand and agree to the ISRC Terms & Conditions.
                 <Typography variant="body2">
-                  If you asked Be Musix to generate your ISRC codes, you hereby
+                  If you asked ANS Music to generate your ISRC codes, you hereby
                   agree to{" "}
                   <Link
                     className="text-blue-600 underline"
                     to="https://ansmusiclimited.com/"
                     target="_blank"
                   >
-                    Be Musix's conditions for generating ISRCs.
+                    ANS Music's conditions for generating ISRCs.
                   </Link>
                 </Typography>
               </Typography>
@@ -1044,7 +1044,7 @@ const UploadVideo = () => {
             }
             label={
               <Typography variant="body1">
-                I understand and agree to the Be Musix Content Delivery
+                I understand and agree to the ANS Music Content Delivery
                 Guidelines for Audio Stores.
                 <Typography variant="body2">
                   Some content is not eligible to be distributed on Apple Music,
@@ -1055,7 +1055,7 @@ const UploadVideo = () => {
                     to="https://ansmusiclimited.com/"
                     target="_blank"
                   >
-                    Be Musix Content Delivery Guidelines for Audio Stores.
+                    ANS Music Content Delivery Guidelines for Audio Stores.
                   </Link>
                 </Typography>
               </Typography>

@@ -11,11 +11,11 @@ const TermsConditionsPage = () => {
       <Typography variant="body1" gutterBottom>
         This Website (
         <Link
-          href="https://bemusix.com"
+          href="https://ansmusiclimited.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          https://bemusix.com
+          https://ansmusiclimited.com/
         </Link>{" "}
         &amp;{" "}
         <Link
