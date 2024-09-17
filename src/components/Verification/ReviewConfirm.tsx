@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useProfileQuery } from "@/redux/slices/admin/userApi";
-import { imageURL } from "@/redux/api/baseApi";
+
 import Loader from "@/utils/Loader";
 
 const useStyles = makeStyles((theme) => ({

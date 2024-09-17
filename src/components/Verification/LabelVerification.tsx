@@ -33,6 +33,7 @@ const LabelVerification = ({ data, onChange }: any) => {
         // videosCount: profileData.data.videosCount || "",
         // subscribeCount: profileData.data.subscribeCount || "",
         currentDistributor: profileData.data.currentDistributor || "",
+        howHereUs: profileData.data.howHereUs || "",
         channelName: profileData.data.channelName || "",
         channelUrl: profileData.data.channelUrl || "",
         copyRightImage: profileData.data.copyrightNoticeImage || null,
@@ -88,6 +89,8 @@ const LabelVerification = ({ data, onChange }: any) => {
     "ST Digital",
     "Symphonic",
     "Haven't worked with any distributor yet",
+  ];
+  const hereUsData: string[] = [
     "Google",
     "Facebook",
     "Instagram",
@@ -97,6 +100,7 @@ const LabelVerification = ({ data, onChange }: any) => {
     "ANS Music Employee",
     "Other",
   ];
+
   return (
     <form>
       <Grid container spacing={3}>
@@ -337,12 +341,32 @@ const LabelVerification = ({ data, onChange }: any) => {
           <FormControl fullWidth variant="outlined" sx={{ marginBottom: 2 }}>
             <InputLabel>Current Distributor</InputLabel>
             <Select
+              required
               value={data?.label.currentDistributor || ""}
               onChange={handleChange}
               name="currentDistributor"
               label="Current Distributor"
             >
               {distributorData?.map((data: any, index: number) => (
+                <MenuItem key={index} value={data}>
+                  {data}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>Select Options</FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="outlined" sx={{ marginBottom: 2 }}>
+            <InputLabel>How did you hear about ANS Music ?</InputLabel>
+            <Select
+              required
+              value={data?.label.howHereUs || ""}
+              onChange={handleChange}
+              name="howHereUs"
+              label="How did you hear about ANS Music ?"
+            >
+              {hereUsData?.map((data: any, index: number) => (
                 <MenuItem key={index} value={data}>
                   {data}
                 </MenuItem>

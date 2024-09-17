@@ -162,25 +162,26 @@ const AgreementPage = ({ data, onChange }: any) => {
                   marginBottom: 2,
                 }}
               >
-                Akash
+                ANS Enterprise LLC
               </Typography>
               <Divider sx={{ marginY: 2 }} />
               <Typography variant="body1" gutterBottom>
-                <strong>Name:</strong> Akash Sarker
+                <strong>Company Name:</strong> ANS Enterprise LLC
               </Typography>
-              <Typography variant="body1" gutterBottom>
+              {/* <Typography variant="body1" gutterBottom>
                 <strong>Designation:</strong> Owner ANS Music
               </Typography>
               <Typography variant="body1" gutterBottom>
                 <strong>Reg No:</strong> 15503142
+              </Typography> */}
+              <Typography variant="body1" gutterBottom>
+                <strong>Registered office at:</strong> 30 N Gould St Ste R
+                Sheridan WY 82801 USA
               </Typography>
               <Typography variant="body1" gutterBottom>
-                <strong>Legal Representative:</strong> Akash Sarker
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                <strong>Contact:</strong> support@ansmusiclimited.com
+                <strong>Email:</strong> support@ansmusiclimited.com
                 <br />
-                Call: +8801890076006, +8801711387906
+                <strong>Phone:</strong> +1(307) 204 2560
               </Typography>
               <Typography variant="body1" gutterBottom>
                 <strong>Date:</strong> {currentDate.toLocaleDateString()}
@@ -296,13 +297,16 @@ const AgreementPage = ({ data, onChange }: any) => {
                 Distributor Signature
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Akash Sarker
+                <strong>Representative:</strong> Akash Sarker
               </Typography>
               <Typography variant="body1" gutterBottom>
-                <strong>Company:</strong> ANS Music
+                <strong>Company:</strong> ANS Enterprise LLC
               </Typography>
               <Typography variant="body1" gutterBottom>
-                <strong>Designation:</strong> Owner and CEO ANS Music
+                <strong>Designation:</strong> CEO
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                <strong>Email:</strong> akash.sarker@ansmusiclimited.com
               </Typography>
               <Typography variant="body1" gutterBottom>
                 <strong>Date:</strong> {currentDate.toLocaleDateString()}

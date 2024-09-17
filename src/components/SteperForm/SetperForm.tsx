@@ -181,6 +181,8 @@ const StepperForm = () => {
       // //@ts-ignore
       // formData.label?.videosCount
       formData?.label?.currentDistributor &&
+      //@ts-ignore
+      formData?.label?.howHereUs &&
       dashboardImage
     ) {
       try {
@@ -192,6 +194,11 @@ const StepperForm = () => {
           "currentDistributor",
           //@ts-ignore
           formData.label.currentDistributor
+        );
+        labelFormData.append(
+          "howHereUs",
+          //@ts-ignore
+          formData.label.howHereUs
         );
         //@ts-ignore
         labelFormData.append("channelName", formData.label.channelName);
