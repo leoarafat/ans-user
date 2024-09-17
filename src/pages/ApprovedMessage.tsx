@@ -133,7 +133,8 @@ const PendingApprovalMessage = () => {
             <br />
             <strong>Email:</strong> support@ansmusiclimited.com
             <br />
-            <strong>Phone:</strong> +880 1711387906
+            <strong>Whatsapp:</strong>+13072042560
+            <strong>Phone:</strong>+880 1711387906
           </Typography>
         </Box>
       </Paper>

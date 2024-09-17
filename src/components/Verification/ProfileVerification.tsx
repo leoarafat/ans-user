@@ -105,7 +105,7 @@ const ProfileVerification = ({ data, onChange }: any) => {
                     />
                   ) : (
                     <img
-                      src={`${imageURL}/${profileData?.data?.image}`}
+                      src={`${profileData?.data?.image}`}
                       alt="PROFILE IMAGE"
                       className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
                     />
@@ -154,7 +154,7 @@ const ProfileVerification = ({ data, onChange }: any) => {
                     />
                   ) : (
                     <img
-                      src={`${imageURL}/${profileData?.data?.nidFront}`}
+                      src={`${profileData?.data?.nidFront}`}
                       alt="NID Front"
                       className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
                     />
@@ -203,7 +203,7 @@ const ProfileVerification = ({ data, onChange }: any) => {
                     />
                   ) : (
                     <img
-                      src={`${imageURL}/${profileData?.data?.nidBack}`}
+                      src={`${profileData?.data?.nidBack}`}
                       alt="NID Back"
                       className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
                     />
@@ -251,9 +251,10 @@ const ProfileVerification = ({ data, onChange }: any) => {
         <Grid item xs={6}>
           <TextField
             name="nidNumber"
-            label="NID Number"
+            label="National Identification Number"
             variant="outlined"
             fullWidth
+            required
             value={data.profile.nidNumber || ""}
             onChange={handleChange}
           />

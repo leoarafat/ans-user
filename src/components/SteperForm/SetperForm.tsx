@@ -120,7 +120,6 @@ const StepperForm = () => {
       activeStep === 0 &&
       selectedProfileImage &&
       nidFront &&
-      nidBack &&
       userName &&
       phoneNumber &&
       nidNumber
@@ -129,6 +128,7 @@ const StepperForm = () => {
         const profileFormData = new FormData();
         profileFormData.append("image", selectedProfileImage);
         profileFormData.append("nidFront", nidFront);
+        //@ts-ignore
         profileFormData.append("nidBack", nidBack);
         profileFormData.append("name", userName);
         profileFormData.append("phoneNumber", phoneNumber);
@@ -149,13 +149,12 @@ const StepperForm = () => {
     if (
       activeStep === 1 &&
       //@ts-ignore
-      formData.address?.state &&
-      //@ts-ignore
       formData.address?.city &&
       //@ts-ignore
-      formData.address?.country &&
-      //@ts-ignore
-      formData.address?.address
+      formData.address?.country
+      // &&
+      // //@ts-ignore
+      // formData.address?.address
     ) {
       try {
         const result = await addressVerify(formData.address);
@@ -177,18 +176,23 @@ const StepperForm = () => {
       //@ts-ignore
       formData.label?.channelName &&
       //@ts-ignore
-      formData.label?.subscribeCount &&
-      //@ts-ignore
-      formData.label?.videosCount &&
-      copyRightImage &&
+      // formData.label?.subscribeCount
+      // &&
+      // //@ts-ignore
+      // formData.label?.videosCount
+      formData?.label?.currentDistributor &&
       dashboardImage
     ) {
       try {
         const labelFormData = new FormData();
         //@ts-ignore
-        labelFormData.append("subscribeCount", formData.label.subscribeCount);
+        // labelFormData.append("subscribeCount", formData.label.subscribeCount);
         //@ts-ignore
-        labelFormData.append("videosCount", formData.label.videosCount);
+        labelFormData.append(
+          "currentDistributor",
+          //@ts-ignore
+          formData.label.currentDistributor
+        );
         //@ts-ignore
         labelFormData.append("channelName", formData.label.channelName);
         //@ts-ignore

@@ -13,10 +13,12 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
+import { countries } from "countries-list";
 
 const AddressInformation = ({ data, onChange }: any) => {
   const { data: profileData } = useProfileQuery({});
   const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const allCountries = Object.values(countries).map((country) => country.name);
 
   useEffect(() => {
     if (profileData?.data && !initialSetupDone) {
@@ -41,7 +43,7 @@ const AddressInformation = ({ data, onChange }: any) => {
     [onChange, data.address]
   );
 
-  const countries = ["Bangladesh", "India", "United States", "United Kingdom"];
+  // const countries = ["Bangladesh", "India", "United States", "United Kingdom"];
 
   return (
     <Card
@@ -75,7 +77,7 @@ const AddressInformation = ({ data, onChange }: any) => {
                 name="country"
                 label="Country"
               >
-                {countries.map((country, index) => (
+                {allCountries?.map((country, index) => (
                   <MenuItem key={index} value={country}>
                     {country}
                   </MenuItem>
@@ -107,6 +109,7 @@ const AddressInformation = ({ data, onChange }: any) => {
                 onChange={handleChange}
                 label="City"
                 variant="outlined"
+                required
                 InputLabelProps={{ shrink: true }}
               />
               <FormHelperText>Enter your city</FormHelperText>
@@ -121,9 +124,12 @@ const AddressInformation = ({ data, onChange }: any) => {
                 onChange={handleChange}
                 label="Post Code"
                 variant="outlined"
+                required
                 InputLabelProps={{ shrink: true }}
               />
-              <FormHelperText>Enter your postal code</FormHelperText>
+              <FormHelperText>
+                Enter your postal code/zip code/pin code
+              </FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={12}>
