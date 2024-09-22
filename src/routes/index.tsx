@@ -56,6 +56,7 @@ import FacebookWhiteList from "@/components/Legal/FaceBook/FacebookWhiteList";
 import YoutubeTakeDownForm from "@/components/Legal/Youtube/YouTubeTakeDown";
 import ArtistChannelRequestForm from "@/components/Youtube/ArtistChannelRequest/ArtistChannelRequest";
 import WhiteListRequestForm from "@/components/Youtube/WhiteListRequest/WhiteListRequest";
+import RejectedMessage from "@/pages/RejectedMessage";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,14 @@ const router = createBrowserRouter([
         element: (
           <IsVerifiedRoutes>
             <PendingApprovalMessage />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/rejected",
+        element: (
+          <IsVerifiedRoutes>
+            <RejectedMessage />
           </IsVerifiedRoutes>
         ),
       },

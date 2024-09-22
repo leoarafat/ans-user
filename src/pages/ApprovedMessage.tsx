@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import { useEffect } from "react";
+import useRejected from "@/utils/isRejected";
 
 const containerStyle = {
   display: "flex",
@@ -90,13 +91,18 @@ const contactInfoStyle = {
 const PendingApprovalMessage = () => {
   const navigate = useNavigate();
   const userVerifiedInfo = useApproved();
+  const userInfo = useRejected();
   const isApproved = userVerifiedInfo?.isApproved;
+  const isRejected = userInfo?.isRejected;
 
   useEffect(() => {
     if (isApproved) {
       navigate("/");
     }
-  }, [isApproved, navigate]);
+    if (isRejected) {
+      navigate("/rejected");
+    }
+  }, [isApproved, isRejected, navigate]);
 
   return (
     <Container sx={containerStyle}>

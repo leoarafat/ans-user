@@ -49,6 +49,7 @@ const Dashboard = () => {
       navigate("/pending");
     }
   }, []);
+
   if (!isUser) {
     navigate("/auth/login");
   }
@@ -224,35 +225,34 @@ const Dashboard = () => {
                     <Bell size={24} color="#d0d0d0" />
                   </Link>
                 </Tooltip>
-                <Tooltip title="Profile">
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Link to="/settings/profile">
-                      <Avatar
-                        src={`${myProfile?.image}`}
+                {isApproved && (
+                  <Tooltip title="Profile">
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Link to="/settings/profile">
+                        <Avatar
+                          src={`${myProfile?.image}`}
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            border: "2px solid #d0d0d0",
+                          }}
+                        />
+                      </Link>
+                      <Link
+                        to="/settings/profile"
                         style={{
-                          width: "40px",
-                          height: "40px",
-                          border: "2px solid #d0d0d0",
+                          marginLeft: "10px",
+                          color: "#d0d0d0",
+                          textDecoration: "none",
                         }}
-                      />
-                    </Link>
-                    <Link
-                      to="/settings/profile"
-                      style={{
-                        marginLeft: "10px",
-                        color: "#d0d0d0",
-                        textDecoration: "none",
-                      }}
-                    >
-                      <div style={{ fontSize: "14px", fontWeight: "bold" }}>
-                        {myProfile?.name}
-                      </div>
-                      {/* <div style={{ fontSize: "12px", color: "#a0a0a0" }}>
-                        ({myProfile?.clientId})
-                      </div> */}
-                    </Link>
-                  </div>
-                </Tooltip>
+                      >
+                        <div style={{ fontSize: "14px", fontWeight: "bold" }}>
+                          {myProfile?.name}
+                        </div>
+                      </Link>
+                    </div>
+                  </Tooltip>
+                )}
               </>
             )}
           </div>

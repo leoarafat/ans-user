@@ -25,11 +25,17 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
   const [appleId, setAppleId] = useState("");
   const [facebookUrl, setFacebookUrl] = useState("");
   const [addArtist, { isLoading }] = useAddChannelMutation();
+  const handleArtistNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
 
+    const sanitizedInput = input.replace(/\s+/g, "");
+    setArtistName(sanitizedInput);
+  };
   const handleSave = async () => {
     try {
+      const channelName = artistName + "VEVO";
       const payload = {
-        channelName: artistName,
+        channelName,
         channelInstagramId: instagramId,
         channelSpotifyId: spotifyId,
         channelAppleId: appleId,
@@ -67,8 +73,13 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
             type="text"
             fullWidth
             value={artistName}
-            onChange={(e) => setArtistName(e.target.value)}
+            onChange={handleArtistNameChange}
+            helperText="Channel name should not contain spaces."
           />
+          <span>
+            {artistName}
+            {artistName && "VEVO"}
+          </span>
           <TextField
             margin="dense"
             id="instagram-id"
