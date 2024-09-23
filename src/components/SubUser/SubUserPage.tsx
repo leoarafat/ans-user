@@ -18,23 +18,27 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
+import { useDeleteAdminMutation } from "@/redux/slices/admin/adminManageApi";
 
-import {
-  useDeleteAdminMutation,
-  useGetAllAdminsQuery,
-} from "@/redux/slices/admin/adminManageApi";
-import Loader from "@/utils/Loader";
 import toast from "react-hot-toast";
 import { formatDate } from "@/utils/formatedDate";
 import AddSubUserModal from "./AddSubUserModal";
+import { useMySubUserQuery } from "@/redux/slices/admin/userApi";
+import { ChevronRight } from "lucide-react";
+import PermissionModal from "./AccessPermissionModal";
 
 const SubUserPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
-  const { data: adminData, isLoading } = useGetAllAdminsQuery({});
-  const [deleteAdmin, { isLoading: deleteLoading }] = useDeleteAdminMutation();
+  const { data: subUserData } = useMySubUserQuery({});
+  //   const [deleteAdmin, { isLoading: deleteLoading }] = useDeleteAdminMutation();
+
+  const [permissionModalOpen, setPermissionModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
+
   const handleSearchChange = (event: any) => {
     setSearchQuery(event.target.value);
   };
@@ -51,33 +55,52 @@ const SubUserPage = () => {
   const showModal = () => {
     setOpen(true);
   };
-  if (isLoading) {
-    return <Loader />;
-  }
-  const handleDelete = async (id: string) => {
-    try {
-      const res = await deleteAdmin(id);
-      if (res?.data?.success === true) {
-        toast.success("Admin Deleted Successful");
-      }
-      if (res?.error) {
-        //@ts-ignore
-        toast.error(res?.error?.data?.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+
+  //   const handleDelete = async (id: string) => {
+  //     try {
+  //       const res = await deleteAdmin(id);
+  //       if (res?.data?.success === true) {
+  //         toast.success("Admin Deleted Successfully");
+  //       } else {
+  //         //@ts-ignore
+  //         toast.error(res?.error?.data?.message);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  const handlePermission = (id: string, name: string) => {
+    setSelectedUserId(id);
+    setSelectedUserName(name);
+    setPermissionModalOpen(true);
   };
 
-  const filteredLabelData = adminData?.data?.filter((row: { name: string }) =>
+  const handlePermissionSubmit = (selectedPermissions: string[]) => {
+    console.log(
+      "Selected Permissions for User:",
+      selectedUserId,
+      selectedPermissions
+    );
+    // Handle submission logic here (API calls, state updates, etc.)
+    toast.success("Permissions updated successfully!");
+  };
+
+  const filteredLabelData = subUserData?.data?.filter((row: { name: string }) =>
     row.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Sub User Management
-      </Typography>
+      <div className="flex justify-between items-center">
+        <Typography variant="h4" component="h1" gutterBottom>
+          Sub User Management
+        </Typography>
+        <span className="text-orange-700">
+          The permission feature is currently unavailable. We are actively
+          working to resolve this feature.
+        </span>
+      </div>
       <div
         style={{
           display: "flex",
@@ -116,7 +139,8 @@ const SubUserPage = () => {
               <TableCell>Email</TableCell>
               <TableCell>Phone Number</TableCell>
               <TableCell>Create At</TableCell>
-              <TableCell>Action</TableCell>
+              {/* <TableCell>Delete</TableCell> */}
+              <TableCell>Permission</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -129,12 +153,20 @@ const SubUserPage = () => {
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.phoneNumber}</TableCell>
                   <TableCell>{formatDate(row.createdAt)}</TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <IconButton
                       onClick={() => handleDelete(row?._id)}
                       aria-label="delete"
                     >
                       {deleteLoading ? "Deleting" : <DeleteIcon />}
+                    </IconButton>
+                  </TableCell> */}
+                  <TableCell>
+                    <IconButton
+                      onClick={() => handlePermission(row?._id, row?.name)}
+                      aria-label="permission"
+                    >
+                      <ChevronRight />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -152,6 +184,14 @@ const SubUserPage = () => {
         onRowsPerPageChange={handleRowsPerPageChange}
       />
       <AddSubUserModal open={open} setOpen={setOpen} />
+      {/* Include PermissionModal and pass necessary props */}
+      <PermissionModal
+        open={permissionModalOpen}
+        setOpen={setPermissionModalOpen}
+        userId={selectedUserId}
+        name={selectedUserName}
+        onSubmit={handlePermissionSubmit}
+      />
     </div>
   );
 };

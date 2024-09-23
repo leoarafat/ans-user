@@ -10,6 +10,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    makeUser: build.mutation({
+      query: (userData) => ({
+        url: `user/add-sub-user`,
+        method: "POST",
+        body: userData,
+      }),
+      invalidatesTags: ["user"],
+    }),
     userLogin: build.mutation({
       query: (loginData) => ({
         url: `/user/login`,
@@ -83,6 +91,15 @@ export const userApi = baseApi.injectEndpoints({
 
       providesTags: ["user"],
     }),
+    mySubUser: build.query({
+      query: () => {
+        return {
+          url: `/user/my-sub-user`,
+          method: "GET",
+        };
+      },
+      providesTags: ["user"],
+    }),
   }),
 });
 
@@ -97,4 +114,6 @@ export const {
   useUserLoginMutation,
   useAgreementVerifyMutation,
   useEditProfilePictureMutation,
+  useMakeUserMutation,
+  useMySubUserQuery,
 } = userApi;

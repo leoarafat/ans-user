@@ -12,8 +12,9 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useMakeAdminMutation } from "@/redux/slices/admin/adminManageApi";
+
 import toast from "react-hot-toast";
+import { useMakeUserMutation } from "@/redux/slices/admin/userApi";
 
 interface AddSubUserModalProps {
   open: boolean;
@@ -26,7 +27,7 @@ const AddSubUserModal: React.FC<AddSubUserModalProps> = ({ open, setOpen }) => {
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [makeAdmin, { isLoading }] = useMakeAdminMutation();
+  const [makeSubUser, { isLoading }] = useMakeUserMutation();
   const handleCancel = () => {
     setOpen(false);
 
@@ -43,8 +44,9 @@ const AddSubUserModal: React.FC<AddSubUserModalProps> = ({ open, setOpen }) => {
         email,
         password,
         phoneNumber,
+        role: "sub-user",
       };
-      const res = await makeAdmin(data);
+      const res = await makeSubUser(data);
       if (res?.data?.success === true) {
         toast.success("Sub User Create successful");
         setOpen(false);
