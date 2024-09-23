@@ -23,120 +23,126 @@ import {
   useUploadSingleAudioMutation,
 } from "@/redux/slices/uploadVideoAudio/uploadVideoAudioApi";
 import toast from "react-hot-toast";
-import { Checkbox, FormControlLabel, LinearProgress } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  LinearProgress,
+} from "@mui/material";
 import axios from "axios";
 import { imageURL } from "@/redux/api/baseApi";
+import DetailsForm from "../Uplaods/UplaodVideo/DetailsForm";
+import AdditionalForm from "../Uplaods/UplaodVideo/AdditionalForm";
+import DistributorForm from "../Uplaods/UplaodVideo/DistributorForm";
+import CountriesPage from "../Uplaods/UplaodVideo/CountriesPage";
+import VideoReviewPage from "../Uplaods/UplaodVideo/VideoReviewPage";
 
-interface ReleaseInformation {
-  cLine: string;
+interface IDetails {
+  video: File | null;
+  thumbnail: File | null;
   version: string;
-  catalogNumber: string;
-  featuringArtists: string[];
-  format: string;
-  genre: string;
-  label: string;
-  pLine: string;
-  primaryArtists: string[];
-  productionYear: string;
-  releaseDate: string;
-  releaseTitle: string;
-  subgenre: string;
-  upc: string;
-  variousArtists: string;
-}
-
-interface TrackDetails {
-  arranger: string;
-  askToGenerateISRC: string;
-  author: string;
-  composer: string;
-  contentType: string;
-  instrumental: string;
-  isrc: string;
-  lyrics: string;
-  lyricsLanguage: string;
-  parentalAdvisory: string;
-  previewStart: string;
-  price: string;
-  primaryTrackType: string;
-  producer: string;
-  publisher: string;
-  remixer: string;
-  secondaryTrackType: string;
   title: string;
-  trackTitleLanguage: string;
+  primaryArtist: { primaryArtistName: string; _id: string }[];
+  featuringArtists: { featuringArtistName: string }[];
+  writer: { writerName: string }[];
+  composer: { composerName: string }[];
+  producer: { producerName: string }[];
+  editor: { editorName: string }[];
+  musicDirector: { musicDirectorName: string }[];
+  label: string;
+  genre: string;
+  subGenre: string;
+  language: string;
+  isrc: string;
+  audioIsrc: string;
+  vevoChannel: string;
 }
 
-interface AudioDetails {
-  audioFile: File;
-  coverImage: File;
+interface IAdditional {
+  keywords: string;
+  copyright: string;
+  copyrightYear: string;
+  territoryPolicy: string;
+  visibility: string;
+  time: string;
+  repertoireOwner: string;
 }
 
-interface FormData {
-  audio: AudioDetails;
-  releaseInformation: ReleaseInformation;
-  trackDetails: TrackDetails;
-  countries: string[];
-  previewPage: Record<string, unknown>;
+interface VideoDetails {
+  videoFile: File;
+  thumbnail: File;
 }
-
+interface IDistributor {
+  upc: string;
+  description: string;
+  storeReleaseDate: string;
+  explicit: string;
+  youtubePremiere: string;
+  isExist: string;
+  isKids: string;
+}
+function generateISRC() {
+  const prefix = "BDA1U24";
+  const randomNumber = Math.floor(Math.random() * 99999) + 1;
+  const paddedNumber = randomNumber.toString().padStart(5, "0");
+  return `${prefix}${paddedNumber}`;
+}
 const steps = [
-  { title: "Release Information", component: ReleaseInformation },
-  { title: "Audio & Cover", component: AudioDetails },
-  { title: "Tracks Details", component: TracksInformation },
-  { title: "Territories", component: Countries },
-  { title: "Review Details", component: SingleReviewPage },
+  { title: "Details", component: DetailsForm },
+  { title: "Additional", component: AdditionalForm },
+  { title: "Distributor", component: DistributorForm },
+  { title: "Countries", component: CountriesPage },
+  { title: "Review Details", component: VideoReviewPage },
 ];
 
-const Test = () => {
+const VideoUploaderStepperForm = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState<FormData>({
-    audio: { audioFile: new File([], ""), coverImage: new File([], "") },
-    releaseInformation: {
-      cLine: "",
-      version: "",
-      catalogNumber: "",
-      featuringArtists: [],
-      format: "",
-      genre: "",
-      label: "",
-      pLine: "",
-      primaryArtists: [],
-      productionYear: "",
-      releaseDate: "",
-      releaseTitle: "",
-      subgenre: "",
-      upc: "",
-      variousArtists: "",
-    },
-    trackDetails: {
-      arranger: "",
-      askToGenerateISRC: "",
-      author: "",
-      composer: "",
-      contentType: "",
-      instrumental: "",
-      isrc: "",
-      lyrics: "",
-      lyricsLanguage: "",
-      parentalAdvisory: "",
-      previewStart: "",
-      price: "",
-      primaryTrackType: "",
-      producer: "",
-      publisher: "",
-      remixer: "",
-      secondaryTrackType: "",
+  const [isrc, setIsrc] = useState("");
+  const [formData, setFormData] = useState({
+    video: { videoFile: new File([], ""), thumbnail: new File([], "") },
+    details: {
+      video: "",
+      thumbnail: "",
       title: "",
-      trackTitleLanguage: "",
+      isrc: isrc,
+      primaryArtist: [{ primaryArtistName: "", _id: "" }],
+      featuringArtists: [{ featuringArtistName: "" }],
+      genre: "",
+      subGenre: "",
+      language: "",
+      explicit: "No",
+      repertoireOwner: "",
+      label: "",
+      vevoChannel: "",
+      keywords: "",
+      description: "",
+      isKids: "No",
+      isExist: "No",
+    },
+    additional: {
+      upc: "",
+      audioIsrc: "",
+      version: "",
+      writer: [{ writerName: "" }],
+      composer: [{ composerName: "" }],
+      producer: [{ producerName: "" }],
+      editor: [{ editorName: "" }],
+      musicDirector: [{ musicDirectorName: "" }],
+      copyright: "",
+      copyrightYear: "",
+    },
+    distributor: {
+      territoryPolicy: "Monetize Worldwide",
+      visibility: "",
+      time: "",
+      storeReleaseDate: "",
     },
     countries: [],
     previewPage: {},
   });
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadAudio, { isLoading }] = useUploadSingleAudioMutation();
-  const [uploadDrafts, { isLoading: draftsLoading }] =
-    useUploadDraftAudioMutation();
 
   const [openModal, setOpenModal] = useState(false);
   const [conditionsAccepted, setConditionsAccepted] = useState({
@@ -288,95 +294,45 @@ const Test = () => {
     }
   };
   //!
-  const handleDrafts = async () => {
-    try {
-      const formDataToSend = new FormData();
-
-      const appendField = (key: any, value: any) => {
-        if (value !== undefined && value !== null && value !== "") {
-          formDataToSend.append(key, value);
-        }
-      };
-
-      // Append releaseInformation fields
-      appendField("cLine", formData.releaseInformation.cLine);
-      appendField("subtitle", formData.releaseInformation.version);
-      appendField("catalogNumber", formData.releaseInformation.catalogNumber);
-      appendField(
-        "featuringArtists",
-        formData.releaseInformation.featuringArtists?.join(",")
-      );
-      appendField("format", formData.releaseInformation.format);
-      appendField("genre", formData.releaseInformation.genre);
-      appendField("label", formData.releaseInformation.label);
-      appendField("pLine", formData.releaseInformation.pLine);
-      appendField(
-        "primaryArtist",
-        formData.releaseInformation.primaryArtists?.join(",")
-      );
-      appendField("productionYear", formData.releaseInformation.productionYear);
-      appendField("releaseDate", formData.releaseInformation.releaseDate);
-      appendField("releaseTitle", formData.releaseInformation.releaseTitle);
-      appendField("subGenre", formData.releaseInformation.subgenre);
-      appendField("upc", formData.releaseInformation.upc);
-      appendField("variousArtists", formData.releaseInformation.variousArtists);
-
-      // Append trackDetails fields
-      appendField("arranger", formData.trackDetails.arranger);
-      appendField("askToGenerateISRC", formData.trackDetails.askToGenerateISRC);
-      appendField("author", formData.trackDetails.author);
-      appendField("composer", formData.trackDetails.composer);
-      appendField("contentType", formData.trackDetails.contentType);
-      appendField("instrumental", formData.trackDetails.instrumental);
-      appendField("isrc", formData.trackDetails.isrc);
-      appendField("lyrics", formData.trackDetails.lyrics);
-      appendField("lyricsLanguage", formData.trackDetails.lyricsLanguage);
-      appendField("parentalAdvisory", formData.trackDetails.parentalAdvisory);
-      appendField("previewStart", formData.trackDetails.previewStart);
-      appendField("price", formData.trackDetails.price);
-      appendField("primaryTrackType", formData.trackDetails.primaryTrackType);
-      appendField("producer", formData.trackDetails.producer);
-      appendField("publisher", formData.trackDetails.publisher);
-      appendField("remixer", formData.trackDetails.remixer);
-      appendField(
-        "secondaryTrackType",
-        formData.trackDetails.secondaryTrackType
-      );
-      appendField("title", formData.trackDetails.title);
-      appendField(
-        "trackTitleLanguage",
-        formData.trackDetails.trackTitleLanguage
-      );
-
-      appendField("audio", formData.audio.audioFile);
-      appendField("image", formData.audio.coverImage);
-
-      appendField("countries", formData.countries?.join(","));
-
-      const res = await uploadDrafts(formDataToSend);
-
-      if (res?.data?.success === true) {
-        localStorage.removeItem("releaseFormData");
-        localStorage.removeItem("tracksInformation");
-        toast.success("Song Upload Successful");
-        navigate("/my-uploads/drafts");
-      } else if (res?.error) {
-        //@ts-ignore
-        toast.error(res?.error?.data?.message);
-      }
-    } catch (error: any) {
-      console.error("Error in handleSubmit:", error?.message);
-      toast.error(error?.message);
-    }
-  };
-
+  useEffect(() => {
+    const newIsrc = generateISRC();
+    setIsrc(newIsrc);
+  }, []);
   const StepComponent = steps[activeStep].component;
 
   return (
-    <Grid container direction="column">
-      <Typography variant="h4" align="center" gutterBottom>
-        Let's Distribute Your Music With ANS Music
-      </Typography>
+    <Container
+      maxWidth="lg"
+      sx={{
+        position: "relative",
+        // backgroundImage: `url(https://res.cloudinary.com/arafatleo/image/upload/v1724142235/signup_aiqgj5.jpg)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "20px",
+        minHeight: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        textAlign="center"
+        mb={4}
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for text readability
+          zIndex: -1,
+        }}
+      >
+        <Typography variant="h4" gutterBottom>
+          Distribute Your Music with ANS Music
+        </Typography>
+        <Typography variant="body1" color="textSecondary">
+          Follow the steps below to complete your video.
+        </Typography>
+      </Box>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((step) => (
           <Step key={step.title}>
@@ -384,53 +340,52 @@ const Test = () => {
           </Step>
         ))}
       </Stepper>
-      <div style={{ flexGrow: 1, marginBottom: 20 }}>
-        {
-          //@ts-ignore
-          <StepComponent data={formData} onChange={handleDataChange} />
-        }
-      </div>
-      <div style={{ textAlign: "right" }}>
-        <Button disabled={activeStep === 0} onClick={handleBack}>
+      <Box mt={4}>
+        <StepComponent data={formData} onChange={handleDataChange} />
+      </Box>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mt={4}
+      >
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleBack}
+          disabled={activeStep === 0}
+          style={{ flexGrow: 1, marginRight: 10 }}
+        >
           Back
         </Button>
-        {activeStep < steps.length - 1 && (
+        {activeStep < steps.length - 1 ? (
           <Button
             variant="contained"
             color="primary"
             onClick={handleNext}
-            style={{ marginLeft: 10 }}
+            style={{ flexGrow: 1, marginLeft: 10 }}
           >
             Next
           </Button>
-        )}
-        {activeStep === steps.length - 1 && (
+        ) : (
           <>
             <LinearProgress
               className="py-2 my-2"
               variant="determinate"
               value={uploadProgress}
-            />{" "}
+              style={{ width: "100%", marginTop: 10 }}
+            />
             <Button
               variant="contained"
               color="primary"
               onClick={handleOpenModal}
-              style={{ marginLeft: 10 }}
+              style={{ flexGrow: 1, marginLeft: 10 }}
             >
-              Let's Upload
-            </Button>
-            <Button
-              onClick={handleDrafts}
-              variant="contained"
-              color="primary"
-              style={{ marginLeft: 10 }}
-              disabled={draftsLoading}
-            >
-              Save Drafts
+              Upload
             </Button>
           </>
         )}
-      </div>
+      </Box>
       <Dialog
         open={openModal}
         onClose={handleCloseModal}
@@ -542,8 +497,8 @@ const Test = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Grid>
+    </Container>
   );
 };
 
-export default Test;
+export default VideoUploaderStepperForm;

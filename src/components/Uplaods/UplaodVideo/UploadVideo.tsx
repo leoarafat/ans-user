@@ -39,6 +39,7 @@ import { genres } from "@/MockData/MockData";
 import {
   useGetArtistsQuery,
   useGetApprovedLabelsQuery,
+  useGetChannelsQuery,
 } from "@/redux/slices/ArtistAndLabel/artistLabelApi";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -178,7 +179,7 @@ const UploadVideo = () => {
 
   const { data: labelData } = useGetApprovedLabelsQuery({});
   const { data: artistData } = useGetArtistsQuery({});
-
+  const { data: channelData, isLoading } = useGetChannelsQuery({});
   const artistOptions =
     //@ts-ignore
     artistData?.data?.data?.map((artist: any) => ({
@@ -191,6 +192,12 @@ const UploadVideo = () => {
     labelData?.data?.data?.map((label: any) => ({
       label: label.labelName,
       value: label._id,
+    })) || [];
+  const channelOptions =
+    //@ts-ignore
+    channelData?.data?.data?.map((label: any) => ({
+      label: label.channelName,
+      value: label.channelName,
     })) || [];
 
   useEffect(() => {
@@ -671,7 +678,9 @@ const UploadVideo = () => {
               </Grid>
               <Grid item xs={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="explicit-label">Explicit</InputLabel>
+                  <InputLabel required id="explicit-label">
+                    Explicit
+                  </InputLabel>
                   <Controller
                     name="explicit"
                     control={control}
@@ -691,7 +700,7 @@ const UploadVideo = () => {
               </Grid>
               <Grid item xs={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="isExist-label">
+                  <InputLabel required id="isExist-label">
                     Already Have In Youtube?
                   </InputLabel>
                   <Controller
@@ -713,7 +722,9 @@ const UploadVideo = () => {
               </Grid>
               <Grid item xs={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="isKids-label">Kids Video?</InputLabel>
+                  <InputLabel required id="isKids-label">
+                    Kids Video?
+                  </InputLabel>
                   <Controller
                     name="isKids"
                     control={control}
@@ -810,7 +821,6 @@ const UploadVideo = () => {
                           label="Label"
                           variant="outlined"
                           margin="normal"
-                          required
                         />
                       )}
                       freeSolo
@@ -820,7 +830,7 @@ const UploadVideo = () => {
 
                 <Button onClick={showModal}>Create Label</Button>
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Controller
                   name="vevoChannel"
                   control={control}
@@ -835,6 +845,43 @@ const UploadVideo = () => {
                     />
                   )}
                 />
+              </Grid> */}
+              <Grid item xs={12}>
+                <Controller
+                  name="vevoChannel"
+                  control={control}
+                  render={({ field }) => (
+                    <Autocomplete
+                      {...field}
+                      options={channelOptions}
+                      getOptionLabel={(option) => option.label || ""}
+                      value={
+                        channelOptions.find(
+                          (option: any, value: any) =>
+                            option.value === value.label
+                        ) || null
+                      }
+                      onChange={(event, value) => {
+                        field.onChange(value?.label || "");
+                        setValue("vevoChannel", value?.value || null);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          className={classes.input}
+                          fullWidth
+                          label="VEVO CHannel"
+                          variant="outlined"
+                          margin="normal"
+                          required
+                        />
+                      )}
+                      freeSolo
+                    />
+                  )}
+                />
+
+                {/* <Button onClick={showModal}>Create Label</Button> */}
               </Grid>
               <Grid item xs={6}>
                 {renderArrayFields(
@@ -888,6 +935,7 @@ const UploadVideo = () => {
                         label="Genre"
                         variant="outlined"
                         fullWidth
+                        required
                       />
                     )}
                   />
@@ -985,7 +1033,6 @@ const UploadVideo = () => {
                       label="UPC Code"
                       variant="outlined"
                       fullWidth
-                      required
                     />
                   )}
                 />
@@ -1106,7 +1153,7 @@ const UploadVideo = () => {
                       label="Repertoire Owner"
                       variant="outlined"
                       fullWidth
-                      // required
+                      required
                     />
                   )}
                 />
@@ -1156,7 +1203,6 @@ const UploadVideo = () => {
         </CardContent>
       </Card>
 
-      {/* Terms and Conditions Modal */}
       <Dialog
         open={openModal}
         onClose={handleCloseModal}

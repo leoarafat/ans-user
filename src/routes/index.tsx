@@ -57,6 +57,8 @@ import YoutubeTakeDownForm from "@/components/Legal/Youtube/YouTubeTakeDown";
 import ArtistChannelRequestForm from "@/components/Youtube/ArtistChannelRequest/ArtistChannelRequest";
 import WhiteListRequestForm from "@/components/Youtube/WhiteListRequest/WhiteListRequest";
 import RejectedMessage from "@/pages/RejectedMessage";
+import VideoUploaderStepperForm from "@/components/SteperForm/VideoStepperForm";
+import SubUserPage from "@/components/SubUser/SubUserPage";
 
 const router = createBrowserRouter([
   {
@@ -99,6 +101,7 @@ const router = createBrowserRouter([
         path: "/release-video",
         element: (
           <IsVerifiedRoutes>
+            {/* <VideoUploaderStepperForm /> */}
             <UploadVideo />
           </IsVerifiedRoutes>
         ),
@@ -437,6 +440,14 @@ const router = createBrowserRouter([
         element: (
           <IsVerifiedRoutes>
             <Profile />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/settings/sub-user",
+        element: (
+          <IsVerifiedRoutes>
+            <SubUserPage />
           </IsVerifiedRoutes>
         ),
       },

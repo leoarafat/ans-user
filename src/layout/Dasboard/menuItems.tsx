@@ -13,6 +13,7 @@ import {
   MusicIcon,
   TriangleAlert,
   LogOut,
+  UserIcon,
 } from "lucide-react";
 import { RiPlayListAddFill } from "react-icons/ri";
 import { MdAttachMoney } from "react-icons/md";
@@ -63,11 +64,7 @@ export const menuItems = [
         title: "Correction Request",
         icon: <ShieldAlert size={18} style={{ color: "white" }} />,
       },
-      // {
-      //   path: "/drafts",
-      //   title: "Drafts",
-      //   icon: <CiCircleInfo size={18} color="white" />,
-      // },
+
       {
         path: "/videos",
         title: "Videos",
@@ -241,10 +238,16 @@ export const menuItems = [
     icon: <Settings size={18} color="#fff" />,
     subMenu: [
       {
+        path: "/sub-user",
+        title: "Manage Sub-User",
+        icon: <UserIcon size={18} />,
+      },
+      {
         path: "/profile",
         title: "Manage Profile",
         icon: <Settings size={18} />,
       },
+
       {
         path: "/change-password",
         title: "Change password",
