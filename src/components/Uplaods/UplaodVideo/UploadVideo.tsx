@@ -50,6 +50,7 @@ import { imageURL } from "@/redux/api/baseApi";
 import { makeStyles } from "@material-ui/core/styles";
 import AddLabelModal from "@/components/ArtisLabelManagement/Label/AddLabelModa";
 import AddArtistModal from "@/components/ArtisLabelManagement/Artist/AddArtistModal";
+import AddVevoChannelModal from "@/components/ArtisLabelManagement/ManageVevoChannel/ManageVevoChannelModal";
 
 interface IFormInput {
   video: File | null;
@@ -84,6 +85,10 @@ interface IFormInput {
   youtubePremiere: string;
   isExist: string;
   isKids: string;
+  alreadyHaveAnVevoChannel: string;
+  videoAlreadyExistOnYoutube: string;
+  videoLink: string;
+  assetId: string;
 }
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -123,6 +128,8 @@ const UploadVideo = () => {
       thumbnail: null,
       version: "",
       title: "",
+      videoLink: "",
+      assetId: "",
       primaryArtist: [{ primaryArtistName: "", _id: "" }],
       featuringArtists: [{ featuringArtistName: "" }],
       writer: [{ writerName: "" }],
@@ -134,6 +141,8 @@ const UploadVideo = () => {
       youtubePremiere: "No",
       isExist: "No",
       explicit: "No",
+      alreadyHaveAnVevoChannel: "No",
+      videoAlreadyExistOnYoutube: "No",
       label: "",
       genre: "",
       subGenre: "",
@@ -156,6 +165,7 @@ const UploadVideo = () => {
 
   const [open, setOpen] = useState(false);
   const [openArtist, setOpenArtist] = useState(false);
+  const [openChannel, setOpenChannel] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [conditionsAccepted, setConditionsAccepted] = useState({
@@ -168,6 +178,8 @@ const UploadVideo = () => {
   const [thumbnailError, setThumbnailError] = useState<string>("");
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedSubgenre, setSelectedSubgenre] = useState<string>("");
+  const [haveChannel, setHaveChannel] = useState(false);
+  const [haveVideo, setHaveVideo] = useState(false);
   const navigate = useNavigate();
 
   function generateISRC() {
@@ -264,6 +276,10 @@ const UploadVideo = () => {
       formData.append("visibility", data.visibility);
       formData.append("time", data.time);
       formData.append("repertoireOwner", data.repertoireOwner);
+      formData.append(
+        "alreadyHaveAnVevoChannel",
+        data.alreadyHaveAnVevoChannel
+      );
 
       const formattedPrimaryArtists = data.primaryArtist.map(
         (artist) => artist._id
@@ -327,6 +343,9 @@ const UploadVideo = () => {
   };
   const showModal = () => {
     setOpen(true);
+  };
+  const showChannelModal = () => {
+    setOpenChannel(true);
   };
   const showArtistModal = () => {
     setOpenArtist(true);
@@ -744,7 +763,7 @@ const UploadVideo = () => {
               </Grid>
               <Grid item xs={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="youtubePremiere?-label">
+                  <InputLabel id="youtubePremiere-label">
                     Create a YouTube Premiere?
                   </InputLabel>
                   <Controller
@@ -754,7 +773,7 @@ const UploadVideo = () => {
                       <Select
                         style={{ borderRadius: "30px" }}
                         {...field}
-                        labelId="youtubePremiere?-label"
+                        labelId="youtubePremiere-label"
                         label="youtubePremiere"
                       >
                         <MenuItem value="Yes">Yes</MenuItem>
@@ -764,6 +783,144 @@ const UploadVideo = () => {
                   />
                 </FormControl>
               </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel required id="alreadyHaveAnVevoChannel-label">
+                    Already have VEVO Channel?
+                  </InputLabel>
+                  <Controller
+                    name="alreadyHaveAnVevoChannel"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        style={{ borderRadius: "30px" }}
+                        {...field}
+                        labelId="alreadyHaveAnVevoChannel-label"
+                        label="alreadyHaveAnVevoChannel"
+                      >
+                        <MenuItem
+                          onClick={() => setHaveChannel(true)}
+                          value="Yes"
+                        >
+                          Yes
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => setHaveChannel(false)}
+                          value="No"
+                        >
+                          No
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              {haveChannel && (
+                <Grid item xs={12}>
+                  <Controller
+                    name="vevoChannel"
+                    control={control}
+                    render={({ field }) => (
+                      <Autocomplete
+                        {...field}
+                        options={channelOptions}
+                        getOptionLabel={(option) => option.label || ""}
+                        value={
+                          channelOptions.find(
+                            (option: any, value: any) =>
+                              option.value === value.label
+                          ) || null
+                        }
+                        onChange={(event, value) => {
+                          field.onChange(value?.label || "");
+                          setValue("vevoChannel", value?.value || null);
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            className={classes.input}
+                            fullWidth
+                            label="VEVO CHannel"
+                            variant="outlined"
+                            margin="normal"
+                            required
+                          />
+                        )}
+                        freeSolo
+                      />
+                    )}
+                  />
+
+                  <Button onClick={showChannelModal}>Create Channel</Button>
+                </Grid>
+              )}
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel required id="videoAlreadyExistOnYoutube-label">
+                    Video already exists on YouTube?
+                  </InputLabel>
+                  <Controller
+                    name="videoAlreadyExistOnYoutube"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        style={{ borderRadius: "30px" }}
+                        {...field}
+                        labelId="videoAlreadyExistOnYoutube-label"
+                        label="videoAlreadyExistOnYoutube"
+                      >
+                        <MenuItem
+                          onClick={() => setHaveVideo(true)}
+                          value="Yes"
+                        >
+                          Yes
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => setHaveVideo(false)}
+                          value="No"
+                        >
+                          No
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              {haveVideo && (
+                <>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="videoLink"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="Video Link (Please ensure current video have minimum 500k views)"
+                          variant="outlined"
+                          fullWidth
+                          className={classes.input}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="assetId"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="Asset ID (If channel linked with CMS/MCN)"
+                          variant="outlined"
+                          fullWidth
+                          required
+                          className={classes.input}
+                        />
+                      )}
+                    />
+                  </Grid>
+                </>
+              )}
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel id="territoryPolicy?-label">
@@ -830,59 +987,7 @@ const UploadVideo = () => {
 
                 <Button onClick={showModal}>Create Label</Button>
               </Grid>
-              {/* <Grid item xs={12}>
-                <Controller
-                  name="vevoChannel"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="VEVO Channel"
-                      variant="outlined"
-                      fullWidth
-                      // required
-                    />
-                  )}
-                />
-              </Grid> */}
-              <Grid item xs={12}>
-                <Controller
-                  name="vevoChannel"
-                  control={control}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      options={channelOptions}
-                      getOptionLabel={(option) => option.label || ""}
-                      value={
-                        channelOptions.find(
-                          (option: any, value: any) =>
-                            option.value === value.label
-                        ) || null
-                      }
-                      onChange={(event, value) => {
-                        field.onChange(value?.label || "");
-                        setValue("vevoChannel", value?.value || null);
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          className={classes.input}
-                          fullWidth
-                          label="VEVO CHannel"
-                          variant="outlined"
-                          margin="normal"
-                          required
-                        />
-                      )}
-                      freeSolo
-                    />
-                  )}
-                />
 
-                {/* <Button onClick={showModal}>Create Label</Button> */}
-              </Grid>
               <Grid item xs={6}>
                 {renderArrayFields(
                   "primaryArtist",
@@ -1318,6 +1423,7 @@ const UploadVideo = () => {
       </Dialog>
       <AddLabelModal open={open} setOpen={setOpen} />
       <AddArtistModal open={openArtist} setOpen={setOpenArtist} />
+      <AddVevoChannelModal open={openChannel} setOpen={setOpenChannel} />
     </Container>
   );
 };
