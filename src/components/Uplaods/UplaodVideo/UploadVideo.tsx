@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-// /* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { useEffect, useState } from "react";
 import {
   useForm,
@@ -41,88 +41,23 @@ import {
   useGetApprovedLabelsQuery,
   useGetChannelsQuery,
 } from "@/redux/slices/ArtistAndLabel/artistLabelApi";
-
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { allLanguage } from "@/utils/languages";
 import axios from "axios";
 import { imageURL } from "@/redux/api/baseApi";
-import { makeStyles } from "@material-ui/core/styles";
 import AddLabelModal from "@/components/ArtisLabelManagement/Label/AddLabelModa";
 import AddArtistModal from "@/components/ArtisLabelManagement/Artist/AddArtistModal";
 import AddVevoChannelModal from "@/components/ArtisLabelManagement/ManageVevoChannel/ManageVevoChannelModal";
+import { IVideoFormInput } from "./interface";
+import { useStyles } from "./styles";
+import { generateISRC } from "@/utils/utils";
+import TermsConditions from "./TermsConditions";
 
-interface IFormInput {
-  video: File | null;
-  thumbnail: File | null;
-  version: string;
-  title: string;
-  primaryArtist: { primaryArtistName: string; _id: string }[];
-  featuringArtists: { featuringArtistName: string }[];
-  writer: { writerName: string }[];
-  composer: { composerName: string }[];
-  producer: { producerName: string }[];
-  editor: { editorName: string }[];
-  musicDirector: { musicDirectorName: string }[];
-  label: string;
-  genre: string;
-  subGenre: string;
-  language: string;
-  isrc: string;
-  audioIsrc: string;
-  vevoChannel: string;
-  keywords: string;
-  copyright: string;
-  copyrightYear: string;
-  territoryPolicy: string;
-  visibility: string;
-  time: string;
-  repertoireOwner: string;
-  upc: string;
-  description: string;
-  storeReleaseDate: string;
-  explicit: string;
-  youtubePremiere: string;
-  isExist: string;
-  isKids: string;
-  alreadyHaveAnVevoChannel: string;
-  videoAlreadyExistOnYoutube: string;
-  videoLink: string;
-  assetId: string;
-}
-const useStyles = makeStyles((theme) => ({
-  form: {
-    marginTop: theme.spacing(4),
-  },
-  input: {
-    // marginBottom: theme.spacing(3),
-    "& .MuiOutlinedInput-root": {
-      borderRadius: "30px",
-    },
-  },
-  button: {
-    padding: "12px 0",
-    borderRadius: "30px",
-    fontSize: "16px",
-    fontWeight: "bold",
-  },
-  terms: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: theme.spacing(2),
-  },
-  link: {
-    color: theme.palette.primary.main,
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "underline",
-    },
-  },
-}));
 const UploadVideo = () => {
   const classes = useStyles();
   const [isrc, setIsrc] = useState("");
-  const { control, handleSubmit, watch, setValue } = useForm<IFormInput>({
+  const { control, handleSubmit, watch, setValue } = useForm<IVideoFormInput>({
     defaultValues: {
       video: null,
       thumbnail: null,
@@ -182,13 +117,6 @@ const UploadVideo = () => {
   const [haveVideo, setHaveVideo] = useState(false);
   const navigate = useNavigate();
 
-  function generateISRC() {
-    const prefix = "BDA1U24";
-    const randomNumber = Math.floor(Math.random() * 99999) + 1;
-    const paddedNumber = randomNumber.toString().padStart(5, "0");
-    return `${prefix}${paddedNumber}`;
-  }
-
   const { data: labelData } = useGetApprovedLabelsQuery({});
   const { data: artistData } = useGetArtistsQuery({});
   const { data: channelData, isLoading } = useGetChannelsQuery({});
@@ -211,17 +139,12 @@ const UploadVideo = () => {
       label: label.channelName,
       value: label.channelName,
     })) || [];
-
-  useEffect(() => {
-    localStorage.removeItem("releaseFormData");
-    localStorage.removeItem("tracksInformation");
-  }, []);
   useEffect(() => {
     const newIsrc = generateISRC();
     setIsrc(newIsrc);
   }, []);
 
-  const handleSubmitWithConditions: SubmitHandler<IFormInput> = (data) => {
+  const handleSubmitWithConditions: SubmitHandler<IVideoFormInput> = (data) => {
     if (
       conditionsAccepted.condition1 &&
       conditionsAccepted.condition2 &&
@@ -233,7 +156,7 @@ const UploadVideo = () => {
     }
   };
 
-  const onSubmit = async (data: IFormInput) => {
+  const onSubmit = async (data: IVideoFormInput) => {
     if (
       !conditionsAccepted.condition1 ||
       !conditionsAccepted.condition2 ||
@@ -280,6 +203,8 @@ const UploadVideo = () => {
         "alreadyHaveAnVevoChannel",
         data.alreadyHaveAnVevoChannel
       );
+      formData.append("videoLink", data.videoLink);
+      formData.append("assetId", data.assetId);
 
       const formattedPrimaryArtists = data.primaryArtist.map(
         (artist) => artist._id
@@ -423,7 +348,7 @@ const UploadVideo = () => {
   };
 
   const renderArrayFields = (
-    fieldArrayName: keyof IFormInput,
+    fieldArrayName: keyof IVideoFormInput,
     label: string,
     name: string,
     isAutocomplete = false
@@ -1307,120 +1232,16 @@ const UploadVideo = () => {
           </form>
         </CardContent>
       </Card>
+      <TermsConditions
+        openModal={openModal}
+        handleCloseModal={handleCloseModal}
+        conditionsAccepted={conditionsAccepted}
+        handleAcceptCondition={handleAcceptCondition}
+        handleSubmit={handleSubmit}
+        handleSubmitWithConditions={handleSubmitWithConditions}
+        uploadProgress={uploadProgress}
+      />
 
-      <Dialog
-        open={openModal}
-        onClose={handleCloseModal}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>
-          <Typography variant="h6">Terms & Conditions</Typography>
-          <Typography variant="subtitle1">
-            Please confirm that you have understood and that you agree to the
-            following Terms & Conditions, and delivery guidelines.
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={conditionsAccepted.condition1}
-                onChange={handleAcceptCondition("condition1")}
-                color="primary"
-              />
-            }
-            label={
-              <Typography variant="body1">
-                I understand and agree to the ISRC Terms & Conditions.
-                <Typography variant="body2">
-                  If you asked ANS Music to generate your ISRC codes, you hereby
-                  agree to{" "}
-                  <Link
-                    className="text-blue-600 underline"
-                    to="https://ansmusiclimited.com/"
-                    target="_blank"
-                  >
-                    ANS Music's conditions for generating ISRCs.
-                  </Link>
-                </Typography>
-              </Typography>
-            }
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={conditionsAccepted.condition2}
-                onChange={handleAcceptCondition("condition2")}
-                color="primary"
-              />
-            }
-            label={
-              <Typography variant="body1">
-                I understand and agree to the Youtube Content Guidelines.
-                <Typography variant="body2">
-                  Some content cannot be safely distributed and monetized on the
-                  platform. Please be sure you have read and follow the{" "}
-                  <Link
-                    className="text-blue-600 underline"
-                    to="https://ansmusiclimited.com/"
-                    target="_blank"
-                  >
-                    Youtube Content Guidelines.
-                  </Link>
-                </Typography>
-              </Typography>
-            }
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={conditionsAccepted.condition3}
-                onChange={handleAcceptCondition("condition3")}
-                color="primary"
-              />
-            }
-            label={
-              <Typography variant="body1">
-                I understand and agree to the ANS Music Content Delivery
-                Guidelines for Audio Stores.
-                <Typography variant="body2">
-                  Some content is not eligible to be distributed on Apple Music,
-                  Spotify, and Youtube Audio Fingerprint. Please be sure you
-                  have read and understand the{" "}
-                  <Link
-                    className="text-blue-600 underline"
-                    to="https://ansmusiclimited.com/"
-                    target="_blank"
-                  >
-                    ANS Music Content Delivery Guidelines for Audio Stores.
-                  </Link>
-                </Typography>
-              </Typography>
-            }
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal} color="primary" variant="outlined">
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSubmit(handleSubmitWithConditions)}
-            color="primary"
-            variant="contained"
-            //@ts-ignore
-            disabled={
-              uploadProgress ||
-              !conditionsAccepted.condition1 ||
-              !conditionsAccepted.condition2 ||
-              !conditionsAccepted.condition3 ||
-              uploadProgress
-            }
-          >
-            {uploadProgress ? "Uploading..." : "Agree and Submit"}
-          </Button>
-        </DialogActions>
-      </Dialog>
       <AddLabelModal open={open} setOpen={setOpen} />
       <AddArtistModal open={openArtist} setOpen={setOpenArtist} />
       <AddVevoChannelModal open={openChannel} setOpen={setOpenChannel} />
