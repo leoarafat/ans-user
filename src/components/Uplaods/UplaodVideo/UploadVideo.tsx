@@ -643,7 +643,7 @@ const UploadVideo = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
-                <FormControl fullWidth>
+                <FormControl fullWidth variant="outlined">
                   <InputLabel required id="isExist-label">
                     Already Have In Youtube?
                   </InputLabel>
@@ -655,7 +655,7 @@ const UploadVideo = () => {
                         style={{ borderRadius: "30px" }}
                         {...field}
                         labelId="isExist-label"
-                        label="isExist"
+                        label="Already Have In Youtube?"
                       >
                         <MenuItem value="Yes">Yes</MenuItem>
                         <MenuItem value="No">No</MenuItem>
@@ -677,7 +677,7 @@ const UploadVideo = () => {
                         style={{ borderRadius: "30px" }}
                         {...field}
                         labelId="isKids-label"
-                        label="isKids"
+                        label="Kids Video?"
                       >
                         <MenuItem value="Yes">Yes</MenuItem>
                         <MenuItem value="No">No</MenuItem>
@@ -699,7 +699,7 @@ const UploadVideo = () => {
                         style={{ borderRadius: "30px" }}
                         {...field}
                         labelId="youtubePremiere-label"
-                        label="youtubePremiere"
+                        label="Create a YouTube Premiere?"
                       >
                         <MenuItem value="Yes">Yes</MenuItem>
                         <MenuItem value="No">No</MenuItem>
@@ -709,7 +709,7 @@ const UploadVideo = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <FormControl fullWidth>
+                <FormControl fullWidth variant="outlined">
                   <InputLabel required id="alreadyHaveAnVevoChannel-label">
                     Already have VEVO Channel?
                   </InputLabel>
@@ -792,7 +792,7 @@ const UploadVideo = () => {
                         style={{ borderRadius: "30px" }}
                         {...field}
                         labelId="videoAlreadyExistOnYoutube-label"
-                        label="videoAlreadyExistOnYoutube"
+                        label="Video already exists on YouTube?"
                       >
                         <MenuItem
                           onClick={() => setHaveVideo(true)}
