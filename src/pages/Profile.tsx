@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import { useMyProfileQuery } from "@/redux/slices/admin/settingApi";
-import { imageURL } from "@/redux/api/baseApi";
+
 import { useEditProfilePictureMutation } from "@/redux/slices/admin/userApi";
 import toast from "react-hot-toast";
 import { Edit2 } from "lucide-react";
@@ -326,7 +326,7 @@ const Profile = () => {
               <Grid item xs={12} sm={6} md={4}>
                 <Card sx={{ borderRadius: 2 }}>
                   <img
-                    src={`${imageURL}/${profileData?.data?.nidFront}`}
+                    src={`${profileData?.data?.nidFront}`}
                     alt="Cover"
                     style={{ width: "100%", height: "auto", borderRadius: 2 }}
                   />
@@ -342,7 +342,7 @@ const Profile = () => {
               <Grid item xs={12} sm={6} md={4}>
                 <Card sx={{ borderRadius: 2 }}>
                   <img
-                    src={`${imageURL}/${profileData?.data?.nidBack}`}
+                    src={`${profileData?.data?.nidBack}`}
                     alt="Cover"
                     style={{ width: "100%", height: "auto", borderRadius: 2 }}
                   />
@@ -358,7 +358,7 @@ const Profile = () => {
               <Grid item xs={12} sm={6} md={4}>
                 <Card sx={{ borderRadius: 2 }}>
                   <img
-                    src={`${imageURL}/${profileData?.data?.copyrightNoticeImage}`}
+                    src={`${profileData?.data?.copyrightNoticeImage}`}
                     alt="Cover"
                     style={{ width: "100%", height: "auto", borderRadius: 2 }}
                   />
@@ -374,7 +374,7 @@ const Profile = () => {
               <Grid item xs={12} sm={6} md={4}>
                 <Card sx={{ borderRadius: 2 }}>
                   <img
-                    src={`${imageURL}/${profileData?.data?.dashboardScreenShot}`}
+                    src={`${profileData?.data?.dashboardScreenShot}`}
                     alt="Cover"
                     style={{ width: "100%", height: "auto", borderRadius: 2 }}
                   />
