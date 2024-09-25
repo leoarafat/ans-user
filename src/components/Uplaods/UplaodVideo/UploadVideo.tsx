@@ -2,12 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { useEffect, useState } from "react";
-import {
-  useForm,
-  useFieldArray,
-  Controller,
-  SubmitHandler,
-} from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
   Button,
   TextField,
@@ -33,7 +28,13 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-import { Add, Remove, PhotoCamera } from "@mui/icons-material";
+import {
+  Add,
+  Remove,
+  PhotoCamera,
+  RemoveCircle,
+  AddCircle,
+} from "@mui/icons-material";
 import { MdClose } from "react-icons/md";
 import { genres } from "@/MockData/MockData";
 import {
@@ -53,10 +54,14 @@ import { IVideoFormInput } from "./interface";
 import { useStyles } from "./styles";
 import { generateISRC } from "@/utils/utils";
 import TermsConditions from "./TermsConditions";
+import DetailsForm from "./DetailsForm";
 
 const UploadVideo = () => {
   const classes = useStyles();
   const [isrc, setIsrc] = useState("");
+  const [primaryArtists, setPrimaryArtists] = useState([{ name: "", _id: "" }]);
+  const [featureArtists, setFeatureArtists] = useState([{ name: "", _id: "" }]);
+  console.log(primaryArtists, featureArtists);
   const { control, handleSubmit, watch, setValue } = useForm<IVideoFormInput>({
     defaultValues: {
       video: null,
@@ -65,16 +70,22 @@ const UploadVideo = () => {
       title: "",
       videoLink: "",
       assetId: "",
+
       primaryArtist: [{ primaryArtistName: "", _id: "" }],
       featuringArtists: [{ featuringArtistName: "" }],
-      writer: [{ writerName: "" }],
-      composer: [{ composerName: "" }],
-      producer: [{ producerName: "" }],
-      editor: [{ editorName: "" }],
-      musicDirector: [{ musicDirectorName: "" }],
+      writer: "",
+      composer: "",
+      producer: "",
+      editor: "",
+      musicDirector: "",
+      // writer: [{ writerName: "" }],
+      // composer: [{ composerName: "" }],
+      // producer: [{ producerName: "" }],
+      // editor: [{ editorName: "" }],
+      // musicDirector: [{ musicDirectorName: "" }],
       isKids: "No",
-      youtubePremiere: "No",
-      isExist: "No",
+      // youtubePremiere: "No",
+      // isExist: "No",
       explicit: "No",
       alreadyHaveAnVevoChannel: "No",
       videoAlreadyExistOnYoutube: "No",
@@ -93,7 +104,7 @@ const UploadVideo = () => {
       copyrightYear: "",
       territoryPolicy: "Monetize Worldwide",
       visibility: "",
-      time: "",
+      // time: "",
       repertoireOwner: "",
     },
   });
@@ -108,6 +119,7 @@ const UploadVideo = () => {
     condition2: false,
     condition3: false,
   });
+  const [activeStep, setActiveStep] = useState(0);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnailError, setThumbnailError] = useState<string>("");
@@ -139,6 +151,7 @@ const UploadVideo = () => {
       label: label.channelName,
       value: label.channelName,
     })) || [];
+
   useEffect(() => {
     const newIsrc = generateISRC();
     setIsrc(newIsrc);
@@ -154,6 +167,32 @@ const UploadVideo = () => {
     } else {
       setOpenModal(true);
     }
+  };
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+  const handleNext = async () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleAddPrimaryArtist = () => {
+    setPrimaryArtists([...primaryArtists, { name: "", _id: "" }]);
+  };
+
+  const handleRemovePrimaryArtist = (index: number) => {
+    const updatedPrimaryArtists = [...primaryArtists];
+    updatedPrimaryArtists.splice(index, 1);
+    setPrimaryArtists(updatedPrimaryArtists);
+  };
+
+  const handleAddFeatureArtist = () => {
+    setFeatureArtists([...featureArtists, { name: "", _id: "" }]);
+  };
+
+  const handleRemoveFeatureArtist = (index: number) => {
+    const updatedFeatureArtists = [...featureArtists];
+    updatedFeatureArtists.splice(index, 1);
+    setFeatureArtists(updatedFeatureArtists);
   };
 
   const onSubmit = async (data: IVideoFormInput) => {
@@ -176,74 +215,72 @@ const UploadVideo = () => {
         formData.append("image", thumbnail);
       }
 
-      formData.append("version", data.version);
-      formData.append("title", data.title);
-      formData.append("label", data.label);
-      formData.append("genre", selectedGenre);
-      formData.append("subGenre", selectedSubgenre);
-      formData.append("language", data.language);
-      formData.append("isrc", data.isrc);
-      formData.append("upc", data.upc);
-      formData.append("description", data.description);
-      formData.append("storeReleaseDate", data.storeReleaseDate);
+      formData.append("version", data.version && data.version);
+      formData.append("title", data.title && data.title);
+      formData.append("label", data.label && data.label);
+      formData.append("genre", selectedGenre && selectedGenre);
+      formData.append("subGenre", selectedSubgenre && selectedSubgenre);
+      formData.append("language", data.language && data.language);
+      formData.append("isrc", isrc && isrc);
+      formData.append("upc", data.upc && data.upc);
+      formData.append("description", data.description && data.description);
+      formData.append(
+        "storeReleaseDate",
+        data.storeReleaseDate && data.storeReleaseDate
+      );
       formData.append("explicit", data.explicit);
-      formData.append("youtubePremiere", data.youtubePremiere);
-      formData.append("isExist", data.isExist);
+      // formData.append("youtubePremiere", data.youtubePremiere);
+      // formData.append("isExist", data.isExist);
       formData.append("isKids", data.isKids);
-      formData.append("audioIsrc", data.audioIsrc);
-      formData.append("vevoChannel", data.vevoChannel);
-      formData.append("keywords", data.keywords);
-      formData.append("copyright", data.copyright);
-      formData.append("copyrightYear", data.copyrightYear);
-      formData.append("territoryPolicy", data.territoryPolicy);
-      formData.append("visibility", data.visibility);
-      formData.append("time", data.time);
-      formData.append("repertoireOwner", data.repertoireOwner);
+      formData.append("audioIsrc", data.audioIsrc && data.audioIsrc);
+      formData.append("vevoChannel", data.vevoChannel && data.vevoChannel);
+      formData.append("keywords", data.keywords && data.keywords);
+      formData.append("copyright", data.copyright && data.copyright);
+      formData.append(
+        "copyrightYear",
+        data.copyrightYear && data.copyrightYear
+      );
+      formData.append(
+        "territoryPolicy",
+        data.territoryPolicy && data.territoryPolicy
+      );
+      formData.append("visibility", data.visibility && data.visibility);
+      // formData.append("time", data.time);
+      formData.append(
+        "repertoireOwner",
+        data.repertoireOwner && data.repertoireOwner
+      );
       formData.append(
         "alreadyHaveAnVevoChannel",
-        data.alreadyHaveAnVevoChannel
+        data.alreadyHaveAnVevoChannel && data.alreadyHaveAnVevoChannel
       );
-      formData.append("videoLink", data.videoLink);
-      formData.append("assetId", data.assetId);
+      formData.append("videoLink", data.videoLink && data.videoLink);
+      formData.append("assetId", data.assetId && data.assetId);
 
-      const formattedPrimaryArtists = data.primaryArtist.map(
+      const formattedPrimaryArtists = primaryArtists?.map(
         (artist) => artist._id
       );
-      const formattedFeatureArtists = data.featuringArtists.map(
+      const formattedFeatureArtists = featureArtists?.map(
         //@ts-ignore
-        (artist) => artist.primaryArtistName
-      );
-      const formattedWriter = data.writer.map(
-        //@ts-ignore
-        (artist) => artist.primaryArtistName
-      );
-      const formattedComposer = data.composer.map(
-        //@ts-ignore
-        (artist) => artist.primaryArtistName
-      );
-      const formattedProducer = data.producer.map(
-        //@ts-ignore
-        (artist) => artist.primaryArtistName
-      );
-      const formattedEditor = data.editor.map(
-        //@ts-ignore
-        (artist) => artist.primaryArtistName
-      );
-      const formattedDirector = data.musicDirector.map(
-        //@ts-ignore
-        (artist) => artist.primaryArtistName
+        (artist) => artist.name
       );
 
-      formData.append("primaryArtist", JSON.stringify(formattedPrimaryArtists));
+      formData.append(
+        "primaryArtist",
+        formattedPrimaryArtists && JSON.stringify(formattedPrimaryArtists)
+      );
       formData.append(
         "featuringArtists",
-        JSON.stringify(formattedFeatureArtists)
+        formattedFeatureArtists && JSON.stringify(formattedFeatureArtists)
       );
-      formData.append("writer", JSON.stringify(formattedWriter));
-      formData.append("composer", JSON.stringify(formattedComposer));
-      formData.append("producer", JSON.stringify(formattedProducer));
-      formData.append("editor", JSON.stringify(formattedEditor));
-      formData.append("musicDirector", JSON.stringify(formattedDirector));
+      formData.append("writer", data.writer && data.writer);
+      formData.append("composer", data.composer && data.composer);
+      formData.append("producer", data.producer && data.producer);
+      formData.append("editor", data.editor && data.editor);
+      formData.append(
+        "musicDirector",
+        data.musicDirector && data.musicDirector
+      );
 
       const res = await axios.post(`${imageURL}/video/upload`, formData, {
         onUploadProgress: (progressEvent) => {
@@ -347,886 +384,345 @@ const UploadVideo = () => {
     setVideoFile(null);
   };
 
-  const renderArrayFields = (
-    fieldArrayName: keyof IVideoFormInput,
-    label: string,
-    name: string,
-    isAutocomplete = false
-  ) => {
-    const { fields, append, remove } = useFieldArray({
-      control,
-      //@ts-ignore
-      name: fieldArrayName,
-    });
-
-    return (
-      <Stack spacing={2}>
-        {fields.map((field, index) => (
-          <Grid container spacing={2} alignItems="center" key={field.id}>
-            <Grid item xs={10}>
-              <Controller
-                //@ts-ignore
-                name={`${fieldArrayName}[${index}].primaryArtistName` as const}
-                control={control}
-                render={({ field }) =>
-                  isAutocomplete ? (
-                    //@ts-ignore
-                    <Autocomplete
-                      {...field}
-                      options={artistOptions.map((option: any) => option.label)}
-                      getOptionLabel={(option) => option || ""}
-                      isOptionEqualToValue={(option, value) => option === value}
-                      onChange={(event, value) => {
-                        field.onChange(value);
-                        const selectedArtist = artistOptions.find(
-                          (artist: any) => artist.label === value
-                        );
-                        setValue(
-                          //@ts-ignore
-                          `${fieldArrayName}[${index}]._id` as const,
-                          selectedArtist?.value || null
-                        );
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          required
-                          {...params}
-                          fullWidth
-                          label={label}
-                          variant="outlined"
-                          className={classes.input}
-                        />
-                      )}
-                    />
-                  ) : (
-                    <TextField
-                      {...field}
-                      label={label}
-                      variant="outlined"
-                      className={classes.input}
-                      fullWidth
-                    />
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton
-                onClick={() => remove(index)}
-                aria-label="remove"
-                color="error"
-              >
-                <Remove />
-              </IconButton>
-              <Button
-                // variant="outlined"
-                color="primary"
-                startIcon={<Add />}
-                //@ts-ignore
-                onClick={() => append({ [name]: "" })}
-              ></Button>
-            </Grid>
-          </Grid>
-        ))}
-      </Stack>
-    );
-  };
-
   return (
     <Container>
       <Card>
         <CardContent>
           <form onSubmit={handleSubmit(handleSubmitWithConditions)}>
             <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <Stack spacing={2}>
-                      <Typography variant="subtitle1" fontWeight="bold">
-                        Video File
-                      </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          border: "1px dashed #ccc",
-                          borderRadius: 2,
-                          padding: 2,
-                          backgroundColor: "#f9f9f9",
-                          transition: "background-color 0.3s",
-                          "&:hover": {
-                            backgroundColor: "#f0f0f0",
-                          },
-                        }}
-                      >
-                        <Button
-                          variant="contained"
-                          component="label"
-                          startIcon={<PhotoCamera />}
-                          sx={{
-                            backgroundColor: "#3f51b5",
-                            color: "#fff",
-                            "&:hover": {
-                              backgroundColor: "#303f9f",
-                            },
-                          }}
-                        >
-                          {videoFile ? "Change Video" : "Upload Video"}
-                          <input
-                            type="file"
-                            hidden
-                            accept="video/*"
-                            onChange={handleVideoUpload}
-                          />
-                        </Button>
-                        {videoFile && (
-                          <Box mt={2} width="100%">
-                            <video width="100%" controls>
-                              <source src={URL.createObjectURL(videoFile)} />
-                              Your browser does not support the video tag.
-                            </video>
-                            <IconButton
-                              color="error"
-                              onClick={handleVideoRemove}
-                              sx={{ marginTop: 2, alignSelf: "center" }}
-                            >
-                              <MdClose />
-                            </IconButton>
-                          </Box>
-                        )}
-                      </Box>
-                    </Stack>
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <Stack spacing={2}>
-                      <Typography variant="subtitle1" fontWeight="bold">
-                        Thumbnail Image
-                      </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          border: "1px dashed #ccc",
-                          borderRadius: 2,
-                          padding: 2,
-                          backgroundColor: "#f9f9f9",
-                          transition: "background-color 0.3s",
-                          "&:hover": {
-                            backgroundColor: "#f0f0f0",
-                          },
-                        }}
-                      >
-                        <Button
-                          variant="contained"
-                          component="label"
-                          startIcon={<PhotoCamera />}
-                          sx={{
-                            backgroundColor: "#3f51b5",
-                            color: "#fff",
-                            "&:hover": {
-                              backgroundColor: "#303f9f",
-                            },
-                          }}
-                        >
-                          {thumbnail ? "Change Thumbnail" : "Upload Thumbnail"}
-                          <input
-                            type="file"
-                            hidden
-                            accept="image/jpeg"
-                            onChange={handleThumbnailUpload}
-                          />
-                        </Button>
-                        {thumbnail && (
-                          <Box mt={2} width="100%">
-                            <Avatar
-                              variant="rounded"
-                              src={URL.createObjectURL(thumbnail)}
-                              sx={{
-                                width: "100%",
-                                height: 200,
-                              }}
-                            />
-                            <IconButton
-                              color="error"
-                              onClick={handleThumbnailRemoveImage}
-                              sx={{ marginTop: 2, alignSelf: "center" }}
-                            >
-                              <MdClose />
-                            </IconButton>
-                          </Box>
-                        )}
-                        {thumbnailError && (
-                          <Typography color="error" textAlign="center">
-                            {thumbnailError}
-                          </Typography>
-                        )}
-                      </Box>
-                    </Stack>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <InputLabel id="version-label">Version</InputLabel>
-                  <Controller
-                    name="version"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        style={{ borderRadius: "30px" }}
-                        {...field}
-                        labelId="version-label"
-                        label="Version"
-                      >
-                        <MenuItem value="Lyrical Video">Lyrical Video</MenuItem>
-                        <MenuItem value="Interview">Interview</MenuItem>
-                        <MenuItem value="Lyrical Video">Lyrical Video</MenuItem>
-                        <MenuItem value="Official">Official</MenuItem>
-                        <MenuItem value="Live">Live</MenuItem>
-                        <MenuItem value="Behind The Scenes">
-                          Behind The Scenes
-                        </MenuItem>
-                        <MenuItem value="Teaser">Teaser</MenuItem>
-                        <MenuItem value="Original Content">
-                          Original Content
-                        </MenuItem>
-                        <MenuItem value="Pseudo Video">Pseudo Video</MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Controller
-                  name="title"
+              {activeStep === 0 && (
+                <DetailsForm
+                  videoFile={videoFile}
+                  handleVideoUpload={handleVideoUpload}
+                  handleVideoRemove={handleVideoRemove}
+                  thumbnail={thumbnail}
+                  handleThumbnailUpload={handleThumbnailUpload}
+                  handleThumbnailRemoveImage={handleThumbnailRemoveImage}
+                  thumbnailError={thumbnailError}
                   control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Video Title"
-                      variant="outlined"
-                      fullWidth
-                      required
-                      className={classes.input}
-                    />
-                  )}
+                  classes={classes}
+                  isrc={isrc}
+                  showArtistModal={showArtistModal}
+                  primaryArtists={primaryArtists}
+                  artistOptions={artistOptions}
+                  haveVideo={haveVideo}
+                  setHaveVideo={setHaveVideo}
+                  showChannelModal={showChannelModal}
+                  channelOptions={channelOptions}
+                  haveChannel={haveChannel}
+                  setHaveChannel={setHaveChannel}
+                  showModal={showModal}
+                  setValue={setValue}
+                  labelOptions={labelOptions}
+                  handleSubgenreChange={handleSubgenreChange}
+                  selectedSubgenre={selectedSubgenre}
+                  handleGenreChange={handleGenreChange}
+                  selectedGenre={selectedGenre}
+                  setPrimaryArtists={setPrimaryArtists}
+                  handleRemovePrimaryArtist={handleRemovePrimaryArtist}
+                  handleAddPrimaryArtist={handleAddPrimaryArtist}
+                  featureArtists={featureArtists}
+                  setFeatureArtists={setFeatureArtists}
+                  handleRemoveFeatureArtist={handleRemoveFeatureArtist}
+                  handleAddFeatureArtist={handleAddFeatureArtist}
+                  getSubgenres={getSubgenres}
                 />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <InputLabel required id="explicit-label">
-                    Explicit
-                  </InputLabel>
-                  <Controller
-                    name="explicit"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        style={{ borderRadius: "30px" }}
-                        {...field}
-                        labelId="explicit-label"
-                        label="Explicit"
-                      >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel required id="isExist-label">
-                    Already Have In Youtube?
-                  </InputLabel>
-                  <Controller
-                    name="isExist"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        style={{ borderRadius: "30px" }}
-                        {...field}
-                        labelId="isExist-label"
-                        label="Already Have In Youtube?"
-                      >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <InputLabel required id="isKids-label">
-                    Kids Video?
-                  </InputLabel>
-                  <Controller
-                    name="isKids"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        style={{ borderRadius: "30px" }}
-                        {...field}
-                        labelId="isKids-label"
-                        label="Kids Video?"
-                      >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <InputLabel id="youtubePremiere-label">
-                    Create a YouTube Premiere?
-                  </InputLabel>
-                  <Controller
-                    name="youtubePremiere"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        style={{ borderRadius: "30px" }}
-                        {...field}
-                        labelId="youtubePremiere-label"
-                        label="Create a YouTube Premiere?"
-                      >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel required id="alreadyHaveAnVevoChannel-label">
-                    Already have VEVO Channel?
-                  </InputLabel>
-                  <Controller
-                    name="alreadyHaveAnVevoChannel"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        style={{ borderRadius: "30px" }}
-                        {...field}
-                        labelId="alreadyHaveAnVevoChannel-label"
-                        label="alreadyHaveAnVevoChannel"
-                      >
-                        <MenuItem
-                          onClick={() => setHaveChannel(true)}
-                          value="Yes"
-                        >
-                          Yes
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => setHaveChannel(false)}
-                          value="No"
-                        >
-                          No
-                        </MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-              {haveChannel && (
-                <Grid item xs={12}>
-                  <Controller
-                    name="vevoChannel"
-                    control={control}
-                    render={({ field }) => (
-                      <Autocomplete
-                        {...field}
-                        options={channelOptions}
-                        getOptionLabel={(option) => option.label || ""}
-                        value={
-                          channelOptions.find(
-                            (option: any, value: any) =>
-                              option.value === value.label
-                          ) || null
-                        }
-                        onChange={(event, value) => {
-                          field.onChange(value?.label || "");
-                          setValue("vevoChannel", value?.value || null);
-                        }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            className={classes.input}
-                            fullWidth
-                            label="VEVO CHannel"
-                            variant="outlined"
-                            margin="normal"
-                            required
-                          />
-                        )}
-                        freeSolo
-                      />
-                    )}
-                  />
-
-                  <Button onClick={showChannelModal}>Create Channel</Button>
-                </Grid>
               )}
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel required id="videoAlreadyExistOnYoutube-label">
-                    Video already exists on YouTube?
-                  </InputLabel>
-                  <Controller
-                    name="videoAlreadyExistOnYoutube"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        style={{ borderRadius: "30px" }}
-                        {...field}
-                        labelId="videoAlreadyExistOnYoutube-label"
-                        label="Video already exists on YouTube?"
-                      >
-                        <MenuItem
-                          onClick={() => setHaveVideo(true)}
-                          value="Yes"
-                        >
-                          Yes
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => setHaveVideo(false)}
-                          value="No"
-                        >
-                          No
-                        </MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-              {haveVideo && (
+              {/* Details step end */}
+              {/* Additional Step Start  */}
+              {activeStep === 1 && (
                 <>
+                  {" "}
                   <Grid item xs={6}>
                     <Controller
-                      name="videoLink"
+                      name="upc"
                       control={control}
                       render={({ field }) => (
                         <TextField
+                          className={classes.input}
                           {...field}
-                          label="Video Link (Please ensure current video have minimum 500k views)"
+                          label="UPC Code"
                           variant="outlined"
                           fullWidth
-                          className={classes.input}
                         />
                       )}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <Controller
-                      name="assetId"
+                      name="audioIsrc"
                       control={control}
                       render={({ field }) => (
                         <TextField
+                          className={classes.input}
                           {...field}
-                          label="Asset ID (If channel linked with CMS/MCN)"
+                          label="Audio ISRC"
                           variant="outlined"
                           fullWidth
                           required
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FormControl fullWidth>
+                      <InputLabel id="version-label">Version</InputLabel>
+                      <Controller
+                        name="version"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            style={{ borderRadius: "30px" }}
+                            {...field}
+                            labelId="version-label"
+                            label="Version"
+                          >
+                            <MenuItem value="Lyrical Video">
+                              Lyrical Video
+                            </MenuItem>
+                            <MenuItem value="Interview">Interview</MenuItem>
+                            <MenuItem value="Lyrical Video">
+                              Lyrical Video
+                            </MenuItem>
+                            <MenuItem value="Official">Official</MenuItem>
+                            <MenuItem value="Live">Live</MenuItem>
+                            <MenuItem value="Behind The Scenes">
+                              Behind The Scenes
+                            </MenuItem>
+                            <MenuItem value="Teaser">Teaser</MenuItem>
+                            <MenuItem value="Original Content">
+                              Original Content
+                            </MenuItem>
+                            <MenuItem value="Pseudo Video">
+                              Pseudo Video
+                            </MenuItem>
+                          </Select>
+                        )}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="writer"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
                           className={classes.input}
+                          {...field}
+                          label="Writer"
+                          variant="outlined"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="composer"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          className={classes.input}
+                          {...field}
+                          label="Composer"
+                          variant="outlined"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="producer"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          className={classes.input}
+                          {...field}
+                          label="Producer"
+                          variant="outlined"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="editor"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          className={classes.input}
+                          {...field}
+                          label="Editor"
+                          variant="outlined"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="copyright"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          className={classes.input}
+                          {...field}
+                          label="Copyright©"
+                          variant="outlined"
+                          fullWidth
+                          // required
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="copyrightYear"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          className={classes.input}
+                          {...field}
+                          label="Copyright© Year"
+                          variant="outlined"
+                          type="number"
+                          fullWidth
+                          // required
                         />
                       )}
                     />
                   </Grid>
                 </>
               )}
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id="territoryPolicy?-label">
-                    Territory Policy
-                  </InputLabel>
-                  <Controller
-                    name="territoryPolicy"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        style={{ borderRadius: "30px" }}
-                        {...field}
-                        labelId="territoryPolicy?-label"
-                        label="territoryPolicy"
-                      >
-                        <MenuItem value="Monetize Worldwide">
-                          Monetize Worldwide
-                        </MenuItem>
-                        <MenuItem value="Select Country">
-                          Select Country
-                        </MenuItem>
-                        <MenuItem value="Block Worldwide">
-                          Block Worldwide
-                        </MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
+              {/* Additional Step End  */}
+              {/* Distribution Step Start  */}
 
-              <Grid item xs={12}>
-                <Controller
-                  name="label"
-                  control={control}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      options={labelOptions}
-                      getOptionLabel={(option) => option.label || ""}
-                      value={
-                        labelOptions.find(
-                          (option: any, value: any) =>
-                            option.value === value.label
-                        ) || null
-                      }
-                      onChange={(event, value) => {
-                        field.onChange(value?.label || "");
-                        setValue("label", value?.value || null);
-                      }}
-                      renderInput={(params) => (
+              {activeStep === 2 && (
+                <>
+                  {" "}
+                  <Grid item xs={12}>
+                    <FormControl fullWidth variant="outlined">
+                      <InputLabel required id="visibility-label">
+                        Visibility
+                      </InputLabel>
+                      <Controller
+                        name="visibility"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            style={{ borderRadius: "30px" }}
+                            {...field}
+                            labelId="visibility-label"
+                            label="Visibility"
+                          >
+                            <MenuItem value="Default">Default</MenuItem>
+                            <MenuItem value="Unlisted on YouTube">
+                              Unlisted on YouTube
+                            </MenuItem>
+                            <MenuItem value="Unlisted on Video">
+                              Unlisted on Video
+                            </MenuItem>
+                            <MenuItem value="Unlisted on YouTube/Vevo">
+                              Unlisted on YouTube/Vevo
+                            </MenuItem>
+                          </Select>
+                        )}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Controller
+                      name="storeReleaseDate"
+                      control={control}
+                      render={({ field }) => (
                         <TextField
-                          {...params}
                           className={classes.input}
-                          fullWidth
-                          label="Label"
+                          {...field}
+                          label="Store Release Date"
                           variant="outlined"
-                          margin="normal"
+                          fullWidth
+                          type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          required
                         />
                       )}
-                      freeSolo
                     />
-                  )}
-                />
-
-                <Button onClick={showModal}>Create Label</Button>
-              </Grid>
-
-              <Grid item xs={6}>
-                {renderArrayFields(
-                  "primaryArtist",
-                  "Primary Artist",
-                  "primaryArtistName",
-                  true
-                )}
-                <Button onClick={showArtistModal}>Create Artist</Button>
-              </Grid>
-
-              <Grid item xs={6}>
-                {renderArrayFields(
-                  "featuringArtists",
-                  "Feature Artist",
-                  "featuringArtistName"
-                )}
-              </Grid>
-              <Grid item xs={6}>
-                {renderArrayFields("writer", "Writer", "writerName")}
-              </Grid>
-
-              <Grid item xs={6}>
-                {renderArrayFields("composer", "Composer", "composerName")}
-              </Grid>
-              <Grid item xs={6}>
-                {renderArrayFields("producer", "Producer", "producerName")}
-              </Grid>
-              <Grid item xs={6}>
-                {renderArrayFields("editor", "Editor", "editorName")}
-              </Grid>
-
-              <Grid item xs={6}>
-                {renderArrayFields(
-                  "musicDirector",
-                  "Music Director",
-                  "musicDirectorName"
-                )}
-              </Grid>
-
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <Autocomplete
-                    value={selectedGenre}
-                    onChange={handleGenreChange}
-                    options={genres.map((genre) => genre.name)}
-                    renderInput={(params) => (
-                      <TextField
-                        className={classes.input}
-                        {...params}
-                        label="Genre"
-                        variant="outlined"
-                        fullWidth
-                        required
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel id="territoryPolicy?-label">
+                        Territory Policy
+                      </InputLabel>
+                      <Controller
+                        name="territoryPolicy"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            style={{ borderRadius: "30px" }}
+                            {...field}
+                            labelId="territoryPolicy?-label"
+                            label="territoryPolicy"
+                          >
+                            <MenuItem value="Monetize Worldwide">
+                              Monetize Worldwide
+                            </MenuItem>
+                            <MenuItem value="Select Country">
+                              Select Country
+                            </MenuItem>
+                            <MenuItem value="Block Worldwide">
+                              Block Worldwide
+                            </MenuItem>
+                          </Select>
+                        )}
                       />
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <Autocomplete
-                    value={selectedSubgenre}
-                    onChange={handleSubgenreChange}
-                    options={getSubgenres()}
-                    renderInput={(params) => (
-                      <TextField
-                        className={classes.input}
-                        {...params}
-                        label="Subgenre"
-                        variant="outlined"
-                        fullWidth
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box>
+                      <LinearProgress
+                        variant="determinate"
+                        value={uploadProgress}
                       />
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Controller
-                  name="language"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
+                      <Typography variant="body2" color="textSecondary">
+                        {uploadProgress}%
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
                       fullWidth
-                      select
-                      required
-                      variant="outlined"
-                      label="Language"
-                      InputLabelProps={{ shrink: true }}
+                      //@ts-ignore
+                      disabled={uploadProgress}
                     >
-                      {!field.value && (
-                        <MenuItem value="">Select a language</MenuItem>
-                      )}
-                      {allLanguage.map((language) => (
-                        <MenuItem key={language} value={language}>
-                          {language}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  )}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Controller
-                  name="isrc"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="ISRC Code"
-                      variant="outlined"
-                      fullWidth
-                      required
-                      value={isrc}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Controller
-                  name="audioIsrc"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Audio ISRC"
-                      variant="outlined"
-                      fullWidth
-
-                      // required
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Controller
-                  name="upc"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="UPC Code"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  )}
-                />
-              </Grid>
-
+                      {uploadProgress ? "Uploading..." : "Upload Video"}
+                    </Button>
+                  </Grid>
+                </>
+              )}
+              {/* Distribution Step End */}
               <Grid item xs={12}>
-                <Controller
-                  name="description"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Description"
-                      variant="outlined"
-                      fullWidth
-                      multiline
-                      rows={4}
-                    />
+                <div className="flex justify-between">
+                  <Button disabled={activeStep === 0} onClick={handleBack}>
+                    Back
+                  </Button>
+                  {activeStep < 2 && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      className="bg-green-500 p-2 rounded-md"
+                      onClick={handleNext}
+                    >
+                      Next
+                    </Button>
                   )}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Controller
-                  name="keywords"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Keywords"
-                      variant="outlined"
-                      fullWidth
-                      multiline
-                      rows={4}
-                    />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <Controller
-                  name="storeReleaseDate"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Store Release Date"
-                      variant="outlined"
-                      fullWidth
-                      type="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      required
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Controller
-                  name="copyright"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Copyright©"
-                      variant="outlined"
-                      fullWidth
-                      // required
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Controller
-                  name="copyrightYear"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Copyright© Year"
-                      variant="outlined"
-                      type="number"
-                      fullWidth
-                      // required
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Controller
-                  name="visibility"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Visibility"
-                      variant="outlined"
-                      fullWidth
-                      // required
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Controller
-                  name="repertoireOwner"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Repertoire Owner"
-                      variant="outlined"
-                      fullWidth
-                      required
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Controller
-                  name="time"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      className={classes.input}
-                      {...field}
-                      label="Time"
-                      variant="outlined"
-                      fullWidth
-                      // required
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Box>
-                  <LinearProgress
-                    variant="determinate"
-                    value={uploadProgress}
-                  />
-                  <Typography variant="body2" color="textSecondary">
-                    {uploadProgress}%
-                  </Typography>
-                </Box>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  //@ts-ignore
-                  disabled={uploadProgress}
-                >
-                  {uploadProgress ? "Uploading..." : "Upload Video"}
-                </Button>
+                </div>
               </Grid>
             </Grid>
           </form>
