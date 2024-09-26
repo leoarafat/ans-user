@@ -5,18 +5,11 @@ export interface IVideoFormInput {
   title: string;
   primaryArtist: { primaryArtistName: string; _id: string }[];
   featuringArtists: { featuringArtistName: string }[];
-  // primaryArtist: { primaryArtistName: string; _id: string }[];
-  // featuringArtists: { featuringArtistName: string }[];
   writer: string;
   composer: string;
   producer: string;
   editor: string;
   musicDirector: string;
-  // writer: { writerName: string }[];
-  // composer: { composerName: string }[];
-  // producer: { producerName: string }[];
-  // editor: { editorName: string }[];
-  // musicDirector: { musicDirectorName: string }[];
   label: string;
   genre: string;
   subGenre: string;
@@ -34,8 +27,12 @@ export interface IVideoFormInput {
   upc: string;
   description: string;
   storeReleaseDate: string;
+  releaseDate: string;
   explicit: string;
   youtubePremiere: string;
+  countdownLength: string;
+  countdownTheme: string;
+
   isExist: string;
   isKids: string;
   alreadyHaveAnVevoChannel: string;

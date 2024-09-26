@@ -626,7 +626,6 @@ const DetailsForm = ({
                   label="Asset ID (If channel linked with CMS/MCN)"
                   variant="outlined"
                   fullWidth
-                  required
                   className={classes.input}
                 />
               )}

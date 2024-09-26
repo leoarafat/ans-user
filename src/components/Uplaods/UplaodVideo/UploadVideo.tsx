@@ -58,12 +58,16 @@ const UploadVideo = () => {
       isrc: isrc,
       upc: "",
       description: "",
-      storeReleaseDate: "",
+      storeReleaseDate: "As soon as possible",
+      releaseDate: "",
       audioIsrc: "",
       vevoChannel: "",
       keywords: "",
       copyright: "",
       copyrightYear: "",
+      youtubePremiere: "No",
+      countdownTheme: "Default",
+      countdownLength: "1 Minute",
       territoryPolicy: "Monetize Worldwide",
       visibility: "Default",
       repertoireOwner: "",
@@ -190,6 +194,7 @@ const UploadVideo = () => {
         "storeReleaseDate",
         data.storeReleaseDate && data.storeReleaseDate
       );
+      formData.append("releaseDate", data.releaseDate && data.releaseDate);
       formData.append("explicit", data.explicit);
 
       formData.append("isKids", data.isKids);
@@ -197,9 +202,22 @@ const UploadVideo = () => {
       formData.append("vevoChannel", data.vevoChannel && data.vevoChannel);
       formData.append("keywords", data.keywords && data.keywords);
       formData.append("copyright", data.copyright && data.copyright);
+
       formData.append(
         "copyrightYear",
         data.copyrightYear && data.copyrightYear
+      );
+      formData.append(
+        "youtubePremiere",
+        data.youtubePremiere && data.youtubePremiere
+      );
+      formData.append(
+        "countdownTheme",
+        data.countdownTheme && data.countdownTheme
+      );
+      formData.append(
+        "countdownLength",
+        data.countdownLength && data.countdownLength
       );
       formData.append(
         "territoryPolicy",
