@@ -65,7 +65,7 @@ const UploadVideo = () => {
       copyright: "",
       copyrightYear: "",
       territoryPolicy: "Monetize Worldwide",
-      visibility: "",
+      visibility: "Default",
       repertoireOwner: "",
     },
   });
@@ -74,6 +74,7 @@ const UploadVideo = () => {
   const [openArtist, setOpenArtist] = useState(false);
   const [openChannel, setOpenChannel] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [conditionsAccepted, setConditionsAccepted] = useState({
     condition1: false,
@@ -248,6 +249,7 @@ const UploadVideo = () => {
             (progressEvent.loaded * 100) / progressEvent.total
           );
           setUploadProgress(progress);
+          setLoading(true);
         },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -256,10 +258,12 @@ const UploadVideo = () => {
 
       if (res?.data?.success === true) {
         toast.success("Video Upload Successful");
+        setLoading(false);
         navigate("/my-uploads/pending-videos");
       }
     } catch (error: any) {
-      toast.error("Video Upload Failed");
+      toast.error(error?.response?.data?.message);
+      setLoading(false);
     }
   };
   const showModal = () => {
@@ -397,6 +401,7 @@ const UploadVideo = () => {
                   control={control}
                   classes={classes}
                   uploadProgress={uploadProgress}
+                  loading={loading}
                 />
               )}
 

@@ -15,9 +15,14 @@ import { useState } from "react";
 import { Controller } from "react-hook-form";
 import VideoCountry from "./CountriesPage";
 
-const DistributorForm = ({ classes, control, uploadProgress }: any) => {
+const DistributorForm = ({
+  classes,
+  control,
+  uploadProgress,
+  loading,
+}: any) => {
   const [selectCountry, setSelectCountry] = useState(false);
-  console.log(selectCountry);
+
   return (
     <>
       {" "}
@@ -121,9 +126,9 @@ const DistributorForm = ({ classes, control, uploadProgress }: any) => {
           color="primary"
           fullWidth
           //@ts-ignore
-          disabled={uploadProgress}
+          disabled={loading}
         >
-          {uploadProgress ? "Uploading..." : "Upload Video"}
+          {loading ? "Uploading..." : "Upload Video"}
         </Button>
       </Grid>
     </>

@@ -365,7 +365,6 @@ const DetailsForm = ({
               {...field}
               fullWidth
               select
-              required
               variant="outlined"
               label="Language"
               InputLabelProps={{ shrink: true }}
@@ -478,6 +477,9 @@ const DetailsForm = ({
             )}
           />
         </FormControl>
+        {!haveChannel && (
+          <Button onClick={showChannelModal}>Create Channel</Button>
+        )}
       </Grid>
       {haveChannel && (
         <Grid item xs={12}>
@@ -513,8 +515,6 @@ const DetailsForm = ({
               />
             )}
           />
-
-          <Button onClick={showChannelModal}>Create Channel</Button>
         </Grid>
       )}
       <Grid item xs={12}>
