@@ -15,15 +15,17 @@ import {
   TableSortLabel,
   TablePagination,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import { useDeleteAdminMutation } from "@/redux/slices/admin/adminManageApi";
 
 import toast from "react-hot-toast";
 import { formatDate } from "@/utils/formatedDate";
 import AddSubUserModal from "./AddSubUserModal";
-import { useMySubUserQuery } from "@/redux/slices/admin/userApi";
+import {
+  useGivePermissionMutation,
+  useMySubUserQuery,
+} from "@/redux/slices/admin/userApi";
 import { ChevronRight } from "lucide-react";
 import PermissionModal from "./AccessPermissionModal";
 
@@ -33,7 +35,8 @@ const SubUserPage = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const { data: subUserData } = useMySubUserQuery({});
-  //   const [deleteAdmin, { isLoading: deleteLoading }] = useDeleteAdminMutation();
+  const [givePermission, { isLoading: permissionLoading }] =
+    useGivePermissionMutation();
 
   const [permissionModalOpen, setPermissionModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -56,34 +59,27 @@ const SubUserPage = () => {
     setOpen(true);
   };
 
-  //   const handleDelete = async (id: string) => {
-  //     try {
-  //       const res = await deleteAdmin(id);
-  //       if (res?.data?.success === true) {
-  //         toast.success("Admin Deleted Successfully");
-  //       } else {
-  //         //@ts-ignore
-  //         toast.error(res?.error?.data?.message);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
   const handlePermission = (id: string, name: string) => {
     setSelectedUserId(id);
     setSelectedUserName(name);
     setPermissionModalOpen(true);
   };
 
-  const handlePermissionSubmit = (selectedPermissions: string[]) => {
-    console.log(
-      "Selected Permissions for User:",
-      selectedUserId,
-      selectedPermissions
-    );
-    // Handle submission logic here (API calls, state updates, etc.)
-    toast.success("Permissions updated successfully!");
+  const handlePermissionSubmit = async (selectedPermissions: string[]) => {
+    try {
+      const res = await givePermission({
+        selectedUserId,
+        selectedPermissions,
+      }).unwrap();
+
+      if (res?.success === true) {
+        toast.success("Permissions updated successfully!");
+        setPermissionModalOpen(false);
+      }
+    } catch (error: any) {
+      toast.error(error?.message);
+      setPermissionModalOpen(false);
+    }
   };
 
   const filteredLabelData = subUserData?.data?.filter((row: { name: string }) =>
@@ -191,6 +187,7 @@ const SubUserPage = () => {
         userId={selectedUserId}
         name={selectedUserName}
         onSubmit={handlePermissionSubmit}
+        permissionLoading={permissionLoading}
       />
     </div>
   );

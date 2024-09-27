@@ -18,6 +18,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    givePermission: build.mutation({
+      query: (userData) => ({
+        url: `user/give-permission`,
+        method: "POST",
+        body: userData,
+      }),
+      invalidatesTags: ["user"],
+    }),
     userLogin: build.mutation({
       query: (loginData) => ({
         url: `/user/login`,
@@ -116,4 +124,5 @@ export const {
   useEditProfilePictureMutation,
   useMakeUserMutation,
   useMySubUserQuery,
+  useGivePermissionMutation,
 } = userApi;

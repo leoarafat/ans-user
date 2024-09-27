@@ -203,8 +203,8 @@ const VevoChannelManage = () => {
           </TableHead>
           <TableBody>
             {filteredArtistData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row: any, index: any) => (
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              ?.map((row: any, index: any) => (
                 <TableRow key={index}>
                   <TableCell>{row?.channelId}</TableCell>
                   <TableCell>
@@ -305,7 +305,7 @@ const VevoChannelManage = () => {
         </Table>
       </TableContainer>
       <Pagination
-        count={Math.ceil(filteredArtistData.length / rowsPerPage)}
+        count={Math.ceil(filteredArtistData?.length / rowsPerPage)}
         page={page + 1}
         onChange={handlePageChange}
         color="primary"

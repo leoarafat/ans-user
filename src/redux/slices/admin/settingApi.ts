@@ -91,6 +91,15 @@ export const settingApi = baseApi.injectEndpoints({
       },
       providesTags: ["profile"],
     }),
+    singleSubUser: build.query({
+      query: (id: string | null) => {
+        return {
+          url: `user/user/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["user"],
+    }),
     faqs: build.query({
       query: () => {
         return {
@@ -223,4 +232,5 @@ export const {
   useDeleteFaqMutation,
   useFaqsQuery,
   useDashboardOverviewQuery,
+  useSingleSubUserQuery,
 } = settingApi;
