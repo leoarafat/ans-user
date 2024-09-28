@@ -44,7 +44,7 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
       const res = await addArtist(payload);
 
       if (res?.data?.success === true) {
-        toast.success("Label Add Successful");
+        toast.success("Channel Add Successful");
         setOpen(false);
       }
     } catch (error: any) {

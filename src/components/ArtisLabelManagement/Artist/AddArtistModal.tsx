@@ -35,7 +35,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
       const res = await addArtist(payload);
 
       if (res?.data?.success === true) {
-        toast.success("Label Add Successful");
+        toast.success("Artist Add Successful");
         setOpen(false);
       }
     } catch (error: any) {
