@@ -1,0 +1,36 @@
+export interface FormValues {
+  primaryArtist: any;
+  featuringArtists: any;
+  label: any;
+  primaryTrackType: string;
+  isRelease: string;
+  instrumental: string;
+  secondaryTrackType: string;
+  parentalAdvisory: string;
+  releaseTitle: string;
+  previewStart: string;
+  title: string;
+  subtitle: string;
+  pLine: string;
+  cLine: string;
+  remixer: string;
+  author: string;
+  composer: string;
+  arranger: string;
+  producer: string;
+  genre: string;
+  subGenre: string;
+  upc: string;
+  productionYear: string;
+  publisher: string;
+  isrc: string;
+  catalogNumber: string;
+  trackTitleLanguage: string;
+  lyricsLanguage: string;
+  releaseDate: string;
+  lyrics: string;
+  format: string;
+  contentType: string;
+  askToGenerateISRC: string;
+  price: string;
+}

@@ -59,6 +59,7 @@ import WhiteListRequestForm from "@/components/Youtube/WhiteListRequest/WhiteLis
 import RejectedMessage from "@/pages/RejectedMessage";
 import VideoUploaderStepperForm from "@/components/SteperForm/VideoStepperForm";
 import SubUserPage from "@/components/SubUser/SubUserPage";
+import EditAudio from "@/components/MyUploads/CorrectionMusic/EditAudio";
 
 const router = createBrowserRouter([
   {
@@ -185,6 +186,14 @@ const router = createBrowserRouter([
         element: (
           <IsVerifiedRoutes>
             <CorrectionMusic />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/edit-audio/:id",
+        element: (
+          <IsVerifiedRoutes>
+            <EditAudio />
           </IsVerifiedRoutes>
         ),
       },

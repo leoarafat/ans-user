@@ -64,8 +64,8 @@ const CorrectionVideosTable = ({ searchQuery }: any) => {
                 <TableCell>Release Date</TableCell>
                 <TableCell>UPC</TableCell>
 
-                <TableCell>Catalog Number</TableCell>
                 <TableCell>Correction Message</TableCell>
+                {/* <TableCell>Action</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -97,9 +97,6 @@ const CorrectionVideosTable = ({ searchQuery }: any) => {
                     <TableCell>{row.storeReleaseDate}</TableCell>
                     <TableCell>{row.upc ? row.upc : "-"}</TableCell>
 
-                    <TableCell>
-                      {row.catalogNumber ? row.catalogNumber : "-"}
-                    </TableCell>
                     <TableCell>
                       <ShieldAlert
                         size={30}

@@ -152,6 +152,21 @@ export const myUploadsApi = baseApi.injectEndpoints({
       }),
       providesTags: ["single-audio"],
     }),
+    editSingleMusic: build.mutation({
+      query: (payload) => ({
+        url: `catalog-music/edit-release/${payload.id}`,
+        method: "PATCH",
+        body: payload.data,
+      }),
+      invalidatesTags: ["single-audio"],
+    }),
+    getMusicDetails: build.query({
+      query: (id) => ({
+        url: `catalog-music/inspect-song/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["single-audio"],
+    }),
   }),
 });
 
@@ -168,4 +183,6 @@ export const {
   useGetCorrectionMessageQuery,
   useGetCorrectionContentQuery,
   useGetDraftsSongQuery,
+  useEditSingleMusicMutation,
+  useGetMusicDetailsQuery,
 } = myUploadsApi;

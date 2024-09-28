@@ -13,8 +13,9 @@ import {
 import { useGetCorrectionSingleSongQuery } from "@/redux/slices/myUploads/myUploadsApi";
 import { imageURL } from "@/redux/api/baseApi";
 import Loader from "@/utils/Loader";
-import { ShieldAlert } from "lucide-react";
+import { EditIcon, ShieldAlert } from "lucide-react";
 import CorrectionMessageModal from "./CorrectionMessageModa";
+import { Link } from "react-router-dom";
 const CorrectionSongsTable = ({ searchQuery }: any) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -62,9 +63,8 @@ const CorrectionSongsTable = ({ searchQuery }: any) => {
                 <TableCell>Label</TableCell>
                 <TableCell>Release Date</TableCell>
                 <TableCell>UPC</TableCell>
-
-                <TableCell>Catalog Number</TableCell>
                 <TableCell>Correction Message</TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -97,14 +97,16 @@ const CorrectionSongsTable = ({ searchQuery }: any) => {
                     <TableCell>{row.upc ? row.upc : "-"}</TableCell>
 
                     <TableCell>
-                      {row.catalogNumber ? row.catalogNumber : "-"}
-                    </TableCell>
-                    <TableCell>
                       <ShieldAlert
                         size={30}
                         className="text-center cursor-pointer w-full"
                         onClick={() => handleClickOpen(row._id)}
                       />
+                    </TableCell>
+                    <TableCell>
+                      <Link to={`/edit-audio/${row?._id}`}>
+                        <EditIcon />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
