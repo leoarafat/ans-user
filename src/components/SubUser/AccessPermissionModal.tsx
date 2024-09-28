@@ -225,7 +225,7 @@ const buttonStyle = {
 };
 
 const permissionsList = [
-  { category: "News", permissions: ["News"] },
+  // { category: "News", permissions: ["News"] },
   {
     category: "New Release",
     permissions: ["Video Release", "One release", "Multiple releases"],

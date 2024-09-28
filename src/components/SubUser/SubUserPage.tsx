@@ -92,10 +92,10 @@ const SubUserPage = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Sub User Management
         </Typography>
-        <span className="text-orange-700">
+        {/* <span className="text-orange-700">
           The permission feature is currently unavailable. We are actively
           working to resolve this feature.
-        </span>
+        </span> */}
       </div>
       <div
         style={{

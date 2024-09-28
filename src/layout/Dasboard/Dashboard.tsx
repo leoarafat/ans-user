@@ -77,6 +77,7 @@ const Dashboard = () => {
   const { data: userData } = useMyProfileQuery({});
   const myProfile = userData?.data;
   const isUserRole = myProfile?.role === "user";
+  const isSubUser = myProfile?.role === "sub-user";
 
   const handleLogout = () => {
     removeUserInfo(authKey);
@@ -325,16 +326,71 @@ const Dashboard = () => {
       icon: <HelpCircleIcon size={18} />,
     },
     {
+      key: "logout",
+      title: "Logout",
+      icon: <LogOut size={18} />,
+      onClick: handleLogout,
+    },
+    {
+      key: "logout",
       title: "Logout",
       icon: <LogOut size={18} />,
       onClick: handleLogout,
     },
   ];
-  const filteredMenuItems =
-    isVerifiedUser && isApproved
-      ? [...menuItems, logoutItem]
-      : [onboardingItem, logoutItem];
+  const menuPermissions = {
+    "/": "One release",
+    "/upload": "One release",
+    "/release-video": "Video Release",
+    "/my-uploads": "All Releases Songs",
+    "/success-track": "Success Release Songs",
+    "/pending-track": "Pending Songs",
+    "/correction-track": "Correction Requested Songs",
+    "/videos": "All Releases",
+    "/pending-videos": "Pending",
+    "/correction-videos": "Correction Requested",
+    "/artist-management": "All Products (for all artists, labels, channels)",
+    "/financial": "Financial",
+    "/financial-reports": "Financial reports",
+    "/financial-operations": "Payment & Operation",
+    "/claims": "Legal",
+    "/manage-claim": "Legal",
+    "/tiktok": "Legal",
+    "/artist-channel-request": "Legal",
+    "/manage-account": "Payout Account",
+    "/add-account": "Payout Account",
+    "/settings": "Change Password",
+    "/change-password": "Change Password",
+    "/help": "Help",
+  };
+  //!
+  const filteredMenuItems = () => {
+    if (isUserRole) {
+      return menuItems;
+    } else if (isSubUser) {
+      const userPermissions = myProfile.permission;
 
+      const filteredItems = menuItems.filter((item) => {
+        if (item.subMenu) {
+          return item.subMenu.some((subItem) => {
+            //@ts-ignore
+            const permission = menuPermissions[subItem.path];
+            return userPermissions.includes(permission);
+          });
+        } else {
+          //@ts-ignore
+          const permission = menuPermissions[item.path];
+          return userPermissions.includes(permission);
+        }
+      });
+      return [...filteredItems, logoutItem];
+    } else {
+      return [onboardingItem, logoutItem];
+    }
+  };
+  //!
+
+  const filteredMenuItemsList = filteredMenuItems();
   const [collapsed, setCollapsed] = useState(false);
 
   const handleToggle = () => {
@@ -375,7 +431,8 @@ const Dashboard = () => {
           }}
           defaultSelectedKeys={["1"]}
         >
-          {filteredMenuItems.map((item, index) =>
+          {filteredMenuItemsList?.map((item, index) =>
+            //@ts-ignore
             item.subMenu ? (
               <SubMenu
                 key={`sub-${index}`}
@@ -387,22 +444,30 @@ const Dashboard = () => {
                   marginBottom: "15px",
                 }}
               >
-                {item.subMenu.map((subItem, subIndex) => (
-                  <Menu.Item
-                    key={`sub-${index}-${subIndex}`}
-                    icon={subItem.icon}
-                    style={{
-                      color: "#d0d0d0",
-                      fontSize: "14px",
-                      margin: "5px 0",
-                      backgroundColor: collapsed ? "#2e2e2e" : "",
-                    }}
-                  >
-                    <Link to={`${item.path}${subItem.path}`}>
-                      {subItem.title}
-                    </Link>
-                  </Menu.Item>
-                ))}
+                {
+                  //@ts-ignore
+                  item.subMenu.map((subItem, subIndex) => (
+                    <Menu.Item
+                      key={`sub-${index}-${subIndex}`}
+                      icon={subItem.icon}
+                      style={{
+                        color: "#d0d0d0",
+                        fontSize: "14px",
+                        margin: "5px 0",
+                        backgroundColor: collapsed ? "#2e2e2e" : "",
+                      }}
+                    >
+                      <Link
+                        to={
+                          //@ts-ignore
+                          `${item.path}${subItem.path}`
+                        }
+                      >
+                        {subItem.title}
+                      </Link>
+                    </Menu.Item>
+                  ))
+                }
               </SubMenu>
             ) : (
               <Menu.Item
@@ -413,9 +478,19 @@ const Dashboard = () => {
                   fontSize: "14px",
                   marginBottom: "15px",
                 }}
-                onClick={item.onClick}
+                onClick={
+                  //@ts-ignore
+                  item.onClick
+                }
               >
-                <Link to={item.path}>{item.title}</Link>
+                <Link
+                  to={
+                    //@ts-ignore
+                    item.path
+                  }
+                >
+                  {item.title}
+                </Link>
               </Menu.Item>
             )
           )}
