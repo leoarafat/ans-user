@@ -67,6 +67,14 @@ export const uploadVideoAudioApi = baseApi.injectEndpoints({
       },
       providesTags: ["drafts"],
     }),
+    editBannerAudio: build.mutation({
+      query: (payload) => ({
+        url: `single-music/update-banner/${payload.id}`,
+        method: "PATCH",
+        body: payload.data,
+      }),
+      invalidatesTags: ["single-audio"],
+    }),
   }),
 });
 
@@ -76,4 +84,5 @@ export const {
   useUploadVideoMutation,
   useUploadDraftAudioMutation,
   useGetDraftsQuery,
+  useEditBannerAudioMutation,
 } = uploadVideoAudioApi;

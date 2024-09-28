@@ -1,6 +1,6 @@
 export interface FormValues {
   primaryArtist: any;
-  featuringArtists: any;
+
   label: any;
   primaryTrackType: string;
   isRelease: string;

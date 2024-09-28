@@ -20,7 +20,6 @@ import {
   useGetApprovedLabelsQuery,
 } from "@/redux/slices/ArtistAndLabel/artistLabelApi";
 import { years } from "@/utils/languages";
-import { useSearchParams } from "react-router-dom";
 
 import { useCustomStyles } from "./Styles";
 import AddLabelModal from "@/components/ArtisLabelManagement/Label/AddLabelModa";
