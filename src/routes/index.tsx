@@ -60,6 +60,7 @@ import RejectedMessage from "@/pages/RejectedMessage";
 import VideoUploaderStepperForm from "@/components/SteperForm/VideoStepperForm";
 import SubUserPage from "@/components/SubUser/SubUserPage";
 import EditAudio from "@/components/MyUploads/CorrectionMusic/EditAudio";
+import EditVideo from "@/components/MyUploads/CorrectionVideo/EditVideo";
 
 const router = createBrowserRouter([
   {
@@ -194,6 +195,14 @@ const router = createBrowserRouter([
         element: (
           <IsVerifiedRoutes>
             <EditAudio />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/edit-video/:id",
+        element: (
+          <IsVerifiedRoutes>
+            <EditVideo />
           </IsVerifiedRoutes>
         ),
       },

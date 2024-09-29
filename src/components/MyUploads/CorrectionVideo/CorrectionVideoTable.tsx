@@ -13,8 +13,9 @@ import {
 import { useGetCorrectionVideoQuery } from "@/redux/slices/myUploads/myUploadsApi";
 import { imageURL } from "@/redux/api/baseApi";
 import Loader from "@/utils/Loader";
-import { ShieldAlert } from "lucide-react";
+import { EditIcon, ShieldAlert } from "lucide-react";
 import CorrectionMessageModal from "./CorrectionMessageModa";
+import { Link } from "react-router-dom";
 // import CorrectionVideoMessageModal from "./CorrectionMessageModa";
 const CorrectionVideosTable = ({ searchQuery }: any) => {
   const [page, setPage] = useState(0);
@@ -58,14 +59,14 @@ const CorrectionVideosTable = ({ searchQuery }: any) => {
               <TableRow>
                 <TableCell>Cover</TableCell>
                 <TableCell>ReleaseID</TableCell>
-                <TableCell>Song Type</TableCell>
+                <TableCell>Version</TableCell>
                 <TableCell>Release Title</TableCell>
                 <TableCell>Label</TableCell>
                 <TableCell>Release Date</TableCell>
                 <TableCell>UPC</TableCell>
 
                 <TableCell>Correction Message</TableCell>
-                {/* <TableCell>Action</TableCell> */}
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -90,7 +91,7 @@ const CorrectionVideosTable = ({ searchQuery }: any) => {
                       />
                     </TableCell>
                     <TableCell>{row.videoId}</TableCell>
-                    <TableCell>{row.videoType}</TableCell>
+                    <TableCell>{row.version}</TableCell>
                     <TableCell>{row.title}</TableCell>
 
                     <TableCell>{row.label?.labelName}</TableCell>
@@ -103,6 +104,11 @@ const CorrectionVideosTable = ({ searchQuery }: any) => {
                         className="text-center cursor-pointer w-full"
                         onClick={() => handleClickOpen(row._id)}
                       />
+                    </TableCell>
+                    <TableCell>
+                      <Link to={`/edit-video/${row?._id}`}>
+                        <EditIcon />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
