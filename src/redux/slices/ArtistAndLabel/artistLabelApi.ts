@@ -97,6 +97,22 @@ export const artistLabelApi = baseApi.injectEndpoints({
       },
       providesTags: ["channel"],
     }),
+    getApprovedChannels: build.query({
+      query: (arg: Record<string, any>) => {
+        return {
+          url: `channel/approved-channel`,
+          method: "GET",
+          params: arg,
+        };
+      },
+      transformResponse: (response: any[], meta: any) => {
+        return {
+          data: response,
+          meta,
+        };
+      },
+      providesTags: ["channel"],
+    }),
 
     deleteLabel: build.mutation({
       query: (id) => ({
@@ -161,4 +177,5 @@ export const {
   useDeleteChannelMutation,
   useEditChannelMutation,
   useGetChannelsQuery,
+  useGetApprovedChannelsQuery,
 } = artistLabelApi;

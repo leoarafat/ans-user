@@ -14,6 +14,7 @@ import {
   Button,
   TableSortLabel,
   TablePagination,
+  CircularProgress, // Import CircularProgress
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -28,13 +29,14 @@ import {
 } from "@/redux/slices/admin/userApi";
 import { ChevronRight } from "lucide-react";
 import PermissionModal from "./AccessPermissionModal";
+import Loader from "@/utils/Loader";
 
 const SubUserPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
-  const { data: subUserData } = useMySubUserQuery({});
+  const { data: subUserData, isLoading } = useMySubUserQuery({});
   const [givePermission, { isLoading: permissionLoading }] =
     useGivePermissionMutation();
 
@@ -92,10 +94,6 @@ const SubUserPage = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Sub User Management
         </Typography>
-        {/* <span className="text-orange-700">
-          The permission feature is currently unavailable. We are actively
-          working to resolve this feature.
-        </span> */}
       </div>
       <div
         style={{
@@ -124,63 +122,62 @@ const SubUserPage = () => {
           Add Sub User
         </Button>
       </div>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>
-                <TableSortLabel>name</TableSortLabel>
-              </TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone Number</TableCell>
-              <TableCell>Create At</TableCell>
-              {/* <TableCell>Delete</TableCell> */}
-              <TableCell>Permission</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredLabelData
-              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              ?.map((row: any, index: number) => (
-                <TableRow key={index}>
-                  <TableCell>{row._id?.slice(0, 6)}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>{row.phoneNumber}</TableCell>
-                  <TableCell>{formatDate(row.createdAt)}</TableCell>
-                  {/* <TableCell>
-                    <IconButton
-                      onClick={() => handleDelete(row?._id)}
-                      aria-label="delete"
-                    >
-                      {deleteLoading ? "Deleting" : <DeleteIcon />}
-                    </IconButton>
-                  </TableCell> */}
+
+      {/* Show loader when data is being fetched */}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
                   <TableCell>
-                    <IconButton
-                      onClick={() => handlePermission(row?._id, row?.name)}
-                      aria-label="permission"
-                    >
-                      <ChevronRight />
-                    </IconButton>
+                    <TableSortLabel>Name</TableSortLabel>
                   </TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Phone Number</TableCell>
+                  <TableCell>Create At</TableCell>
+                  <TableCell>Permission</TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={filteredLabelData?.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleRowsPerPageChange}
-      />
+              </TableHead>
+              <TableBody>
+                {filteredLabelData
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  ?.map((row: any, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell>{row._id?.slice(0, 6)}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.email}</TableCell>
+                      <TableCell>{row.phoneNumber}</TableCell>
+                      <TableCell>{formatDate(row.createdAt)}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() => handlePermission(row?._id, row?.name)}
+                          aria-label="permission"
+                        >
+                          <ChevronRight />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={filteredLabelData?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
+          />
+        </>
+      )}
+
       <AddSubUserModal open={open} setOpen={setOpen} />
-      {/* Include PermissionModal and pass necessary props */}
       <PermissionModal
         open={permissionModalOpen}
         setOpen={setPermissionModalOpen}

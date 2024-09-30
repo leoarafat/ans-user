@@ -8,7 +8,7 @@ import { genres } from "@/MockData/MockData";
 import {
   useGetArtistsQuery,
   useGetApprovedLabelsQuery,
-  useGetChannelsQuery,
+  useGetApprovedChannelsQuery,
 } from "@/redux/slices/ArtistAndLabel/artistLabelApi";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -97,7 +97,7 @@ const UploadVideo = () => {
 
   const { data: labelData } = useGetApprovedLabelsQuery({});
   const { data: artistData } = useGetArtistsQuery({});
-  const { data: channelData } = useGetChannelsQuery({});
+  const { data: channelData } = useGetApprovedChannelsQuery({});
   const artistOptions =
     //@ts-ignore
     artistData?.data?.data?.map((artist: any) => ({

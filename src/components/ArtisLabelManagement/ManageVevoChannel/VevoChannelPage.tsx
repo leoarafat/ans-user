@@ -75,7 +75,7 @@ const VevoChannelManage = () => {
       const res = await updateArtist({ id, ...editRowData });
 
       if (res?.data?.success === true) {
-        toast.success("Artist Updated");
+        toast.success("Channel Updated");
         setEditMode({ ...editMode, [id]: false });
       }
     } catch (error: any) {
@@ -95,7 +95,7 @@ const VevoChannelManage = () => {
       const res = await deleteArtist(id);
 
       if (res?.data?.success === true) {
-        toast.success("Artist Deleted");
+        toast.success("Channel Deleted");
       }
     } catch (error: any) {
       toast.error(error?.message);
@@ -190,7 +190,6 @@ const VevoChannelManage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
               <TableCell>
                 <TableSortLabel>Channel Name</TableSortLabel>
               </TableCell>
@@ -198,6 +197,7 @@ const VevoChannelManage = () => {
               <TableCell>Spotify ID</TableCell>
               <TableCell>Apple ID</TableCell>
               <TableCell>Facebook URL</TableCell>
+              <TableCell>Status</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -206,7 +206,6 @@ const VevoChannelManage = () => {
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               ?.map((row: any, index: any) => (
                 <TableRow key={index}>
-                  <TableCell>{row?.channelId}</TableCell>
                   <TableCell>
                     {editMode[row._id] ? (
                       <TextField
@@ -273,6 +272,7 @@ const VevoChannelManage = () => {
                       row?.channelFacebookId?.slice(0, 15)
                     )}
                   </TableCell>
+                  <TableCell>{row?.isApproved}</TableCell>
                   <TableCell>
                     {editMode[row._id] ? (
                       <IconButton

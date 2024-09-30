@@ -192,6 +192,7 @@ import {
   Divider,
 } from "@mui/material";
 import { useSingleSubUserQuery } from "@/redux/slices/admin/settingApi";
+import { permissionsList } from "./permission";
 
 interface PermissionModalProps {
   open: boolean;
@@ -223,60 +224,61 @@ const buttonStyle = {
   marginTop: "16px",
   borderRadius: "20px",
 };
-
-const permissionsList = [
-  // { category: "News", permissions: ["News"] },
-  {
-    category: "New Release",
-    permissions: ["Video Release", "One release", "Multiple releases"],
-  },
-  {
-    category: "Catalog Music",
-    permissions: [
-      "All Releases Songs",
-      "Success Release Songs",
-      "Pending Songs",
-      "Correction Requested Songs",
-    ],
-  },
-  {
-    category: "Catalog Video",
-    permissions: [
-      "All Releases",
-      "Success Release",
-      "Pending",
-      "Correction Requested",
-    ],
-  },
-  {
-    category: "Analytics",
-    permissions: ["Financial", "Store & Country"],
-  },
-  {
-    category: "Promotion",
-    permissions: ["All Products (for all artists, labels, channels)"],
-  },
-  {
-    category: "Financial",
-    permissions: ["Financial reports", "Payment & Operation"],
-  },
-  {
-    category: "Legal",
-    permissions: ["Legal"],
-  },
-  {
-    category: "Payout Account",
-    permissions: ["Payout Account"],
-  },
-  {
-    category: "Change Password",
-    permissions: ["Change Password"],
-  },
-  {
-    category: "Help",
-    permissions: ["Help"],
-  },
-];
+//!
+// const permissionsList = [
+//   // { category: "News", permissions: ["News"] },
+//   {
+//     category: "New Release",
+//     permissions: ["Video Release", "One release", "Multiple releases"],
+//   },
+//   {
+//     category: "Catalog Music",
+//     permissions: [
+//       "All Releases Songs",
+//       "Success Release Songs",
+//       "Pending Songs",
+//       "Correction Requested Songs",
+//     ],
+//   },
+//   {
+//     category: "Catalog Video",
+//     permissions: [
+//       "All Releases",
+//       "Success Release",
+//       "Pending",
+//       "Correction Requested",
+//     ],
+//   },
+//   {
+//     category: "Analytics",
+//     permissions: ["Financial", "Store & Country"],
+//   },
+//   {
+//     category: "Promotion",
+//     permissions: ["All Products (for all artists, labels, channels)"],
+//   },
+//   {
+//     category: "Financial",
+//     permissions: ["Financial reports", "Payment & Operation"],
+//   },
+//   {
+//     category: "Legal",
+//     permissions: ["Legal"],
+//   },
+//   {
+//     category: "Payout Account",
+//     permissions: ["Payout Account"],
+//   },
+//   {
+//     category: "Change Password",
+//     permissions: ["Change Password"],
+//   },
+//   {
+//     category: "Help",
+//     permissions: ["Help"],
+//   },
+// ];
+//!
 
 const PermissionModal: React.FC<PermissionModalProps> = ({
   open,
@@ -330,7 +332,7 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
         </Typography>
         <Divider sx={{ marginY: 2 }} />
         <Grid container spacing={2}>
-          {permissionsList.map((group) => (
+          {permissionsList?.map((group) => (
             <Grid item xs={12} sm={6} key={group.category}>
               <Typography variant="h6" gutterBottom>
                 {group.category}
