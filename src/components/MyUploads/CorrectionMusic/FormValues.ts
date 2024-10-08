@@ -37,4 +37,14 @@ export interface FormValues {
   countdownTheme: string;
   countdownLength: string;
   description: string;
+  primaryTrackType: string;
+  secondaryTrackType: string;
+  isRelease: string;
+  instrumental: string;
+  parentalAdvisory: string;
+  releaseTitle: string;
+  previewStart: string;
+  subtitle: string;
+  pLine: string;
+  cLine: string;
 }

@@ -11,7 +11,7 @@ import {
   TablePagination,
 } from "@mui/material";
 import { useGetCorrectionSingleSongQuery } from "@/redux/slices/myUploads/myUploadsApi";
-import { imageURL } from "@/redux/api/baseApi";
+
 import Loader from "@/utils/Loader";
 import { EditIcon, ShieldAlert } from "lucide-react";
 import CorrectionMessageModal from "./CorrectionMessageModa";

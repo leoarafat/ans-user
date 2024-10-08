@@ -365,35 +365,10 @@ const Dashboard = () => {
     "/help": "Help",
   };
   //!
-  // //!
-  // const menuPermissions = {
-  //   "/": "One release",
-  //   "/upload": "One release",
-  //   "/release-video": "Video Release",
-  //   "/my-uploads": "All Releases Songs",
-  //   "/success-track": "Success Release Songs",
-  //   "/pending-track": "Pending Songs",
-  //   "/correction-track": "Correction Requested Songs",
-  //   "/videos": "All Releases",
-  //   "/pending-videos": "Pending",
-  //   "/correction-videos": "Correction Requested",
-  //   "/artist-management": "All Products (for all artists, labels, channels)",
-  //   "/financial": "Financial",
-  //   "/financial-reports": "Financial reports",
-  //   "/financial-operations": "Payment & Operation",
-  //   "/claims": "Legal",
-  //   "/manage-claim": "Legal",
-  //   "/tiktok": "Legal",
-  //   "/artist-channel-request": "Legal",
-  //   "/manage-account": "Payout Account",
-  //   "/add-account": "Payout Account",
-  //   "/settings": "Change Password",
-  //   "/change-password": "Change Password",
-  //   "/help": "Help",
-  // };
+
   // //!
   const filteredMenuItems = () => {
-    if (isUserRole) {
+    if (isUserRole && isApproved) {
       return menuItems;
     } else if (isSubUser) {
       const userPermissions = myProfile.permission;

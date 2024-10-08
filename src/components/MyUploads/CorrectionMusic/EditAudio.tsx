@@ -55,7 +55,7 @@ const useStyles = makeStyles({
 const formats: string[] = ["Single", "Album", "EP"];
 const EditAudio = () => {
   const classes = useStyles();
-  const [formValues, setFormValues] = useState<FormValues>({
+  const [formValues, setFormValues] = useState({
     primaryTrackType: "",
     isRelease: "",
     instrumental: "",
