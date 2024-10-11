@@ -203,7 +203,7 @@ const AlbumStepperForm = () => {
   return (
     <Grid container direction="column">
       <Typography variant="h4" align="center" gutterBottom>
-        Let's Distribute Your Music With Musix
+        Let's Distribute Your Music With ANS Music
       </Typography>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((step) => (

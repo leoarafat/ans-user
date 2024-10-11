@@ -29,7 +29,6 @@ import {
 } from "@material-ui/core";
 import { EditIcon } from "lucide-react";
 
-import { FormValues } from "../CorrectionMusic/FormValues";
 import VideoUpdateModal from "./EditVideoBanner";
 
 const useStyles = makeStyles({
@@ -61,7 +60,7 @@ const useStyles = makeStyles({
 
 const EditVideo = () => {
   const classes = useStyles();
-  const [formValues, setFormValues] = useState<FormValues>({
+  const [formValues, setFormValues] = useState({
     primaryArtist: [],
     label: "",
     version: "",

@@ -18,10 +18,7 @@ import ReleaseInformation from "../uploads/Single/ReleaseInformation";
 import TracksInformation from "../uploads/Single/TracksInformation";
 import Countries from "../uploads/Single/Countries";
 import SingleReviewPage from "../uploads/Single/SingleReviewPage";
-import {
-  useUploadDraftAudioMutation,
-  useUploadSingleAudioMutation,
-} from "@/redux/slices/uploadVideoAudio/uploadVideoAudioApi";
+
 import toast from "react-hot-toast";
 import {
   Box,
@@ -140,11 +137,10 @@ const UploaderStepperForm = () => {
     previewPage: {},
   });
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadAudio, { isLoading }] = useUploadSingleAudioMutation();
-  const [uploadDrafts, { isLoading: draftsLoading }] =
-    useUploadDraftAudioMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [openModal, setOpenModal] = useState(false);
+
   const [conditionsAccepted, setConditionsAccepted] = useState({
     condition1: false,
     condition2: false,
@@ -181,6 +177,7 @@ const UploaderStepperForm = () => {
   //!
   const handleSubmit = async () => {
     setOpenModal(false);
+    setIsLoading(true);
     try {
       const formDataToSend = new FormData();
 
@@ -281,15 +278,18 @@ const UploaderStepperForm = () => {
           if (data?.success === true) {
             localStorage.removeItem("releaseFormData");
             localStorage.removeItem("tracksInformation");
+            setIsLoading(false);
             toast.success("Song Upload Successful");
             navigate("/my-uploads/pending-track");
           }
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
+          setIsLoading(false);
         });
     } catch (error: any) {
       console.error("Error in handleSubmit:", error?.message);
+      setIsLoading(false);
       toast.error(error?.message);
     }
   };
@@ -457,6 +457,7 @@ const UploaderStepperForm = () => {
               variant="contained"
               color="primary"
               onClick={handleOpenModal}
+              disabled={isLoading}
               style={{ flexGrow: 1, marginLeft: 10 }}
             >
               Upload
