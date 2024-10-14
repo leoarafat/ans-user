@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   Typography,
   Stepper,
   Step,
   StepLabel,
-  Grid,
   Dialog,
   DialogActions,
   DialogContent,
@@ -16,7 +15,6 @@ import { Link, useNavigate } from "react-router-dom";
 import AudioDetails from "../uploads/Single/AudioDetails";
 import ReleaseInformation from "../uploads/Single/ReleaseInformation";
 import TracksInformation from "../uploads/Single/TracksInformation";
-import Countries from "../uploads/Single/Countries";
 import SingleReviewPage from "../uploads/Single/SingleReviewPage";
 
 import toast from "react-hot-toast";
@@ -29,6 +27,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { imageURL } from "@/redux/api/baseApi";
+import ReleasePlatform from "../uploads/Single/ReleasePlatform";
 
 interface ReleaseInformation {
   cLine: string;
@@ -79,15 +78,16 @@ interface FormData {
   audio: AudioDetails;
   releaseInformation: ReleaseInformation;
   trackDetails: TrackDetails;
-  countries: string[];
+  // countries: string[];
   previewPage: Record<string, unknown>;
+  platform: string;
 }
 
 const steps = [
   { title: "Release Information", component: ReleaseInformation },
   { title: "Audio & Cover", component: AudioDetails },
   { title: "Tracks Details", component: TracksInformation },
-  { title: "Territories", component: Countries },
+  { title: "Select Platform", component: ReleasePlatform },
   { title: "Review Details", component: SingleReviewPage },
 ];
 
@@ -133,9 +133,11 @@ const UploaderStepperForm = () => {
       title: "",
       trackTitleLanguage: "",
     },
-    countries: [],
+    // countries: [],
+    platform: "",
     previewPage: {},
   });
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -259,13 +261,15 @@ const UploaderStepperForm = () => {
 
       formDataToSend.append("audio", formData.audio.audioFile);
       formDataToSend.append("image", formData.audio.coverImage);
+      formDataToSend.append("platform", formData.platform);
 
-      formDataToSend.append("countries", formData.countries.join(","));
+      // formDataToSend.append("countries", formData.countries.join(","));
 
       await axios
         .post(`${imageURL}/single-music/upload`, formDataToSend, {
           onUploadProgress: (progressEvent) => {
             const progress = Math.round(
+              //@ts-ignore
               (progressEvent.loaded * 100) / progressEvent.total
             );
             setUploadProgress(progress);
@@ -278,6 +282,7 @@ const UploaderStepperForm = () => {
           if (data?.success === true) {
             localStorage.removeItem("releaseFormData");
             localStorage.removeItem("tracksInformation");
+            localStorage.removeItem("platform");
             setIsLoading(false);
             toast.success("Song Upload Successful");
             navigate("/my-uploads/pending-track");
@@ -294,87 +299,6 @@ const UploaderStepperForm = () => {
     }
   };
   //!
-  const handleDrafts = async () => {
-    try {
-      const formDataToSend = new FormData();
-
-      const appendField = (key: any, value: any) => {
-        if (value !== undefined && value !== null && value !== "") {
-          formDataToSend.append(key, value);
-        }
-      };
-
-      // Append releaseInformation fields
-      appendField("cLine", formData.releaseInformation.cLine);
-      appendField("subtitle", formData.releaseInformation.version);
-      appendField("catalogNumber", formData.releaseInformation.catalogNumber);
-      appendField(
-        "featuringArtists",
-        formData.releaseInformation.featuringArtists?.join(",")
-      );
-      appendField("format", formData.releaseInformation.format);
-      appendField("genre", formData.releaseInformation.genre);
-      appendField("label", formData.releaseInformation.label);
-      appendField("pLine", formData.releaseInformation.pLine);
-      appendField(
-        "primaryArtist",
-        formData.releaseInformation.primaryArtists?.join(",")
-      );
-      appendField("productionYear", formData.releaseInformation.productionYear);
-      appendField("releaseDate", formData.releaseInformation.releaseDate);
-      appendField("releaseTitle", formData.releaseInformation.releaseTitle);
-      appendField("subGenre", formData.releaseInformation.subgenre);
-      appendField("upc", formData.releaseInformation.upc);
-      appendField("variousArtists", formData.releaseInformation.variousArtists);
-
-      // Append trackDetails fields
-      appendField("arranger", formData.trackDetails.arranger);
-      appendField("askToGenerateISRC", formData.trackDetails.askToGenerateISRC);
-      appendField("author", formData.trackDetails.author);
-      appendField("composer", formData.trackDetails.composer);
-      appendField("contentType", formData.trackDetails.contentType);
-      appendField("instrumental", formData.trackDetails.instrumental);
-      appendField("isrc", formData.trackDetails.isrc);
-      appendField("lyrics", formData.trackDetails.lyrics);
-      appendField("lyricsLanguage", formData.trackDetails.lyricsLanguage);
-      appendField("parentalAdvisory", formData.trackDetails.parentalAdvisory);
-      appendField("previewStart", formData.trackDetails.previewStart);
-      appendField("price", formData.trackDetails.price);
-      appendField("primaryTrackType", formData.trackDetails.primaryTrackType);
-      appendField("producer", formData.trackDetails.producer);
-      appendField("publisher", formData.trackDetails.publisher);
-      appendField("remixer", formData.trackDetails.remixer);
-      appendField(
-        "secondaryTrackType",
-        formData.trackDetails.secondaryTrackType
-      );
-      appendField("title", formData.trackDetails.title);
-      appendField(
-        "trackTitleLanguage",
-        formData.trackDetails.trackTitleLanguage
-      );
-
-      appendField("audio", formData.audio.audioFile);
-      appendField("image", formData.audio.coverImage);
-
-      appendField("countries", formData.countries?.join(","));
-
-      const res = await uploadDrafts(formDataToSend);
-
-      if (res?.data?.success === true) {
-        localStorage.removeItem("releaseFormData");
-        localStorage.removeItem("tracksInformation");
-        toast.success("Song Upload Successful");
-        navigate("/my-uploads/drafts");
-      } else if (res?.error) {
-        //@ts-ignore
-        toast.error(res?.error?.data?.message);
-      }
-    } catch (error: any) {
-      console.error("Error in handleSubmit:", error?.message);
-      toast.error(error?.message);
-    }
-  };
 
   const StepComponent = steps[activeStep].component;
 
@@ -419,7 +343,11 @@ const UploaderStepperForm = () => {
         ))}
       </Stepper>
       <Box mt={4}>
-        <StepComponent data={formData} onChange={handleDataChange} />
+        <StepComponent
+          //@ts-ignore
+          data={formData}
+          onChange={handleDataChange}
+        />
       </Box>
       <Box
         display="flex"
