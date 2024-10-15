@@ -11,11 +11,12 @@ import {
 } from "@mui/material";
 import { allLanguage } from "@/utils/languages";
 import { useCustomStyles } from "./Styles";
+import { moods } from "@/utils/enum";
 
 const TracksInformation = ({ data, onChange }: any) => {
   const classes = useCustomStyles();
   if (!data.trackDetails.contentType) {
-    data.trackDetails.contentType = "Audio";
+    data.trackDetails.contentType = "Album";
   }
   if (!data.trackDetails.price) {
     data.trackDetails.price = "Low Digital 45 : 1.29$";
@@ -25,6 +26,9 @@ const TracksInformation = ({ data, onChange }: any) => {
   }
   if (!data.trackDetails.instrumental) {
     data.trackDetails.instrumental = "No";
+  }
+  if (!data.trackDetails.parentalAdvisory) {
+    data.trackDetails.parentalAdvisory = "Not Explicit";
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +55,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                   </Tooltip>
                   <Autocomplete
                     fullWidth
-                    options={["Audio", "Video"]}
+                    options={["Album", "Single", "Compilation", "Remix"]}
                     value={data.trackDetails.contentType}
                     onChange={(e, value) =>
                       onChange("trackDetails", {
@@ -370,7 +374,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                   </Tooltip>
                   <Autocomplete
                     fullWidth
-                    options={["Yes", "No", "Cleaned"]}
+                    options={["Not Explicit", "Explicit"]}
                     value={data.trackDetails.parentalAdvisory}
                     onChange={(e, value) =>
                       onChange("trackDetails", {
@@ -447,6 +451,34 @@ const TracksInformation = ({ data, onChange }: any) => {
                         variant="outlined"
                         required
                         name="lyricsLanguage"
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <Tooltip title="Please indicate the mood your release is in. If the release mood is not listed, please select the closest provided.">
+                    <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                      ?
+                    </span>
+                  </Tooltip>
+                  <Autocomplete
+                    fullWidth
+                    options={moods}
+                    value={data.trackDetails.mood}
+                    onChange={(e, value) =>
+                      onChange("trackDetails", {
+                        ...data.trackDetails,
+                        mood: value,
+                      })
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        className={classes.input}
+                        {...params}
+                        fullWidth
+                        label="Mood"
+                        variant="outlined"
+                        name="mood"
                       />
                     )}
                   />

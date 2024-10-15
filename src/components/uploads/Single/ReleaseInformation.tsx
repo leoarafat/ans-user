@@ -66,7 +66,7 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
         genre: data.genre || "",
         subgenre: data.subgenre || "",
         label: data.label || "",
-        format: data.format || "",
+        format: data.format || "Album",
         releaseDate: data.releaseDate || "",
         pLine: data.pLine || "",
         cLine: data.cLine || "",
@@ -115,7 +115,6 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
-    // onChange("releaseInformation", { ...data.releaseInformation, [name]: value });
   };
 
   const handleGenreChange = (

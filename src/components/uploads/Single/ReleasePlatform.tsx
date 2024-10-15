@@ -13,9 +13,7 @@ import {
 const ReleasePlatform = ({ data, onChange }: any) => {
   const [value, setValue] = React.useState(() => {
     const savedPlatform = localStorage.getItem("platform");
-    return savedPlatform
-      ? JSON.parse(savedPlatform)
-      : "allPlatformsIncludingYouTube";
+    return savedPlatform ? JSON.parse(savedPlatform) : "AllPlatformWithYouTube";
   });
 
   const handleChange = (event: {
@@ -66,19 +64,19 @@ const ReleasePlatform = ({ data, onChange }: any) => {
             sx={{ marginBottom: "24px" }}
           >
             <FormControlLabel
-              value="allPlatformsExcludingYouTube"
+              value="AllPlatformNotOnYouTube"
               control={<Radio sx={{ "&.Mui-checked": { color: "#3f51b5" } }} />}
               label="All Platforms excluding YouTube"
               sx={{ marginBottom: "12px" }}
             />
             <FormControlLabel
-              value="allPlatformsIncludingYouTube"
+              value="AllPlatformWithYouTube"
               control={<Radio sx={{ "&.Mui-checked": { color: "#3f51b5" } }} />}
               label="All Platforms including YouTube"
               sx={{ marginBottom: "12px" }}
             />
             <FormControlLabel
-              value="onlyYouTube"
+              value="OnlyYouTube"
               control={<Radio sx={{ "&.Mui-checked": { color: "#3f51b5" } }} />}
               label="Only on YouTube"
               sx={{ marginBottom: "12px" }}

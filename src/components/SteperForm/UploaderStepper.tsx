@@ -57,6 +57,7 @@ interface TrackDetails {
   isrc: string;
   lyrics: string;
   lyricsLanguage: string;
+  mood: string;
   parentalAdvisory: string;
   previewStart: string;
   price: string;
@@ -122,6 +123,7 @@ const UploaderStepperForm = () => {
       isrc: "",
       lyrics: "",
       lyricsLanguage: "",
+      mood: "",
       parentalAdvisory: "",
       previewStart: "",
       price: "",
@@ -236,6 +238,7 @@ const UploaderStepperForm = () => {
         "lyricsLanguage",
         formData.trackDetails.lyricsLanguage
       );
+      formDataToSend.append("mood", formData.trackDetails.mood);
       formDataToSend.append(
         "parentalAdvisory",
         formData.trackDetails.parentalAdvisory
