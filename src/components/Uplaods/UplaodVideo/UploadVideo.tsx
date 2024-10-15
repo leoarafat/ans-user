@@ -60,7 +60,7 @@ const UploadVideo = () => {
       description: "",
       storeReleaseDate: "As soon as possible",
       releaseDate: "",
-      audioIsrc: "",
+      audioIsrc: isrc,
       vevoChannel: "",
       keywords: "",
       copyright: "",
@@ -198,7 +198,7 @@ const UploadVideo = () => {
       formData.append("explicit", data.explicit);
 
       formData.append("isKids", data.isKids);
-      formData.append("audioIsrc", data.audioIsrc && data.audioIsrc);
+      formData.append("audioIsrc", isrc && isrc);
       formData.append("vevoChannel", data.vevoChannel && data.vevoChannel);
       formData.append("keywords", data.keywords && data.keywords);
       formData.append("copyright", data.copyright && data.copyright);

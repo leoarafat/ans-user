@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Autocomplete,
@@ -12,9 +12,14 @@ import {
 import { allLanguage } from "@/utils/languages";
 import { useCustomStyles } from "./Styles";
 import { moods } from "@/utils/enum";
+import { generateISRC } from "@/utils/utils";
 
 const TracksInformation = ({ data, onChange }: any) => {
+  const [isrc, setIsrc] = useState("");
   const classes = useCustomStyles();
+  if (!data.trackDetails.isrc) {
+    data.trackDetails.isrc = isrc;
+  }
   if (!data.trackDetails.contentType) {
     data.trackDetails.contentType = "Album";
   }
@@ -39,6 +44,10 @@ const TracksInformation = ({ data, onChange }: any) => {
   useEffect(() => {
     localStorage.setItem("tracksInformation", JSON.stringify(data));
   }, [data]);
+  useEffect(() => {
+    const newIsrc = generateISRC();
+    setIsrc(newIsrc);
+  }, []);
   return (
     <Container maxWidth="lg">
       <Box>

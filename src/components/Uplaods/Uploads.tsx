@@ -74,7 +74,7 @@ const Uploads = () => {
           }}
         >
           <Grid container spacing={isMobile ? 2 : 4}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <Paper
                 sx={{
                   padding: isMobile ? 3 : 4,
@@ -111,7 +111,7 @@ const Uploads = () => {
                 </Typography>
               </Paper>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <Paper
                 sx={{
                   padding: isMobile ? 3 : 4,
@@ -147,7 +147,7 @@ const Uploads = () => {
                   Upload Album
                 </Typography>
               </Paper>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Box>
       </Box>

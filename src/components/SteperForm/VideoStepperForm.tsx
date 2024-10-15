@@ -37,6 +37,7 @@ import AdditionalForm from "../Uplaods/UplaodVideo/AdditionalForm";
 import DistributorForm from "../Uplaods/UplaodVideo/DistributorForm";
 import CountriesPage from "../Uplaods/UplaodVideo/CountriesPage";
 import VideoReviewPage from "../Uplaods/UplaodVideo/VideoReviewPage";
+import { generateISRC } from "@/utils/utils";
 
 interface IDetails {
   video: File | null;
@@ -73,21 +74,7 @@ interface VideoDetails {
   videoFile: File;
   thumbnail: File;
 }
-interface IDistributor {
-  upc: string;
-  description: string;
-  storeReleaseDate: string;
-  explicit: string;
-  youtubePremiere: string;
-  isExist: string;
-  isKids: string;
-}
-function generateISRC() {
-  const prefix = "BDA1U24";
-  const randomNumber = Math.floor(Math.random() * 99999) + 1;
-  const paddedNumber = randomNumber.toString().padStart(5, "0");
-  return `${prefix}${paddedNumber}`;
-}
+
 const steps = [
   { title: "Details", component: DetailsForm },
   { title: "Additional", component: AdditionalForm },
