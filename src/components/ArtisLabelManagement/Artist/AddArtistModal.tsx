@@ -70,7 +70,8 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
             margin="dense"
             id="instagram-id"
             label="Instagram ID"
-            type="text"
+            type="url"
+            placeholder="https://instagram.com/artistprofile"
             fullWidth
             value={instagramId}
             onChange={(e) => setInstagramId(e.target.value)}
@@ -79,7 +80,8 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
             margin="dense"
             id="spotify-id"
             label="Spotify ID"
-            type="text"
+            type="url"
+            placeholder="https://spotify.com/artistprofile"
             fullWidth
             value={spotifyId}
             onChange={(e) => setSpotifyId(e.target.value)}
@@ -88,7 +90,8 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
             margin="dense"
             id="apple-id"
             label="Apple ID"
-            type="text"
+            type="url"
+            placeholder="https://music.apple.com/artistprofile"
             fullWidth
             value={appleId}
             onChange={(e) => setAppleId(e.target.value)}
@@ -97,7 +100,8 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
             margin="dense"
             id="facebook-url"
             label="Facebook URL"
-            type="text"
+            type="url"
+            placeholder="https://facebook.com/artistprofile"
             fullWidth
             value={facebookUrl}
             onChange={(e) => setFacebookUrl(e.target.value)}
@@ -107,7 +111,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
           <Button onClick={handleCancel} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSave} color="primary">
+          <Button onClick={handleSave} color="primary" disabled={isLoading}>
             {isLoading ? "Saving.." : "Save"}
           </Button>
         </DialogActions>

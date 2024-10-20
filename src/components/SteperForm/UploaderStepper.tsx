@@ -50,6 +50,8 @@ interface ReleaseInformation {
 interface TrackDetails {
   arranger: string;
   askToGenerateISRC: string;
+  crbtTitle: string;
+  crbtTime: string;
   author: string;
   composer: string;
   contentType: string;
@@ -125,7 +127,7 @@ const UploaderStepperForm = () => {
       lyricsLanguage: "",
       mood: "",
       parentalAdvisory: "",
-      previewStart: "",
+      previewStart: "00:15",
       price: "",
       primaryTrackType: "",
       producer: "",
@@ -133,6 +135,8 @@ const UploaderStepperForm = () => {
       remixer: "",
       secondaryTrackType: "",
       title: "",
+      crbtTitle: "",
+      crbtTime: "",
       trackTitleLanguage: "",
     },
     // countries: [],
@@ -234,6 +238,8 @@ const UploaderStepperForm = () => {
       formDataToSend.append("instrumental", formData.trackDetails.instrumental);
       formDataToSend.append("isrc", formData.trackDetails.isrc);
       formDataToSend.append("lyrics", formData.trackDetails.lyrics);
+      formDataToSend.append("crbtTitle", formData.trackDetails.crbtTitle);
+      formDataToSend.append("crbtTime", formData.trackDetails.crbtTime);
       formDataToSend.append(
         "lyricsLanguage",
         formData.trackDetails.lyricsLanguage

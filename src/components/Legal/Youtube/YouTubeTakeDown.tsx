@@ -415,8 +415,9 @@ const YoutubeTakeDownForm = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Song Title (Search by Title or ISRC)"
+                      label="Song Title"
                       variant="outlined"
+                      placeholder="Search by Title or ISRC"
                       fullWidth
                       required
                       sx={{ backgroundColor: "#fff" }}

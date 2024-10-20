@@ -16,12 +16,15 @@ import { generateISRC } from "@/utils/utils";
 
 const TracksInformation = ({ data, onChange }: any) => {
   const [isrc, setIsrc] = useState("");
+  const [askValue, setAskValue] = useState<string>("Yes");
+
   const classes = useCustomStyles();
   if (!data.trackDetails.isrc) {
     data.trackDetails.isrc = isrc;
   }
+
   if (!data.trackDetails.contentType) {
-    data.trackDetails.contentType = "Album";
+    data.trackDetails.contentType = "Single";
   }
   if (!data.trackDetails.price) {
     data.trackDetails.price = "Low Digital 45 : 1.29$";
@@ -39,6 +42,14 @@ const TracksInformation = ({ data, onChange }: any) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChange("trackDetails", { ...data.trackDetails, [name]: value });
+  };
+  const handleAskChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    newValue: string | null
+  ) => {
+    if (newValue) {
+      setAskValue(newValue);
+    }
   };
 
   useEffect(() => {
@@ -74,7 +85,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         required
                         {...params}
                         fullWidth
@@ -104,7 +114,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         required
                         {...params}
                         fullWidth
@@ -140,7 +149,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         required
                         {...params}
                         fullWidth
@@ -170,7 +178,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         required
                         {...params}
                         fullWidth
@@ -182,14 +189,13 @@ const TracksInformation = ({ data, onChange }: any) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
                       ?
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
                     value={data.trackDetails.title}
                     onChange={handleChange}
@@ -200,14 +206,13 @@ const TracksInformation = ({ data, onChange }: any) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
                       ?
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     // required
                     fullWidth
                     value={data.trackDetails.remixer}
@@ -225,7 +230,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
                     value={data.trackDetails.author}
                     onChange={handleChange}
@@ -243,7 +247,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
                     value={data.trackDetails.composer}
                     onChange={handleChange}
@@ -254,14 +257,13 @@ const TracksInformation = ({ data, onChange }: any) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
                       ?
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
                     value={data.trackDetails.arranger}
                     onChange={handleChange}
@@ -272,14 +274,13 @@ const TracksInformation = ({ data, onChange }: any) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
                       ?
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
                     value={data.trackDetails.producer}
                     onChange={handleChange}
@@ -290,14 +291,13 @@ const TracksInformation = ({ data, onChange }: any) => {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
                       ?
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
                     value={data.trackDetails.publisher}
                     onChange={handleChange}
@@ -305,6 +305,29 @@ const TracksInformation = ({ data, onChange }: any) => {
                     label="Publisher"
                     name="publisher"
                     // required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Tooltip title="Select as your wish">
+                    <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                      ?
+                    </span>
+                  </Tooltip>
+                  <Autocomplete
+                    fullWidth
+                    options={["Yes", "No"]}
+                    value={askValue}
+                    onChange={handleAskChange}
+                    renderInput={(params) => (
+                      <TextField
+                        required
+                        {...params}
+                        fullWidth
+                        label="Ask to generate ISRC?"
+                        variant="outlined"
+                        name="ask"
+                      />
+                    )}
                   />
                 </Grid>
 
@@ -315,14 +338,13 @@ const TracksInformation = ({ data, onChange }: any) => {
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
+                    disabled={askValue === "Yes"}
                     value={data.trackDetails.isrc}
                     onChange={handleChange}
                     variant="outlined"
                     label="ISRC"
                     name="isrc"
-                    // required
                   />
                 </Grid>
 
@@ -348,7 +370,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         required
                         {...params}
                         fullWidth
@@ -366,7 +387,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
                     value={data.trackDetails.previewStart}
                     onChange={handleChange}
@@ -393,7 +413,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         required
                         {...params}
                         fullWidth
@@ -423,7 +442,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         {...params}
                         fullWidth
                         label="Track Title Language"
@@ -453,7 +471,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         {...params}
                         fullWidth
                         label="Lyrics Language"
@@ -482,7 +499,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     }
                     renderInput={(params) => (
                       <TextField
-                        className={classes.input}
                         {...params}
                         fullWidth
                         label="Mood"
@@ -492,7 +508,40 @@ const TracksInformation = ({ data, onChange }: any) => {
                     )}
                   />
                 </Grid>
+                <Grid item xs={6}>
+                  <Tooltip title="Select as your wish">
+                    <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                      ?
+                    </span>
+                  </Tooltip>
+                  <TextField
+                    fullWidth
+                    value={data.trackDetails.crbtTitle}
+                    onChange={handleChange}
+                    variant="outlined"
+                    label="CRBT Title"
+                    name="crbtTitle"
+                    // required
+                  />
+                </Grid>
 
+                <Grid item xs={6}>
+                  <Tooltip title="Select as your wish">
+                    <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                      ?
+                    </span>
+                  </Tooltip>
+                  <TextField
+                    fullWidth
+                    value={data.trackDetails.crbtTime}
+                    onChange={handleChange}
+                    variant="outlined"
+                    label="CRBT Start Time"
+                    placeholder="hh:mm:ss"
+                    name="crbtTime"
+                    // required
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <Tooltip title="Please enter the track’s lyrics in this field, in UTF8 only. If your text is not accepted, please convert it in the accepted format.">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
@@ -500,7 +549,6 @@ const TracksInformation = ({ data, onChange }: any) => {
                     </span>
                   </Tooltip>
                   <TextField
-                    className={classes.input}
                     fullWidth
                     value={data.trackDetails.lyrics}
                     onChange={handleChange}
