@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     backgroundImage: `url(${newImg})`,
     backgroundSize: "cover",
+
     backgroundPosition: "center",
     position: "relative",
     display: "flex",
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       width: "100%",
       height: "100%",
+
       backgroundColor: "rgba(0, 0, 0, 0.7)",
     },
   },
@@ -50,21 +52,18 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 2,
     maxWidth: 420,
   },
-  logo: {
-    width: 50,
-    marginBottom: theme.spacing(2),
-  },
+
   form: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
   },
   input: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2),
     "& .MuiOutlinedInput-root": {
       borderRadius: "30px",
     },
   },
   button: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(1),
     padding: "12px 0",
     borderRadius: "30px",
     fontSize: "16px",
@@ -73,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   terms: {
     display: "flex",
     justifyContent: "center",
-    marginBottom: theme.spacing(2),
+    // marginBottom: theme.spacing(1),
   },
   link: {
     color: theme.palette.primary.main,
@@ -92,6 +91,7 @@ const Register = () => {
     email: "",
     password: "",
     acceptTerms: false,
+    acceptAgreement: false,
     showPassword: false,
   });
 
@@ -118,7 +118,8 @@ const Register = () => {
     const { name, value, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "acceptTerms" ? checked : value,
+      [name]:
+        name === "acceptTerms" || name === "acceptAgreement" ? checked : value,
     }));
   };
 
@@ -226,8 +227,9 @@ const Register = () => {
                 <Typography variant="body2">
                   I accept the{" "}
                   <MuiLink
-                    component={Link}
-                    to="/auth/terms-conditions"
+                    href="https://ansmusiclimited.com/terms-and-conditions/"
+                    target="_blank" // Opens the link in a new tab
+                    rel="noopener noreferrer" // Ensures security for external links
                     className={classes.link}
                   >
                     Terms and Conditions
@@ -236,13 +238,51 @@ const Register = () => {
               }
               className={classes.terms}
             />
-            <Button
+            {/* Agreement Checkbox */}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  color="primary"
+                  checked={formData.acceptAgreement}
+                  onChange={handleChange}
+                  name="acceptAgreement"
+                />
+              }
+              label={
+                <Typography variant="body2">
+                  I accept the{" "}
+                  <MuiLink
+                    href="https://ansmusiclimited.com/ans_music_agreement/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={classes.link}
+                  >
+                    ANS Music Agreement
+                  </MuiLink>
+                </Typography>
+              }
+              className={classes.terms}
+            />
+
+            {/* <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.button}
               disabled={!formData.acceptTerms || isLoading}
+            >
+              {isLoading ? "Registering..." : "Register"}
+            </Button> */}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              disabled={
+                !formData.acceptTerms || !formData.acceptAgreement || isLoading
+              }
             >
               {isLoading ? "Registering..." : "Register"}
             </Button>
