@@ -198,9 +198,19 @@ const AnalyticsPage = () => {
   const currentData = analyticsData.monthly || [];
 
   return (
-    <Box sx={{ padding: 3 }}>
+    <Box
+      sx={{
+        padding: 3,
+        background: "linear-gradient(to right, #74ebd5, #acb6e5)",
+      }}
+    >
       <Paper
-        sx={{ padding: 3, marginBottom: 3, borderRadius: 2, boxShadow: 3 }}
+        sx={{
+          padding: 3,
+          marginBottom: 3,
+          borderRadius: 2,
+          boxShadow: 3,
+        }}
       >
         <Box
           sx={{

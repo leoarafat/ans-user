@@ -8,10 +8,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  IconButton,
   TablePagination,
 } from "@mui/material";
-import { Trash2 } from "lucide-react";
+
 import { useGetTikTokClaimRequestQuery } from "@/redux/slices/claims/claimsApi";
 
 const TikTokClaimRequestTable = ({ searchQuery, statusFilter }: any) => {

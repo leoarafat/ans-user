@@ -25,7 +25,7 @@ const StatusCard: React.FC<StatusCardProps> = ({
       <div
         className="w-16 h-16 flex items-center justify-center rounded-full mr-5 shadow-lg"
         style={{
-          background: "rgba(255, 255, 255, 0.2)", // Semi-transparent overlay
+          background: "rgba(255, 255, 255, 0.2)",
           backdropFilter: "blur(4px)",
           color: "#fff",
           transition: "transform 0.3s",
@@ -42,7 +42,7 @@ const StatusCard: React.FC<StatusCardProps> = ({
 };
 
 const TotalSong = () => {
-  const { data, isLoading, isError } = useTotalSongQuery({});
+  const { data, isError } = useTotalSongQuery({});
 
   const earnStatus = [
     {
@@ -67,14 +67,6 @@ const TotalSong = () => {
       description: "Approved and distributed songs.",
     },
   ];
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-40">
-        <div className="text-gray-500">Loading...</div>
-      </div>
-    );
-  }
 
   if (isError) {
     return (
