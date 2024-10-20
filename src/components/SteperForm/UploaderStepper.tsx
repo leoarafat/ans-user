@@ -28,6 +28,7 @@ import {
 import axios from "axios";
 import { imageURL } from "@/redux/api/baseApi";
 import ReleasePlatform from "../uploads/Single/ReleasePlatform";
+import { deleteFile } from "@/utils/indexedDB";
 
 interface ReleaseInformation {
   cLine: string;
@@ -96,6 +97,8 @@ const steps = [
 
 const UploaderStepperForm = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const COVER_IMAGE_KEY = "coverImage";
+  const AUDIO_FILE_KEY = "audioFile";
   const [formData, setFormData] = useState<FormData>({
     audio: { audioFile: new File([], ""), coverImage: new File([], "") },
     releaseInformation: {
@@ -295,6 +298,8 @@ const UploaderStepperForm = () => {
             setIsLoading(false);
             toast.success("Song Upload Successful");
             navigate("/my-uploads/pending-track");
+            deleteFile(COVER_IMAGE_KEY);
+            deleteFile(AUDIO_FILE_KEY);
           }
         })
         .catch((err) => {
