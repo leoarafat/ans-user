@@ -9,16 +9,33 @@ import {
   Box,
   CircularProgress,
   Paper,
+  Autocomplete,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { useTheme } from "@mui/material/styles";
+import { useState } from "react";
+import { useDebounced } from "@/utils/utils";
+import { useMyAllSongQuery } from "@/redux/slices/myUploads/myUploadsApi";
 
 const YouTubeManualClaim = () => {
   const { data: profileData, isLoading, isError } = useProfileQuery({});
   const [addYoutubeManualClaim, { isLoading: isAddLoading }] =
     useAddYoutubeManualClaimMutation();
   const theme = useTheme();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedSong, setSelectedSong] = useState<any>(null);
 
+  const query: Record<string, any> = {};
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query["searchTerm"] = debouncedSearchTerm;
+  }
+
+  const { data: songs } = useMyAllSongQuery({ ...query });
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -26,17 +43,17 @@ const YouTubeManualClaim = () => {
     try {
       const res = await addYoutubeManualClaim({
         user: profileData?.data?._id,
-        email: formData.get("email") as string,
-        labelName: formData.get("label") as string,
-        songTitle: formData.get("song") as string,
-        upc: formData.get("upc") as string,
+        email: profileData?.data?.email as string,
+
+        songTitle: selectedSong?.title || (formData.get("song") as string),
+
         url: formData.get("url") as string,
       });
       if (res?.data?.success === true) {
         toast.success("Success");
       }
     } catch (error: any) {
-      console.error("Failed to submit YouTube manual claim:", error);
+      console.error("Failed to submit YouTube manual claim request:", error);
       toast.error(error?.message);
     }
   };
@@ -136,49 +153,17 @@ const YouTubeManualClaim = () => {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
+                  disabled
+                  value={profileData?.data?.email}
                   fullWidth
                   id="email"
                   name="email"
-                  label="Email"
                   variant="outlined"
                   size="medium"
+                  sx={{ backgroundColor: "#ffffff" }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="label"
-                  name="label"
-                  label="Label Name"
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="song"
-                  name="song"
-                  label="Song Title"
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="upc"
-                  name="upc"
-                  label="UPC"
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <TextField
                   required
                   fullWidth
@@ -187,8 +172,30 @@ const YouTubeManualClaim = () => {
                   label="YouTube Video URL"
                   variant="outlined"
                   size="medium"
+                  sx={{ backgroundColor: "#ffffff" }}
                 />
               </Grid>
+              <Grid item xs={12} sm={12}>
+                <Autocomplete
+                  options={songs?.data || []}
+                  getOptionLabel={(option: any) =>
+                    `${option.title} (ISRC: ${option.isrc})`
+                  }
+                  onInputChange={(event, newValue) => setSearchTerm(newValue)}
+                  onChange={(event, newValue) => setSelectedSong(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Song Title (Search by Title or ISRC)"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      sx={{ backgroundColor: "#fff" }}
+                    />
+                  )}
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <Button
                   type="submit"

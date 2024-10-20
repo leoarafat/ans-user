@@ -10,9 +10,11 @@ import {
   Paper,
   IconButton,
   TablePagination,
+  Tooltip,
 } from "@mui/material";
 import { Trash2 } from "lucide-react";
 import { useGetYoutubeClaimRequestQuery } from "@/redux/slices/claims/claimsApi";
+import { Link } from "react-router-dom";
 
 const YoutubeClaimRequestTable = ({ searchQuery, statusFilter }: any) => {
   const [page, setPage] = useState(0);
@@ -32,11 +34,8 @@ const YoutubeClaimRequestTable = ({ searchQuery, statusFilter }: any) => {
   const rows = queryData?.data?.data;
 
   const filteredRows = rows
-    ?.filter(
-      (row: any) =>
-        row.labelName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.upc.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.songTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    ?.filter((row: any) =>
+      row.songTitle.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .filter((row: any) =>
       statusFilter ? row.approvedStatus === statusFilter : true
@@ -51,9 +50,9 @@ const YoutubeClaimRequestTable = ({ searchQuery, statusFilter }: any) => {
               <TableRow>
                 <TableCell>ID</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Label Name</TableCell>
+
                 <TableCell>Song Title</TableCell>
-                <TableCell>UPC</TableCell>
+
                 <TableCell>YouTube Video URL</TableCell>
                 <TableCell>Status</TableCell>
               </TableRow>
@@ -65,10 +64,23 @@ const YoutubeClaimRequestTable = ({ searchQuery, statusFilter }: any) => {
                   <TableRow key={index}>
                     <TableCell>{row._id?.slice(5, 9)}</TableCell>
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.labelName}</TableCell>
+
                     <TableCell>{row.songTitle}</TableCell>
-                    <TableCell>{row.upc}</TableCell>
-                    <TableCell>{row.url?.slice(0, 20)}</TableCell>
+
+                    <TableCell>
+                      <Tooltip title={row.url}>
+                        {/* Use Link for click and anchor behavior */}
+                        <Link
+                          href={row.url}
+                          target="_blank" // Opens the link in a new tab
+                          rel="noopener noreferrer" // Security best practice
+                          underline="none"
+                          sx={{ cursor: "pointer" }}
+                        >
+                          {row.url?.slice(0, 30)}...
+                        </Link>
+                      </Tooltip>
+                    </TableCell>
                     <TableCell>{row.approvedStatus}</TableCell>
                   </TableRow>
                 ))}

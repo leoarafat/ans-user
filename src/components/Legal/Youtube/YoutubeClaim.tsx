@@ -9,15 +9,33 @@ import {
   Box,
   CircularProgress,
   Paper,
+  Autocomplete,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { useTheme } from "@mui/material/styles";
+import { useMyAllSongQuery } from "@/redux/slices/myUploads/myUploadsApi";
+import { useState } from "react";
+import { useDebounced } from "@/utils/utils";
 
 const YoutubeClaim = () => {
   const { data: profileData, isLoading, isError } = useProfileQuery({});
   const [addYoutubeClaim, { isLoading: isAddLoading }] =
     useAddYoutubeClaimRequestMutation();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedSong, setSelectedSong] = useState<any>(null);
+  const query: Record<string, any> = {};
   const theme = useTheme();
+
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query["searchTerm"] = debouncedSearchTerm;
+  }
+
+  const { data: songs } = useMyAllSongQuery({ ...query });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,10 +44,10 @@ const YoutubeClaim = () => {
     try {
       const res = await addYoutubeClaim({
         user: profileData?.data?._id,
-        email: formData.get("email") as string,
-        labelName: formData.get("label") as string,
-        songTitle: formData.get("song") as string,
-        upc: formData.get("upc") as string,
+        email: profileData?.data?.email as string,
+
+        songTitle: selectedSong?.title || "",
+
         url: formData.get("url") as string,
       });
       if (res?.data?.success === true) {
@@ -140,49 +158,15 @@ const YoutubeClaim = () => {
                   fullWidth
                   id="email"
                   name="email"
-                  label="Email"
+                  disabled
                   variant="outlined"
                   size="medium"
                   sx={{ backgroundColor: "#fff" }}
+                  value={profileData?.data?.email}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="label"
-                  name="label"
-                  label="Label Name"
-                  variant="outlined"
-                  size="medium"
-                  sx={{ backgroundColor: "#fff" }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="song"
-                  name="song"
-                  label="Song Title"
-                  variant="outlined"
-                  size="medium"
-                  sx={{ backgroundColor: "#fff" }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="upc"
-                  name="upc"
-                  label="UPC"
-                  variant="outlined"
-                  size="medium"
-                  sx={{ backgroundColor: "#fff" }}
-                />
-              </Grid>
-              <Grid item xs={12}>
+
+              <Grid item xs={6}>
                 <TextField
                   required
                   fullWidth
@@ -192,6 +176,26 @@ const YoutubeClaim = () => {
                   variant="outlined"
                   size="medium"
                   sx={{ backgroundColor: "#fff" }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Autocomplete
+                  options={songs?.data || []}
+                  getOptionLabel={(option: any) =>
+                    `${option.title} (ISRC: ${option.isrc})`
+                  }
+                  onInputChange={(event, newValue) => setSearchTerm(newValue)}
+                  onChange={(event, newValue) => setSelectedSong(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Song Title (Search by Title or ISRC)"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      sx={{ backgroundColor: "#fff" }}
+                    />
+                  )}
                 />
               </Grid>
               <Grid item xs={12}>

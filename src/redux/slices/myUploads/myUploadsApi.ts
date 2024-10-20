@@ -152,6 +152,14 @@ export const myUploadsApi = baseApi.injectEndpoints({
       }),
       providesTags: ["single-audio"],
     }),
+    myAllSong: build.query({
+      query: (query: Record<string, unknown>) => ({
+        url: `single-music/all-music`,
+        method: "GET",
+        params: query,
+      }),
+      providesTags: ["single-audio"],
+    }),
     editSingleMusic: build.mutation({
       query: (payload) => ({
         url: `catalog-music/edit-release/${payload.id}`,
@@ -211,4 +219,5 @@ export const {
   useGetVideoDetailsQuery,
   useEditVideoMutation,
   useUpdateVideoMutation,
+  useMyAllSongQuery,
 } = myUploadsApi;
