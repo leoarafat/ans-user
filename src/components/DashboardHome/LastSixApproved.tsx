@@ -42,7 +42,8 @@ const LastSixApproved = () => {
                 padding: 3,
                 border: "1px dashed #ddd",
                 borderRadius: 3,
-                backgroundColor: "#f5f5f5",
+                background: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
+
                 textAlign: "center",
                 cursor: "pointer",
                 transition: "all 0.3s ease",
@@ -54,8 +55,8 @@ const LastSixApproved = () => {
                 },
               }}
             >
-              <AudiotrackIcon sx={{ fontSize: 60, color: "#00796b" }} />
-              <Typography variant="h6" mt={1}>
+              <AudiotrackIcon sx={{ fontSize: 60, color: "#ffffff" }} />
+              <Typography sx={{ color: "#ffffff" }} variant="h6" mt={1}>
                 Create Audio Release
               </Typography>
             </Paper>

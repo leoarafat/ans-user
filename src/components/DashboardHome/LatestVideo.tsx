@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Typography,
@@ -40,20 +39,20 @@ const LatestVideo = () => {
               padding: 3,
               border: "1px dashed #ddd",
               borderRadius: 3,
-              backgroundColor: "#f5f5f5",
+              background: "linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%)",
               textAlign: "center",
               cursor: "pointer",
               transition: "all 0.3s ease",
               boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
               "&:hover": {
-                backgroundColor: "#e0e0e0",
+                background: "linear-gradient(135deg, #ff4b2b 0%, #ff416c 100%)",
                 borderColor: "#ccc",
                 boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
               },
             }}
           >
-            <YouTubeIcon sx={{ fontSize: 60, color: "#FF0000" }} />
-            <Typography variant="h6" mt={1}>
+            <YouTubeIcon sx={{ fontSize: 60, color: "#ffffff" }} />
+            <Typography sx={{ color: "#ffffff" }} variant="h6" mt={1}>
               Create Video Release
             </Typography>
           </Paper>
