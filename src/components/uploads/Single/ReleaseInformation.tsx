@@ -199,7 +199,16 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
   return (
     <Container maxWidth="lg" sx={{ mt: 1 }}>
       <Box>
-        <Card sx={{ p: 3, mb: 3, boxShadow: 3 }}>
+        <Card
+          sx={{
+            p: 3,
+            mb: 3,
+            boxShadow: 3,
+            background: "linear-gradient(135deg, #d9e4f5 0%, #f3eaf7 100%)",
+            backdropFilter: "blur(8px)",
+            borderRadius: "16px",
+          }}
+        >
           <CardContent>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
@@ -220,14 +229,6 @@ eg.: Appetite for Destruction, Thriller, etc..."
                   name="releaseTitle"
                   value={formData.releaseTitle}
                   onChange={handleChange}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: 2,
-                      backgroundColor: "#f5f5f5",
-                    },
-                    "& .MuiInputLabel-root": { color: "#333" },
-                    "& .MuiInputBase-input": { color: "#333" },
-                  }}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -352,7 +353,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       freeSolo
                     />
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item className="flex justify-between">
                     <IconButton
                       onClick={() => removeFeaturingArtist(index)}
                       disabled={formData.featuringArtists.length === 1}

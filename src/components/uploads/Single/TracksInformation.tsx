@@ -10,15 +10,18 @@ import {
   CardContent,
 } from "@mui/material";
 import { allLanguage } from "@/utils/languages";
-import { useCustomStyles } from "./Styles";
+
 import { moods } from "@/utils/enum";
 import { generateISRC } from "@/utils/utils";
 
 const TracksInformation = ({ data, onChange }: any) => {
   const [isrc, setIsrc] = useState("");
-  const [askValue, setAskValue] = useState<string>("Yes");
 
-  const classes = useCustomStyles();
+  const [askValue, setAskValue] = useState<string>("Yes");
+  const releaseFormData = JSON.parse(
+    localStorage.getItem("releaseFormData") || "{}"
+  );
+  console.log(releaseFormData);
   if (!data.trackDetails.isrc) {
     data.trackDetails.isrc = isrc;
   }
@@ -51,23 +54,62 @@ const TracksInformation = ({ data, onChange }: any) => {
       setAskValue(newValue);
     }
   };
-
+  const handleContentTypeChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: string | null
+  ) => {
+    if (value) {
+      if (value === "Single") {
+        const releaseTitle = releaseFormData.releaseTitle || "";
+        onChange("trackDetails", {
+          ...data.trackDetails,
+          contentType: value,
+          title: releaseTitle,
+        });
+      } else {
+        onChange("trackDetails", {
+          ...data.trackDetails,
+          contentType: value,
+          title: "",
+        });
+      }
+    }
+  };
   useEffect(() => {
-    localStorage.setItem("tracksInformation", JSON.stringify(data));
-  }, [data]);
+    if (data.trackDetails.contentType === "Single") {
+      const releaseTitle = releaseFormData.releaseTitle || "";
+      onChange("trackDetails", {
+        ...data.trackDetails,
+        title: releaseTitle,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     const newIsrc = generateISRC();
     setIsrc(newIsrc);
   }, []);
+  useEffect(() => {
+    localStorage.setItem("tracksInformation", JSON.stringify(data));
+  }, [data]);
   return (
     <Container maxWidth="lg">
       <Box>
-        <Card>
+        <Card
+          sx={{
+            p: 3,
+            mb: 3,
+            boxShadow: 3,
+            background: "linear-gradient(135deg, #d9e4f5 0%, #f3eaf7 100%)",
+            backdropFilter: "blur(8px)",
+            borderRadius: "16px",
+          }}
+        >
           <CardContent>
             {" "}
             <form>
               <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
                       ?
@@ -94,8 +136,30 @@ const TracksInformation = ({ data, onChange }: any) => {
                       />
                     )}
                   />
+                </Grid> */}
+                <Grid item xs={12} sm={6}>
+                  <Tooltip title="Select as your wish">
+                    <span className="text-red-600 font-bold pr-2 cursor-pointer">
+                      ?
+                    </span>
+                  </Tooltip>
+                  <Autocomplete
+                    fullWidth
+                    options={["Album", "Single", "Compilation", "Remix"]}
+                    value={data.trackDetails.contentType}
+                    onChange={handleContentTypeChange}
+                    renderInput={(params) => (
+                      <TextField
+                        required
+                        {...params}
+                        fullWidth
+                        label="Content Type"
+                        variant="outlined"
+                        name="contentType"
+                      />
+                    )}
+                  />
                 </Grid>
-
                 <Grid item xs={12} sm={6}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">

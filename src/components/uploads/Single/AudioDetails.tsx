@@ -258,7 +258,13 @@ const AudioDetails = ({ data, onChange }: any) => {
     <Box component="form">
       <Grid container spacing={3} alignItems="center">
         <Grid item xs={12} md={6}>
-          <Card>
+          <Card
+            sx={{
+              background: "linear-gradient(135deg, #d9e4f5 0%, #f3eaf7 100%)",
+              backdropFilter: "blur(8px)",
+              borderRadius: "16px",
+            }}
+          >
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Upload Cover Image
@@ -319,7 +325,13 @@ const AudioDetails = ({ data, onChange }: any) => {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card>
+          <Card
+            sx={{
+              background: "linear-gradient(135deg, #d9e4f5 0%, #f3eaf7 100%)",
+              backdropFilter: "blur(8px)",
+              borderRadius: "16px",
+            }}
+          >
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Upload Audio

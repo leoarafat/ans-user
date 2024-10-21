@@ -39,11 +39,11 @@ const ReleasePlatform = ({ data, onChange }: any) => {
         elevation={10}
         sx={{
           minWidth: 850,
-
+          backdropFilter: "blur(8px)",
           borderRadius: "16px",
           overflow: "hidden",
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-          background: "white",
+          background: "linear-gradient(135deg, #d9e4f5 0%, #f3eaf7 100%)",
         }}
       >
         <CardContent sx={{ padding: "32px 24px" }}>
