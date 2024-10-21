@@ -9,11 +9,14 @@ import { useNavigate } from "react-router-dom";
 import useVerification from "@/utils/isVerified";
 import { useEffect } from "react";
 import TotalSong from "../TotalCard/TotalSong";
+import useApproved from "@/utils/isApproved";
 
 const DashboardHome = () => {
   const navigate = useNavigate();
   const { isVerified } = useVerification();
+  const userVerifiedInfo = useApproved();
 
+  const isApproved = userVerifiedInfo?.isApproved;
   useEffect(() => {
     if (!isVerified) {
       navigate("/verify");
@@ -28,7 +31,7 @@ const DashboardHome = () => {
       <TotalSong />
       {/* <RevenueComponent /> */}
       <FinancialCharts />
-      <LastSixApproved />
+      {isApproved && <LastSixApproved />}
       {/* <CorrectionRequest /> */}
       <Grid sx={{ marginTop: 3, width: "100%" }}>
         <News />
