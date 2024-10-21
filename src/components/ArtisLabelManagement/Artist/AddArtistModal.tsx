@@ -58,6 +58,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
         <DialogContent>
           <TextField
             autoFocus
+            required
             margin="dense"
             id="artist-name"
             label="Name"
@@ -69,7 +70,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
           <TextField
             margin="dense"
             id="instagram-id"
-            label="Instagram ID"
+            label="Instagram ID(Optional)"
             type="url"
             placeholder="https://instagram.com/artistprofile"
             fullWidth
@@ -79,7 +80,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
           <TextField
             margin="dense"
             id="spotify-id"
-            label="Spotify ID"
+            label="Spotify ID(Optional)"
             type="url"
             placeholder="https://spotify.com/artistprofile"
             fullWidth
@@ -89,7 +90,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
           <TextField
             margin="dense"
             id="apple-id"
-            label="Apple ID"
+            label="Apple ID(Optional)"
             type="url"
             placeholder="https://music.apple.com/artistprofile"
             fullWidth
@@ -99,7 +100,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({ open, setOpen }) => {
           <TextField
             margin="dense"
             id="facebook-url"
-            label="Facebook URL"
+            label="Facebook URL(Optional)"
             type="url"
             placeholder="https://facebook.com/artistprofile"
             fullWidth

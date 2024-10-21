@@ -1,4 +1,3 @@
-import { generateISRC } from "@/utils/utils";
 import {
   TextField,
   Select,
@@ -7,15 +6,9 @@ import {
   InputLabel,
   Grid,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 
 import { Controller } from "react-hook-form";
 const AdditionalForm = ({ control, classes }: any) => {
-  const [isrc, setIsrc] = useState("");
-  useEffect(() => {
-    const newIsrc = generateISRC();
-    setIsrc(newIsrc);
-  }, []);
   return (
     <>
       {" "}
@@ -34,22 +27,6 @@ const AdditionalForm = ({ control, classes }: any) => {
           )}
         />
       </Grid>
-      {/* <Grid item xs={6}>
-        <Controller
-          name="audioIsrc"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              className={classes.input}
-              {...field}
-              label="Audio ISRC"
-              variant="outlined"
-              fullWidth
-              required
-            />
-          )}
-        />
-      </Grid> */}
       <Grid item xs={6}>
         <Controller
           name="audioIsrc"
@@ -62,10 +39,6 @@ const AdditionalForm = ({ control, classes }: any) => {
               variant="outlined"
               fullWidth
               required
-              value={isrc}
-              InputProps={{
-                readOnly: true,
-              }}
             />
           )}
         />

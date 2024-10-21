@@ -52,6 +52,7 @@ const AddLabelModal: React.FC<AddLabelModalProps> = ({ open, setOpen }) => {
         <DialogTitle id="form-dialog-title">Add Label</DialogTitle>
         <DialogContent>
           <TextField
+            required
             autoFocus
             margin="dense"
             id="label-name"
@@ -65,7 +66,7 @@ const AddLabelModal: React.FC<AddLabelModalProps> = ({ open, setOpen }) => {
             autoFocus
             margin="dense"
             id="channel"
-            label="Youtube Channel"
+            label="Youtube Channel(Optional)"
             type="text"
             fullWidth
             value={youtubeChannel}
@@ -75,7 +76,7 @@ const AddLabelModal: React.FC<AddLabelModalProps> = ({ open, setOpen }) => {
             autoFocus
             margin="dense"
             id="url"
-            label="Youtube URL"
+            label="Youtube URL(Optional)"
             type="text"
             fullWidth
             value={youtubeUrl}

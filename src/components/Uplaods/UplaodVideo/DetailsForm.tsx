@@ -206,8 +206,8 @@ const DetailsForm = ({
               label="ISRC Code"
               variant="outlined"
               fullWidth
-              required
               value={isrc}
+              disabled
             />
           )}
         />
@@ -412,7 +412,8 @@ const DetailsForm = ({
               label="Repertoire Owner"
               variant="outlined"
               fullWidth
-              required
+              // required
+              disabled
             />
           )}
         />

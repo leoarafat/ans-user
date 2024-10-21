@@ -66,7 +66,7 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
         genre: data.genre || "",
         subgenre: data.subgenre || "",
         label: data.label || "",
-        format: data.format || "Album",
+        format: data.format || "Single",
         releaseDate: data.releaseDate || "",
         pLine: data.pLine || "",
         cLine: data.cLine || "",

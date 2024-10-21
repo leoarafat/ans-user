@@ -52,7 +52,7 @@ const ArtistLabelManagement = () => {
         >
           <Tab
             value="one"
-            label="Manage Labels"
+            label="Manage Channel"
             sx={{
               fontWeight: "bold",
               color: "#333",
@@ -64,7 +64,7 @@ const ArtistLabelManagement = () => {
           />
           <Tab
             value="two"
-            label="Manage Artists"
+            label="Manage Labels"
             sx={{
               fontWeight: "bold",
               color: "#333",
@@ -76,7 +76,7 @@ const ArtistLabelManagement = () => {
           />
           <Tab
             value="three"
-            label="Manage Channel"
+            label="Manage Artists"
             sx={{
               fontWeight: "bold",
               color: "#333",
@@ -95,9 +95,9 @@ const ArtistLabelManagement = () => {
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
-          {activeTab === "one" && <LabelManage />}
-          {activeTab === "two" && <ArtistManage />}
-          {activeTab === "three" && <VevoChannelManage />}
+          {activeTab === "one" && <VevoChannelManage />}
+          {activeTab === "two" && <LabelManage />}
+          {activeTab === "three" && <ArtistManage />}
         </Box>
       </Paper>
     </Box>

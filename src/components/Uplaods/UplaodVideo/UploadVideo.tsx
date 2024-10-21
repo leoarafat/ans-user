@@ -25,12 +25,14 @@ import TermsConditions from "./TermsConditions";
 import DetailsForm from "./DetailsForm";
 import AdditionalForm from "./AdditionalForm";
 import DistributorForm from "./DistributorForm";
+import { useProfileQuery } from "@/redux/slices/admin/userApi";
 
 const UploadVideo = () => {
   const classes = useStyles();
   const [isrc, setIsrc] = useState("");
   const [primaryArtists, setPrimaryArtists] = useState([{ name: "", _id: "" }]);
   const [featureArtists, setFeatureArtists] = useState([{ name: "", _id: "" }]);
+  const { data: profileData } = useProfileQuery({});
 
   const { control, handleSubmit, watch, setValue } = useForm<IVideoFormInput>({
     defaultValues: {
@@ -70,7 +72,7 @@ const UploadVideo = () => {
       countdownLength: "1 Minute",
       territoryPolicy: "Monetize Worldwide",
       visibility: "Default",
-      repertoireOwner: "",
+      repertoireOwner: profileData?.data?.channelName,
     },
   });
 
