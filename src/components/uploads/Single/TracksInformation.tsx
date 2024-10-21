@@ -100,7 +100,8 @@ const TracksInformation = ({ data, onChange }: any) => {
             p: 3,
             mb: 3,
             boxShadow: 3,
-            background: "linear-gradient(135deg, #d9e4f5 0%, #f3eaf7 100%)",
+            background:
+              "radial-gradient(at 64% 69%, hsla(199, 91%, 54%, 1) 0, hsla(199, 91%, 54%, 0) 50%)",
             backdropFilter: "blur(8px)",
             borderRadius: "16px",
           }}
@@ -109,34 +110,6 @@ const TracksInformation = ({ data, onChange }: any) => {
             {" "}
             <form>
               <Grid container spacing={3}>
-                {/* <Grid item xs={12} sm={6}>
-                  <Tooltip title="Select as your wish">
-                    <span className="text-red-600 font-bold pr-2 cursor-pointer">
-                      ?
-                    </span>
-                  </Tooltip>
-                  <Autocomplete
-                    fullWidth
-                    options={["Album", "Single", "Compilation", "Remix"]}
-                    value={data.trackDetails.contentType}
-                    onChange={(e, value) =>
-                      onChange("trackDetails", {
-                        ...data.trackDetails,
-                        contentType: value,
-                      })
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        required
-                        {...params}
-                        fullWidth
-                        label="Content Type"
-                        variant="outlined"
-                        name="contentType"
-                      />
-                    )}
-                  />
-                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
@@ -154,7 +127,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Content Type"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="contentType"
                       />
                     )}
@@ -182,7 +175,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Primary Track Type"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="primaryTrackType"
                       />
                     )}
@@ -217,7 +230,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Secondary Track Type"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="secondaryTrackType"
                       />
                     )}
@@ -246,7 +279,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Instrumental"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="instrumental"
                       />
                     )}
@@ -263,7 +316,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.title}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Title"
                     required
                     name="title"
@@ -281,7 +354,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.remixer}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Remixer"
                     name="remixer"
                   />
@@ -297,7 +390,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.author}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Author"
                     required
                     name="author"
@@ -314,7 +427,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.composer}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Composer"
                     required
                     name="composer"
@@ -331,7 +464,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.arranger}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Arranger"
                     name="arranger"
                     // required
@@ -348,7 +501,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.producer}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Producer"
                     name="producer"
                     // required
@@ -365,7 +538,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.publisher}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Publisher"
                     name="publisher"
                     // required
@@ -388,7 +581,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Ask to generate ISRC?"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="ask"
                       />
                     )}
@@ -406,7 +619,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     disabled={askValue === "Yes"}
                     value={data.trackDetails.isrc}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="ISRC"
                     name="isrc"
                   />
@@ -438,7 +671,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Price"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="price"
                       />
                     )}
@@ -454,7 +707,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.previewStart}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Preview Start"
                     name="previewStart"
                   />
@@ -481,7 +754,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Parental Advisory"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="parentalAdvisory"
                       />
                     )}
@@ -509,7 +802,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Track Title Language"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="trackTitleLanguage"
                         required
                       />
@@ -538,7 +851,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Lyrics Language"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         required
                         name="lyricsLanguage"
                       />
@@ -566,7 +899,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                         {...params}
                         fullWidth
                         label="Mood"
-                        variant="outlined"
+                        variant="filled"
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          borderRadius: "8px",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                          "& .MuiFilledInput-root": {
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            },
+                            "&.Mui-focused": {
+                              backgroundColor: "rgba(255, 255, 255, 1)",
+                            },
+                          },
+                          "& .MuiFormLabel-root": {
+                            color: "#333",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "#333",
+                          },
+                        }}
                         name="mood"
                       />
                     )}
@@ -582,7 +935,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.crbtTitle}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="CRBT Title"
                     name="crbtTitle"
                     // required
@@ -599,7 +972,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.crbtTime}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="CRBT Start Time"
                     placeholder="hh:mm:ss"
                     name="crbtTime"
@@ -616,7 +1009,27 @@ const TracksInformation = ({ data, onChange }: any) => {
                     fullWidth
                     value={data.trackDetails.lyrics}
                     onChange={handleChange}
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     label="Lyrics"
                     multiline
                     rows={4}

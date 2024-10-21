@@ -204,7 +204,8 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
             p: 3,
             mb: 3,
             boxShadow: 3,
-            background: "linear-gradient(135deg, #d9e4f5 0%, #f3eaf7 100%)",
+            background:
+              "radial-gradient(at 64% 69%, hsla(199, 91%, 54%, 1) 0, hsla(199, 91%, 54%, 0) 50%)",
             backdropFilter: "blur(8px)",
             borderRadius: "16px",
           }}
@@ -224,7 +225,27 @@ eg.: Appetite for Destruction, Thriller, etc..."
                   required
                   fullWidth
                   label="Release Title"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   placeholder=" Please enter a title for this release: eg.: Appetite for Destruction, Thriller, etc..."
                   name="releaseTitle"
                   value={formData.releaseTitle}
@@ -245,7 +266,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
 
                   fullWidth
                   label="Version/Subtitle"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   placeholder="Use this field to add further details to your release title"
                   name="version"
                   value={formData.version}
@@ -286,7 +327,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                           {...params}
                           required
                           label="Primary Artist"
-                          variant="outlined"
+                          variant="filled"
+                          sx={{
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            borderRadius: "8px",
+                            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                            "& .MuiFilledInput-root": {
+                              backgroundColor: "rgba(255, 255, 255, 0.85)",
+                              "&:hover": {
+                                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                              },
+                              "&.Mui-focused": {
+                                backgroundColor: "rgba(255, 255, 255, 1)",
+                              },
+                            },
+                            "& .MuiFormLabel-root": {
+                              color: "#333",
+                            },
+                            "& .MuiInputBase-input": {
+                              color: "#333",
+                            },
+                          }}
                         />
                       )}
                       isOptionEqualToValue={(option, value) =>
@@ -307,7 +368,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                         <AddCircleOutlineIcon />
                       </IconButton>
                     )}
-                    <Button variant="outlined" onClick={showArtistModal}>
+                    <Button
+                      sx={{
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        "& .MuiFilledInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          },
+                          "&.Mui-focused": {
+                            backgroundColor: "rgba(255, 255, 255, 1)",
+                          },
+                        },
+                        "& .MuiFormLabel-root": {
+                          color: "#333",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "#333",
+                        },
+                      }}
+                      onClick={showArtistModal}
+                    >
                       Create Artist
                     </Button>
                   </Grid>
@@ -344,7 +425,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                         <TextField
                           {...params}
                           label="Featuring"
-                          variant="outlined"
+                          variant="filled"
+                          sx={{
+                            backgroundColor: "rgba(255, 255, 255, 0.85)",
+                            borderRadius: "8px",
+                            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                            "& .MuiFilledInput-root": {
+                              backgroundColor: "rgba(255, 255, 255, 0.85)",
+                              "&:hover": {
+                                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                              },
+                              "&.Mui-focused": {
+                                backgroundColor: "rgba(255, 255, 255, 1)",
+                              },
+                            },
+                            "& .MuiFormLabel-root": {
+                              color: "#333",
+                            },
+                            "& .MuiInputBase-input": {
+                              color: "#333",
+                            },
+                          }}
                         />
                       )}
                       isOptionEqualToValue={(option, value) =>
@@ -384,7 +485,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       required
                       {...params}
                       label="Genre"
-                      variant="outlined"
+                      variant="filled"
+                      sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        "& .MuiFilledInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          },
+                          "&.Mui-focused": {
+                            backgroundColor: "rgba(255, 255, 255, 1)",
+                          },
+                        },
+                        "& .MuiFormLabel-root": {
+                          color: "#333",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "#333",
+                        },
+                      }}
                       name="genre"
                     />
                   )}
@@ -406,7 +527,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       required
                       {...params}
                       label="Subgenre"
-                      variant="outlined"
+                      variant="filled"
+                      sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        "& .MuiFilledInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          },
+                          "&.Mui-focused": {
+                            backgroundColor: "rgba(255, 255, 255, 1)",
+                          },
+                        },
+                        "& .MuiFormLabel-root": {
+                          color: "#333",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "#333",
+                        },
+                      }}
                       name="subgenre"
                     />
                   )}
@@ -433,7 +574,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       required
                       {...params}
                       label="Label"
-                      variant="outlined"
+                      variant="filled"
+                      sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        "& .MuiFilledInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          },
+                          "&.Mui-focused": {
+                            backgroundColor: "rgba(255, 255, 255, 1)",
+                          },
+                        },
+                        "& .MuiFormLabel-root": {
+                          color: "#333",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "#333",
+                        },
+                      }}
                       required
                       fullWidth
                     />
@@ -468,7 +629,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       required
                       {...params}
                       label="Format"
-                      variant="outlined"
+                      variant="filled"
+                      sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        "& .MuiFilledInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          },
+                          "&.Mui-focused": {
+                            backgroundColor: "rgba(255, 255, 255, 1)",
+                          },
+                        },
+                        "& .MuiFormLabel-root": {
+                          color: "#333",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "#333",
+                        },
+                      }}
                     />
                   )}
                   freeSolo
@@ -485,7 +666,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   fullWidth
                   type="date"
                   label="Release Date"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   name="releaseDate"
                   value={formData.releaseDate}
                   onChange={handleChange}
@@ -502,7 +703,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   required
                   fullWidth
                   label="P Line"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   name="pLine"
                   value={formData.pLine}
                   onChange={handleChange}
@@ -518,7 +739,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   required
                   fullWidth
                   label="C Line"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   name="cLine"
                   value={formData.cLine}
                   onChange={handleChange}
@@ -544,7 +785,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       required
                       {...params}
                       label="Production Year"
-                      variant="outlined"
+                      variant="filled"
+                      sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        "& .MuiFilledInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.85)",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          },
+                          "&.Mui-focused": {
+                            backgroundColor: "rgba(255, 255, 255, 1)",
+                          },
+                        },
+                        "& .MuiFormLabel-root": {
+                          color: "#333",
+                        },
+                        "& .MuiInputBase-input": {
+                          color: "#333",
+                        },
+                      }}
                     />
                   )}
                   freeSolo
@@ -559,7 +820,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                 <TextField
                   fullWidth
                   label="UPC"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   name="upc"
                   value={formData.upc}
                   onChange={handleChange}
@@ -574,7 +855,27 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                 <TextField
                   fullWidth
                   label="Catalog Number"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   name="catalogNumber"
                   value={formData.catalogNumber}
                   onChange={handleChange}

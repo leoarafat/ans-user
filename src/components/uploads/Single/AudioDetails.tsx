@@ -255,7 +255,13 @@ const AudioDetails = ({ data, onChange }: any) => {
   };
 
   return (
-    <Box component="form">
+    <Box
+      component="form"
+      sx={{
+        background:
+          "radial-gradient(at 64% 69%, hsla(199, 91%, 54%, 1) 0, hsla(199, 91%, 54%, 0) 50%)",
+      }}
+    >
       <Grid container spacing={3} alignItems="center">
         <Grid item xs={12} md={6}>
           <Card
