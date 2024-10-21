@@ -951,12 +951,6 @@ const Dashboard = () => {
       icon: <LogOut size={18} />,
       onClick: handleLogout,
     },
-    {
-      key: "logout",
-      title: "Logout",
-      icon: <LogOut size={18} />,
-      onClick: handleLogout,
-    },
   ];
 
   const menuPermissions = {
@@ -1018,7 +1012,9 @@ const Dashboard = () => {
   };
 
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout
+    // style={{ height: "100vh" }}
+    >
       <Sider
         width={280}
         className="sidebar-gradient"
