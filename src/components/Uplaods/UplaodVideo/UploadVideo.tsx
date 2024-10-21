@@ -877,7 +877,9 @@ const UploadVideo = () => {
     <Box
       sx={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #000000 0%, #3b5998 100%)",
+        background:
+          "linear-gradient(135deg, rgba(137, 247, 254, 0.8) 0%, rgba(102, 166, 255, 0.8) 50%), " +
+          "linear-gradient(225deg, rgba(245, 147, 251, 0.5) 50%, rgba(245, 87, 108, 0.5) 100%)",
         paddingTop: "50px",
         paddingBottom: "50px",
       }}
@@ -887,7 +889,9 @@ const UploadVideo = () => {
           sx={{
             borderRadius: "15px",
             boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-            background: "#ffffff",
+            // background: "#ffffff",
+            background:
+              "radial-gradient(at 64% 69%, hsla(199, 91%, 54%, 1) 0, hsla(199, 91%, 54%, 0) 50%)",
           }}
         >
           <CardContent>

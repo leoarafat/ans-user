@@ -77,7 +77,9 @@ const DetailsForm = ({
                   border: "1px dashed #ccc",
                   borderRadius: 2,
                   padding: 2,
-                  backgroundColor: "#f9f9f9",
+                  // backgroundColor: "#f9f9f9",
+                  background:
+                    "linear-gradient(135deg, #000000 0%, #3b5998 100%)",
                   transition: "background-color 0.3s",
                   "&:hover": {
                     backgroundColor: "#f0f0f0",
@@ -139,7 +141,9 @@ const DetailsForm = ({
                   border: "1px dashed #ccc",
                   borderRadius: 2,
                   padding: 2,
-                  backgroundColor: "#f9f9f9",
+                  // backgroundColor: "#f9f9f9",
+                  background:
+                    "linear-gradient(135deg, #000000 0%, #3b5998 100%)",
                   transition: "background-color 0.3s",
                   "&:hover": {
                     backgroundColor: "#f0f0f0",
@@ -204,7 +208,27 @@ const DetailsForm = ({
               className={classes.input}
               {...field}
               label="ISRC Code"
-              variant="outlined"
+              variant="filled"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
               fullWidth
               value={isrc}
               disabled
@@ -212,7 +236,7 @@ const DetailsForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={6}>
+      {/* <Grid item xs={6}>
         <Controller
           name="title"
           control={control}
@@ -223,7 +247,42 @@ const DetailsForm = ({
               variant="outlined"
               fullWidth
               required
-              className={classes.input}
+              // className={classes.input}
+            />
+          )}
+        />
+      </Grid> */}
+      <Grid item xs={6}>
+        <Controller
+          name="title"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Video Title"
+              variant="filled"
+              fullWidth
+              required
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
             />
           )}
         />
@@ -254,7 +313,27 @@ const DetailsForm = ({
                     className={classes.input}
                     {...params}
                     label="Select Primary Artist"
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     fullWidth
                     required
                   />
@@ -299,7 +378,27 @@ const DetailsForm = ({
                     className={classes.input}
                     {...params}
                     label="Select Feature Artist"
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     fullWidth
                   />
                 )}
@@ -329,7 +428,27 @@ const DetailsForm = ({
                 className={classes.input}
                 {...params}
                 label="Genre"
-                variant="outlined"
+                variant="filled"
+                sx={{
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  "& .MuiFilledInput-root": {
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    "&:hover": {
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                    },
+                    "&.Mui-focused": {
+                      backgroundColor: "rgba(255, 255, 255, 1)",
+                    },
+                  },
+                  "& .MuiFormLabel-root": {
+                    color: "#333",
+                  },
+                  "& .MuiInputBase-input": {
+                    color: "#333",
+                  },
+                }}
                 fullWidth
                 required
               />
@@ -348,7 +467,27 @@ const DetailsForm = ({
                 className={classes.input}
                 {...params}
                 label="Subgenre"
-                variant="outlined"
+                variant="filled"
+                sx={{
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  "& .MuiFilledInput-root": {
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    "&:hover": {
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                    },
+                    "&.Mui-focused": {
+                      backgroundColor: "rgba(255, 255, 255, 1)",
+                    },
+                  },
+                  "& .MuiFormLabel-root": {
+                    color: "#333",
+                  },
+                  "& .MuiInputBase-input": {
+                    color: "#333",
+                  },
+                }}
                 fullWidth
               />
             )}
@@ -365,7 +504,27 @@ const DetailsForm = ({
               {...field}
               fullWidth
               select
-              variant="outlined"
+              variant="filled"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
               label="Language"
               InputLabelProps={{ shrink: true }}
             >
@@ -380,7 +539,30 @@ const DetailsForm = ({
         />
       </Grid>
       <Grid item xs={6}>
-        <FormControl fullWidth>
+        <FormControl
+          fullWidth
+          variant="filled"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            "& .MuiFilledInput-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.85)",
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+              },
+              "&.Mui-focused": {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+              },
+            },
+            "& .MuiFormLabel-root": {
+              color: "#333",
+            },
+            "& .MuiInputBase-input": {
+              color: "#333",
+            },
+          }}
+        >
           <InputLabel required id="explicit-label">
             Explicit
           </InputLabel>
@@ -410,7 +592,27 @@ const DetailsForm = ({
               className={classes.input}
               {...field}
               label="Repertoire Owner"
-              variant="outlined"
+              variant="filled"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
               fullWidth
               // required
               disabled
@@ -442,7 +644,27 @@ const DetailsForm = ({
                   className={classes.input}
                   fullWidth
                   label="Label"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   margin="normal"
                 />
               )}
@@ -451,10 +673,40 @@ const DetailsForm = ({
           )}
         />
 
-        <Button onClick={showModal}>Create Label</Button>
+        <Button
+          sx={{
+            color: "#fff",
+          }}
+          onClick={showModal}
+        >
+          Create Label
+        </Button>
       </Grid>
       <Grid item xs={12}>
-        <FormControl fullWidth variant="outlined">
+        <FormControl
+          fullWidth
+          variant="filled"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            "& .MuiFilledInput-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.85)",
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+              },
+              "&.Mui-focused": {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+              },
+            },
+            "& .MuiFormLabel-root": {
+              color: "#333",
+            },
+            "& .MuiInputBase-input": {
+              color: "#333",
+            },
+          }}
+        >
           <InputLabel required id="alreadyHaveAnVevoChannel-label">
             Already have VEVO Channel?
           </InputLabel>
@@ -479,7 +731,14 @@ const DetailsForm = ({
           />
         </FormControl>
         {!haveChannel && (
-          <Button onClick={showChannelModal}>Create Channel</Button>
+          <Button
+            sx={{
+              color: "#fff",
+            }}
+            onClick={showChannelModal}
+          >
+            Create Channel
+          </Button>
         )}
       </Grid>
       {haveChannel && (
@@ -507,7 +766,27 @@ const DetailsForm = ({
                     className={classes.input}
                     fullWidth
                     label="VEVO CHannel"
-                    variant="outlined"
+                    variant="filled"
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      borderRadius: "8px",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      "& .MuiFilledInput-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.85)",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        },
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 1)",
+                        },
+                      },
+                      "& .MuiFormLabel-root": {
+                        color: "#333",
+                      },
+                      "& .MuiInputBase-input": {
+                        color: "#333",
+                      },
+                    }}
                     margin="normal"
                     required
                   />
@@ -527,7 +806,27 @@ const DetailsForm = ({
               className={classes.input}
               {...field}
               label="Description"
-              variant="outlined"
+              variant="filled"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
               fullWidth
               multiline
               rows={4}
@@ -544,7 +843,27 @@ const DetailsForm = ({
               className={classes.input}
               {...field}
               label="Keywords"
-              variant="outlined"
+              variant="filled"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
               fullWidth
               multiline
               rows={4}
@@ -553,7 +872,30 @@ const DetailsForm = ({
         />
       </Grid>
       <Grid item xs={12}>
-        <FormControl fullWidth>
+        <FormControl
+          fullWidth
+          variant="filled"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            "& .MuiFilledInput-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.85)",
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+              },
+              "&.Mui-focused": {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+              },
+            },
+            "& .MuiFormLabel-root": {
+              color: "#333",
+            },
+            "& .MuiInputBase-input": {
+              color: "#333",
+            },
+          }}
+        >
           <InputLabel required id="isKids-label">
             Kids Video?
           </InputLabel>
@@ -575,7 +917,30 @@ const DetailsForm = ({
         </FormControl>
       </Grid>
       <Grid item xs={12}>
-        <FormControl fullWidth>
+        <FormControl
+          fullWidth
+          variant="filled"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            "& .MuiFilledInput-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.85)",
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+              },
+              "&.Mui-focused": {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+              },
+            },
+            "& .MuiFormLabel-root": {
+              color: "#333",
+            },
+            "& .MuiInputBase-input": {
+              color: "#333",
+            },
+          }}
+        >
           <InputLabel required id="videoAlreadyExistOnYoutube-label">
             Video already exists on YouTube?
           </InputLabel>
@@ -610,7 +975,27 @@ const DetailsForm = ({
                 <TextField
                   {...field}
                   label="Video Link (Please ensure current video have minimum 500k views)"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   fullWidth
                   className={classes.input}
                 />
@@ -625,7 +1010,27 @@ const DetailsForm = ({
                 <TextField
                   {...field}
                   label="Asset ID (If channel linked with CMS/MCN)"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   fullWidth
                   className={classes.input}
                 />

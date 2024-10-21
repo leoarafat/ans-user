@@ -29,7 +29,30 @@ const DistributorForm = ({
     <>
       {" "}
       <Grid item xs={12}>
-        <FormControl fullWidth variant="outlined">
+        <FormControl
+          fullWidth
+          variant="filled"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            "& .MuiFilledInput-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.85)",
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+              },
+              "&.Mui-focused": {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+              },
+            },
+            "& .MuiFormLabel-root": {
+              color: "#333",
+            },
+            "& .MuiInputBase-input": {
+              color: "#333",
+            },
+          }}
+        >
           <InputLabel required id="visibility-label">
             Visibility
           </InputLabel>
@@ -57,7 +80,30 @@ const DistributorForm = ({
         </FormControl>
       </Grid>
       <Grid item xs={12}>
-        <FormControl fullWidth variant="outlined">
+        <FormControl
+          fullWidth
+          variant="filled"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            "& .MuiFilledInput-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.85)",
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+              },
+              "&.Mui-focused": {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+              },
+            },
+            "& .MuiFormLabel-root": {
+              color: "#333",
+            },
+            "& .MuiInputBase-input": {
+              color: "#333",
+            },
+          }}
+        >
           <InputLabel required id="storeReleaseDate-label">
             Release start date
           </InputLabel>
@@ -100,7 +146,27 @@ const DistributorForm = ({
                   className={classes.input}
                   {...field}
                   label="Date / Time"
-                  variant="outlined"
+                  variant="filled"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
                   fullWidth
                   type="datetime-local"
                   InputLabelProps={{
@@ -112,7 +178,30 @@ const DistributorForm = ({
             />
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined">
+            <FormControl
+              fullWidth
+              variant="filled"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
+            >
               <InputLabel required id="youtubePremiere-label">
                 Create a YouTube Premiere?
               </InputLabel>
@@ -149,7 +238,30 @@ const DistributorForm = ({
         <>
           {" "}
           <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined">
+            <FormControl
+              fullWidth
+              variant="filled"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
+            >
               <InputLabel required id="countdownTheme-label">
                 Countdown theme
               </InputLabel>
@@ -183,7 +295,30 @@ const DistributorForm = ({
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined">
+            <FormControl
+              fullWidth
+              variant="filled"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "rgba(255, 255, 255, 0.85)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  },
+                  "&.Mui-focused": {
+                    backgroundColor: "rgba(255, 255, 255, 1)",
+                  },
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#333",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#333",
+                },
+              }}
+            >
               <InputLabel required id="countdownLength-label">
                 Countdown length
               </InputLabel>
@@ -210,7 +345,30 @@ const DistributorForm = ({
         </>
       )}
       <Grid item xs={12}>
-        <FormControl fullWidth>
+        <FormControl
+          fullWidth
+          variant="filled"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            "& .MuiFilledInput-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.85)",
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+              },
+              "&.Mui-focused": {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+              },
+            },
+            "& .MuiFormLabel-root": {
+              color: "#333",
+            },
+            "& .MuiInputBase-input": {
+              color: "#333",
+            },
+          }}
+        >
           <InputLabel id="territoryPolicy?-label">Territory Policy</InputLabel>
           <Controller
             name="territoryPolicy"
