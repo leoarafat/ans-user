@@ -889,8 +889,12 @@ const UploadVideo = () => {
           sx={{
             borderRadius: "15px",
             boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-            // background: "#ffffff",
+
             background:
+              // "radial-gradient(at 31% 84%, hsla(320, 95%, 62%, 1) 0, hsla(320, 95%, 62%, 0) 50%)",
+              // background:
+              // "radial-gradient(at 7% 66%, hsla(255, 93%, 55%, 1) 0, hsla(255, 93%, 55%, 0) 50%)",
+              // background:
               "radial-gradient(at 64% 69%, hsla(199, 91%, 54%, 1) 0, hsla(199, 91%, 54%, 0) 50%)",
           }}
         >
@@ -907,11 +911,7 @@ const UploadVideo = () => {
                   right: "calc(50% + 16px)",
                 },
                 "& .MuiStepConnector-line": {
-                  // Removed invalid linear-gradient from borderColor
-                  borderColor:
-                    activeStep > 0
-                      ? "#FF8E53" // Use a solid color or gradient via background
-                      : "#eaeaf0",
+                  borderColor: activeStep > 0 ? "#FF8E53" : "#eaeaf0",
                   borderTopWidth: 3,
                   borderRadius: 1,
                 },
@@ -1002,12 +1002,12 @@ const UploadVideo = () => {
                       variant="outlined"
                       disabled={activeStep === 0}
                       onClick={handleBack}
-                      type="button" // Explicitly set type to button
+                      type="button"
                       sx={{
                         padding: "10px 20px",
                         borderRadius: "8px",
                         borderColor: "#FF8E53",
-                        color: "#FF8E53",
+                        color: "#000",
                         "&:hover": {
                           borderColor: "#FF8E53",
                           backgroundColor: "rgba(255, 142, 83, 0.1)",
@@ -1016,7 +1016,7 @@ const UploadVideo = () => {
                     >
                       Back
                     </Button>
-                    {activeStep < steps.length - 1 ? (
+                    {activeStep < steps.length - 1 && (
                       <Button
                         variant="contained"
                         onClick={handleNext}
@@ -1033,24 +1033,6 @@ const UploadVideo = () => {
                         }}
                       >
                         Next
-                      </Button>
-                    ) : (
-                      <Button
-                        type="submit" // Submit type for form submission
-                        variant="contained"
-                        sx={{
-                          background:
-                            "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-                          padding: "10px 20px",
-                          borderRadius: "8px",
-                          "&:hover": {
-                            background:
-                              "linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%)",
-                          },
-                        }}
-                        disabled={loading}
-                      >
-                        {loading ? "Uploading..." : "Submit"}
                       </Button>
                     )}
                   </Box>
