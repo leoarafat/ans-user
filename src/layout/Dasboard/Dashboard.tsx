@@ -823,11 +823,11 @@ const Dashboard = () => {
           title: "YoutubeClaim",
           icon: <SendHorizontal size={18} style={{ color: "white" }} />,
         },
-        {
-          path: "/youtube-takedown",
-          title: "YoutubeTakeDown",
-          icon: <SendHorizontal size={18} color="white" />,
-        },
+        // {
+        //   path: "/youtube-takedown",
+        //   title: "YoutubeTakeDown",
+        //   icon: <SendHorizontal size={18} color="white" />,
+        // },
         {
           path: "/youyube-manual-claim",
           title: "YouTubeManualClaim",
