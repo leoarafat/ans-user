@@ -27,6 +27,7 @@ import {
 import { years } from "@/utils/languages";
 import { imageURL } from "@/redux/api/baseApi";
 import Loader from "@/utils/Loader";
+import AnalyticsByTitlePage from "./TitleAnalyticsPage";
 
 const AnalyticsPage = () => {
   const [analyticsData, setAnalyticsData] = useState({
@@ -298,7 +299,7 @@ const AnalyticsPage = () => {
           </Stack>
         </Box>
       </Paper>
-      {/* <AnalyticsByTitlePage /> */}
+      <AnalyticsByTitlePage month={selectedMonth} year={selectedYear} />
     </Box>
   );
 };
