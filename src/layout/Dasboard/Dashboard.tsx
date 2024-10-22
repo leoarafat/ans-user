@@ -773,7 +773,7 @@ const Dashboard = () => {
     },
     {
       path: "/artist-management",
-      title: "Artist & Label Manage",
+      title: "VEVO Channel & Others",
       icon: <Settings2Icon size={18} />,
     },
     {
@@ -810,17 +810,17 @@ const Dashboard = () => {
       subMenu: [
         {
           path: "/tiktok",
-          title: "TikTokClaim",
+          title: "TikTok Manual Claim",
           icon: <SendHorizontal size={18} color="#fff" />,
         },
         {
           path: "/fb-claim",
-          title: "FacebookClaim",
+          title: "FB Claim Release",
           icon: <SendHorizontal style={{ fontSize: 18, color: "white" }} />,
         },
         {
           path: "/youtube-claim",
-          title: "YoutubeClaim",
+          title: "YT Claim Release",
           icon: <SendHorizontal size={18} style={{ color: "white" }} />,
         },
         // {

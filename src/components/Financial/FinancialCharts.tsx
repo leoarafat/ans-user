@@ -207,6 +207,7 @@ import dayjs from "dayjs";
 import Loader from "@/utils/Loader";
 import { imageURL } from "@/redux/api/baseApi";
 import axios from "axios";
+import StoreAnalytics from "./StoreAnalytics";
 
 const FinancialCharts = () => {
   const currentYear = new Date().getFullYear();
@@ -325,9 +326,9 @@ const FinancialCharts = () => {
             <Bar dataKey="revenue" stackId="a" fill="#00C49F" />
           </BarChart>
         </ResponsiveContainer>
-
+        <StoreAnalytics />
         {/* Line Chart */}
-        <Box mt={4}>
+        {/* <Box mt={4}>
           <ResponsiveContainer width="100%" height={isMobile ? 250 : 400}>
             <LineChart
               data={financialData}
@@ -353,7 +354,7 @@ const FinancialCharts = () => {
               />
             </LineChart>
           </ResponsiveContainer>
-        </Box>
+        </Box> */}
       </Paper>
     </Box>
   );

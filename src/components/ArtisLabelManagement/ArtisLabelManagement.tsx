@@ -38,7 +38,7 @@ const ArtistLabelManagement = () => {
           component="h1"
           sx={{ marginBottom: "16px", fontWeight: "bold" }}
         >
-          Artist & Label Management
+          Channel, Label, Artist Manage
         </Typography>
         <Tabs
           value={activeTab}

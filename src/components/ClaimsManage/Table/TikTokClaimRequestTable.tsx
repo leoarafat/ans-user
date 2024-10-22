@@ -30,14 +30,25 @@ const TikTokClaimRequestTable = ({ searchQuery, statusFilter }: any) => {
   //@ts-ignore
   const rows = queryData?.data?.data;
 
-  const filteredRows = rows?.filter(
-    (row: any) =>
-      (row.labelName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.upc.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.isrc.toLowerCase().includes(searchQuery.toLowerCase())) &&
-      (statusFilter === "" || row.approvedStatus === statusFilter)
-  );
+  const safeString = (value?: string): string =>
+    value ? value.toLowerCase() : "";
 
+  const filteredRows = rows?.filter((row: any) => {
+    const songTitle = safeString(row.songTitle);
+    const pgcLink = safeString(row.pgcLink);
+    const ugcLink = safeString(row.ugclink);
+    const search = searchQuery.toLowerCase();
+
+    const matchesSearch =
+      songTitle.includes(search) ||
+      pgcLink.includes(search) ||
+      ugcLink.includes(search);
+
+    const matchesStatus =
+      statusFilter === "" || row.approvedStatus === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
   return (
     <>
       <Paper sx={{ mt: 3 }}>
@@ -47,11 +58,11 @@ const TikTokClaimRequestTable = ({ searchQuery, statusFilter }: any) => {
               <TableRow>
                 <TableCell>ID</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Label Name</TableCell>
-                <TableCell>UPC</TableCell>
-                <TableCell>ISRC</TableCell>
-                <TableCell>TikTok Video URL</TableCell>
-                <TableCell>Time (Part Of Song)</TableCell>
+                <TableCell>Song Title</TableCell>
+                <TableCell>UGC link</TableCell>
+                <TableCell>PGC Link</TableCell>
+                <TableCell>Time For PGC</TableCell>
+                <TableCell>Time For UGC</TableCell>
                 <TableCell>Status</TableCell>
               </TableRow>
             </TableHead>
@@ -62,11 +73,11 @@ const TikTokClaimRequestTable = ({ searchQuery, statusFilter }: any) => {
                   <TableRow key={index}>
                     <TableCell>{row._id?.slice(5, 9)}</TableCell>
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.labelName}</TableCell>
-                    <TableCell>{row.upc}</TableCell>
-                    <TableCell>{row.isrc}</TableCell>
-                    <TableCell>{row.url?.slice(0, 20)}</TableCell>
-                    <TableCell>{row.time}</TableCell>
+                    <TableCell>{row.songTitle}</TableCell>
+                    <TableCell>{row.ugclink}</TableCell>
+                    <TableCell>{row.pgcLink}</TableCell>
+                    <TableCell>{row.timeForPgc}</TableCell>
+                    <TableCell>{row.timeForUgc}</TableCell>
                     <TableCell>{row.approvedStatus}</TableCell>
                   </TableRow>
                 ))}

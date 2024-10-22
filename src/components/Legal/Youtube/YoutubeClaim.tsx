@@ -308,7 +308,6 @@ const YoutubeClaim = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedSong, setSelectedSong] = useState<any>(null);
   const query: Record<string, any> = {};
-  const theme = useTheme();
 
   const debouncedSearchTerm = useDebounced({
     searchQuery: searchTerm,

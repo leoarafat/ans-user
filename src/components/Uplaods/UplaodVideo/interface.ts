@@ -17,7 +17,7 @@ export interface IVideoFormInput {
   isrc: string;
   audioIsrc: string;
   vevoChannel: string;
-  keywords: string;
+  keywords: [];
   copyright: string;
   copyrightYear: string;
   territoryPolicy: string;

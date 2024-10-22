@@ -54,13 +54,6 @@ const VevoChannelManage = () => {
     setPage(newPage);
   };
 
-  const handleRowsPerPageChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const showModal = () => {
     setOpen(true);
   };
@@ -130,7 +123,7 @@ const VevoChannelManage = () => {
           textAlign: "center",
         }}
       >
-        Channel Management
+        VEVO Channel Management
       </Typography>
       {/* <Grid container spacing={2} style={{ marginBottom: "20px" }}> */}
       <Box
@@ -210,7 +203,9 @@ const VevoChannelManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.channelName}
-                        onChange={(e) => handleInputChange(e, "channelName")}
+                        onChange={(e: any) =>
+                          handleInputChange(e, "channelName")
+                        }
                         variant="outlined"
                         size="small"
                       />
@@ -222,7 +217,7 @@ const VevoChannelManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.channelInstagramId}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           handleInputChange(e, "channelInstagramId")
                         }
                         variant="outlined"
@@ -236,7 +231,7 @@ const VevoChannelManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.channelSpotifyId}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           handleInputChange(e, "channelSpotifyId")
                         }
                         variant="outlined"
@@ -250,7 +245,9 @@ const VevoChannelManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.channelAppleId}
-                        onChange={(e) => handleInputChange(e, "channelAppleId")}
+                        onChange={(e: any) =>
+                          handleInputChange(e, "channelAppleId")
+                        }
                         variant="outlined"
                         size="small"
                       />
@@ -262,7 +259,7 @@ const VevoChannelManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.channelFacebookId}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           handleInputChange(e, "channelFacebookId")
                         }
                         variant="outlined"

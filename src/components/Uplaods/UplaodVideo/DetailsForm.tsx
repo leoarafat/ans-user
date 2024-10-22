@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Controller } from "react-hook-form";
 import {
   Button,
@@ -15,10 +16,11 @@ import {
   Box,
   Avatar,
   Stack,
+  Chip,
 } from "@mui/material";
 import { PhotoCamera, RemoveCircle, AddCircle } from "@mui/icons-material";
 import { MdClose } from "react-icons/md";
-import { genres } from "@/MockData/MockData";
+import { genres, genresForVideo } from "@/MockData/MockData";
 
 import { allLanguage } from "@/utils/languages";
 
@@ -236,22 +238,6 @@ const DetailsForm = ({
           )}
         />
       </Grid>
-      {/* <Grid item xs={6}>
-        <Controller
-          name="title"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Video Title"
-              variant="outlined"
-              fullWidth
-              required
-              // className={classes.input}
-            />
-          )}
-        />
-      </Grid> */}
       <Grid item xs={6}>
         <Controller
           name="title"
@@ -422,7 +408,7 @@ const DetailsForm = ({
           <Autocomplete
             value={selectedGenre}
             onChange={handleGenreChange}
-            options={genres.map((genre) => genre.name)}
+            options={genresForVideo?.map((genre) => genre.name)}
             renderInput={(params) => (
               <TextField
                 className={classes.input}
@@ -834,7 +820,7 @@ const DetailsForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Controller
           name="keywords"
           control={control}
@@ -867,6 +853,150 @@ const DetailsForm = ({
               fullWidth
               multiline
               rows={4}
+            />
+          )}
+        />
+      </Grid> */}
+      {/* <Grid item xs={12}>
+        <Controller
+          name="keywords"
+          control={control}
+          defaultValue={[]}
+          render={({ field }) => (
+            <Autocomplete
+              multiple
+              freeSolo
+              {...field}
+              options={[]} // No predefined options
+              // onChange={(event, newValue) => {
+              //   field.onChange(newValue);
+              // }}
+              onChange={(event, newValue) => {
+                const uniqueKeywords = Array.from(new Set(newValue));
+                field.onChange(uniqueKeywords);
+              }}
+              value={field.value || []}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                    key={index}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Keywords"
+                  variant="filled"
+                  placeholder="Add keywords"
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
+                  fullWidth
+                />
+              )}
+            />
+          )}
+        />
+      </Grid> */}
+      <Grid item xs={12}>
+        <Controller
+          name="keywords"
+          control={control}
+          defaultValue={[]}
+          render={({ field }) => (
+            <Autocomplete
+              multiple
+              freeSolo
+              {...field}
+              options={[]} // No predefined options
+              onChange={(event, newValue) => {
+                // Remove duplicate keywords and trim whitespace
+                const uniqueKeywords = Array.from(
+                  new Set(newValue.map((k) => k.trim()))
+                ).filter((k) => k !== "");
+                field.onChange(uniqueKeywords);
+              }}
+              value={field.value || []}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                    key={index}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Keywords"
+                  variant="filled"
+                  placeholder="Add keywords"
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === ",") {
+                      event.preventDefault();
+                      const inputValue = params.inputProps.value;
+
+                      const newKeywords = inputValue
+                        //@ts-ignore
+                        ?.split(",")
+                        ?.map((k: any) => k.trim())
+                        ?.filter((k: any) => k !== "");
+                      if (newKeywords.length > 0) {
+                        const mergedKeywords = Array.from(
+                          new Set([...(field.value || []), ...newKeywords])
+                        );
+                        field.onChange(mergedKeywords);
+                      }
+                    }
+                  }}
+                  sx={{
+                    backgroundColor: "rgba(255, 255, 255, 0.85)",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    "& .MuiFilledInput-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.85)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                      "&.Mui-focused": {
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      },
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: "#333",
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "#333",
+                    },
+                  }}
+                  fullWidth
+                  multiline
+                  rows={3}
+                />
+              )}
             />
           )}
         />

@@ -10,9 +10,13 @@ import {
   CircularProgress,
   useTheme,
   Paper,
+  Autocomplete,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { styled } from "@mui/system";
+import { useState } from "react";
+import { useDebounced } from "@/utils/utils";
+import { useMyAllSongQuery } from "@/redux/slices/myUploads/myUploadsApi";
 // Custom Styled Components
 const PageContainer = styled(Box)(() => ({
   minHeight: "100vh",
@@ -69,7 +73,20 @@ const FacebookClaim = () => {
   const { data: profileData, isLoading, isError } = useProfileQuery({});
   const [addFacebookClaim, { isLoading: isAddLoading }] =
     useAddFacebookClaimRequestMutation();
-  const theme = useTheme();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedSong, setSelectedSong] = useState<any>(null);
+  const query: Record<string, any> = {};
+
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query["searchTerm"] = debouncedSearchTerm;
+  }
+
+  const { data: songs } = useMyAllSongQuery({ ...query });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,8 +96,7 @@ const FacebookClaim = () => {
       const res = await addFacebookClaim({
         user: profileData?.data?._id,
         email: profileData?.data?.email as string,
-        labelName: formData.get("label") as string,
-        upc: formData.get("upc") as string,
+        songTitle: selectedSong?.title || "",
         url: formData.get("url") as string,
       });
       if (res?.data?.success === true) {
@@ -121,6 +137,29 @@ const FacebookClaim = () => {
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Autocomplete
+                options={songs?.data || []}
+                getOptionLabel={(option: any) =>
+                  `${option.title} (ISRC: ${option.isrc})`
+                }
+                onInputChange={(event: any, newValue) =>
+                  setSearchTerm(newValue)
+                }
+                onChange={(event, newValue) => setSelectedSong(newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Release Title"
+                    variant="outlined"
+                    placeholder="Search by Title or ISRC"
+                    fullWidth
+                    required
+                    sx={{ backgroundColor: "#fff" }}
+                  />
+                )}
+              />
+            </Grid>
             <Grid item xs={6}>
               <TextField
                 required
@@ -133,35 +172,14 @@ const FacebookClaim = () => {
                 sx={{ backgroundColor: "#f9f9f9", borderRadius: "8px" }}
               />
             </Grid>
+
             <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="label"
-                name="label"
-                label="Label Name"
-                variant="outlined"
-                sx={{ backgroundColor: "#f9f9f9", borderRadius: "8px" }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="upc"
-                name="upc"
-                label="UPC"
-                variant="outlined"
-                sx={{ backgroundColor: "#f9f9f9", borderRadius: "8px" }}
-              />
-            </Grid>
-            <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
                 id="url"
                 name="url"
-                label="Facebook Video URL"
+                label="FB Video Link"
                 variant="outlined"
                 sx={{ backgroundColor: "#f9f9f9", borderRadius: "8px" }}
               />

@@ -342,7 +342,7 @@ const FinancialAnalytics = () => {
         </ResponsiveContainer>
         <StoreAnalytics />
         {/* Line Chart */}
-        <Box mt={4}>
+        {/* <Box mt={4}>
           <ResponsiveContainer width="100%" height={isMobile ? 250 : 400}>
             <LineChart
               data={financialData}
@@ -368,7 +368,7 @@ const FinancialAnalytics = () => {
               />
             </LineChart>
           </ResponsiveContainer>
-        </Box>
+        </Box> */}
       </Paper>
     </Box>
   );

@@ -285,17 +285,26 @@ const StoreAnalytics = () => {
     <Box
       sx={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+        // background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
         padding: 4,
       }}
     >
       <Box display="flex" justifyContent="center" m={2}>
         <FormControl sx={{ mr: 2, minWidth: 150 }}>
-          <InputLabel>Select Month</InputLabel>
+          <InputLabel
+            sx={{
+              color: "#fff",
+            }}
+          >
+            Select Month
+          </InputLabel>
           <Select
             value={selectedMonth}
             onChange={handleMonthChange}
             label="Select Month"
+            sx={{
+              color: "#fff",
+            }}
           >
             {[...Array(12).keys()].map((month) => (
               <MenuItem key={month + 1} value={month + 1}>
@@ -305,8 +314,17 @@ const StoreAnalytics = () => {
           </Select>
         </FormControl>
         <FormControl sx={{ minWidth: 150 }}>
-          <InputLabel>Select Year</InputLabel>
+          <InputLabel
+            sx={{
+              color: "#fff",
+            }}
+          >
+            Select Year
+          </InputLabel>
           <Select
+            sx={{
+              color: "#fff",
+            }}
             value={selectedYear}
             onChange={handleYearChange}
             label="Select Year"
@@ -329,12 +347,14 @@ const StoreAnalytics = () => {
         <Box
           width={{ xs: "100%", md: "45%" }}
           p={3}
-          bgcolor="rgba(255, 255, 255, 0.8)"
+          // bgcolor="rgba(255, 255, 255, 0.8)"
           borderRadius={2}
           boxShadow={3}
-          sx={{
-            background: "linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%)",
-          }}
+          sx={
+            {
+              // background: "linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%)",
+            }
+          }
         >
           <h2 style={{ textAlign: "center" }}>
             Revenue by Store | {`${selectedYear}-${selectedMonth}`}
@@ -358,7 +378,7 @@ const StoreAnalytics = () => {
                 legend: {
                   position: "bottom",
                   labels: {
-                    color: "#333",
+                    color: "#fff",
                     font: {
                       size: 14,
                     },
@@ -371,12 +391,14 @@ const StoreAnalytics = () => {
         <Box
           width={{ xs: "100%", md: "45%" }}
           p={3}
-          bgcolor="rgba(255, 255, 255, 0.8)"
+          // bgcolor="rgba(255, 255, 255, 0.8)"
           borderRadius={2}
           boxShadow={3}
-          sx={{
-            background: "linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%)",
-          }}
+          sx={
+            {
+              // background: "linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%)",
+            }
+          }
         >
           <h2 style={{ textAlign: "center" }}>
             Revenue by Country | {`${selectedYear}-${selectedMonth}`}
@@ -400,7 +422,7 @@ const StoreAnalytics = () => {
                 legend: {
                   position: "bottom",
                   labels: {
-                    color: "#333",
+                    color: "#fff",
                     font: {
                       size: 14,
                     },
