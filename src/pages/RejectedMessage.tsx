@@ -107,9 +107,13 @@ const RejectedMessage = () => {
             <br />
             <strong>Email:</strong> support@ansmusiclimited.com
             <br />
-            <strong>Whatsapp:</strong> +13072042560
-            <br />
-            <strong>Phone:</strong> +880 1711387906
+            <Typography
+              onClick={() => window.open("https://wa.me/ansmusic/", "_blank")}
+              className="cursor-pointer"
+            >
+              <strong>Whatsapp:</strong>
+              <u>+13072042560</u>
+            </Typography>
           </Typography>
         </Box>
       </Paper>
