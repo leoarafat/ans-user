@@ -207,6 +207,7 @@ import dayjs from "dayjs";
 import Loader from "@/utils/Loader";
 import { imageURL } from "@/redux/api/baseApi";
 import axios from "axios";
+import StoreAnalytics from "./StoreAnalytics";
 
 const FinancialCharts = () => {
   const currentYear = new Date().getFullYear();
