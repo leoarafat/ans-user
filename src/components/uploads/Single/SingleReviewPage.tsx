@@ -327,23 +327,14 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
             <Grid item xs={12} md={6}>
               <Typography variant="body1" color="text.primary">
                 <strong>ISRC:</strong> {trackDetails?.isrc}
-                {/* {renderWarning(trackDetails?.isrc, "ISRC missing")} */}
               </Typography>
               <Typography variant="body1" color="text.primary">
                 <strong>Catalogue Number:</strong>
                 {releaseInformation?.catalogNumber}
-                {/* {renderWarning(
-                  releaseInformation?.catalogNumber,
-                  "catalogNumber missing"
-                )} */}
               </Typography>
               <Typography variant="body1" color="text.primary">
-                <strong>Parental Advisory:</strong>{" "}
-                {trackDetails?.parentalAdvisory ? "Yes" : "No"}
-                {/* {renderWarning(
-                  trackDetails?.parentalAdvisory,
-                  "parentalAdvisory missing"
-                )} */}
+                <strong>Parental Advisory:</strong>
+                {trackDetails?.parentalAdvisory}
               </Typography>
             </Grid>
           </Grid>

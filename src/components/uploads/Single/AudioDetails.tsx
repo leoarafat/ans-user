@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 // /* eslint-disable @typescript-eslint/ban-ts-comment */
 // import React, { useState, useEffect } from "react";
 // import {
@@ -251,35 +252,69 @@ const AudioDetails: React.FC<AudioDetailsProps> = ({ data, onChange }) => {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [coverError, setCoverError] = useState<string>("");
   const [audioError, setAudioError] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const COVER_IMAGE_KEY = "coverImage";
   const AUDIO_FILE_KEY = "audioFile";
 
+  //!
+  // useEffect(() => {
+  //   // Load cover image from IndexedDB
+  //   const loadCoverImage = async () => {
+  //     const file = await getFile(COVER_IMAGE_KEY);
+  //     if (file) {
+  //       setCoverImage(file);
+  //       onChange("audio", { ...data?.audio, coverImage: file });
+  //     }
+  //   };
+
+  //   // Load audio file from IndexedDB
+  //   const loadAudioFile = async () => {
+  //     const file = await getFile(AUDIO_FILE_KEY);
+  //     if (file) {
+  //       setAudioFile(file);
+  //       onChange("audio", { ...data?.audio, audioFile: file });
+  //     }
+  //   };
+
+  //   loadCoverImage();
+  //   loadAudioFile();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+  //!
   useEffect(() => {
-    // Load cover image from IndexedDB
-    const loadCoverImage = async () => {
-      const file = await getFile(COVER_IMAGE_KEY);
-      if (file) {
-        setCoverImage(file);
-        onChange("audio", { ...data?.audio, coverImage: file });
+    const loadFiles = async () => {
+      try {
+        const [cover, audio] = await Promise.all([
+          getFile(COVER_IMAGE_KEY),
+          getFile(AUDIO_FILE_KEY),
+        ]);
+
+        let updatedAudio = { ...data?.audio };
+
+        if (cover) {
+          setCoverImage(cover);
+          updatedAudio.coverImage = cover;
+        } else {
+          updatedAudio.coverImage = null;
+        }
+
+        if (audio) {
+          setAudioFile(audio);
+          updatedAudio.audioFile = audio;
+        } else {
+          updatedAudio.audioFile = null;
+        }
+
+        onChange("audio", updatedAudio);
+      } catch (error) {
+        console.error("Error loading files from IndexedDB:", error);
+        // Optionally, set error states here to inform the user
       }
     };
 
-    // Load audio file from IndexedDB
-    const loadAudioFile = async () => {
-      const file = await getFile(AUDIO_FILE_KEY);
-      if (file) {
-        setAudioFile(file);
-        onChange("audio", { ...data?.audio, audioFile: file });
-      }
-    };
-
-    loadCoverImage();
-    loadAudioFile();
+    loadFiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   // Helper function to validate audio specifications
   const validateAudio = async (file: File): Promise<string> => {
     return new Promise((resolve) => {
@@ -311,9 +346,6 @@ const AudioDetails: React.FC<AudioDetailsProps> = ({ data, onChange }) => {
               return;
             }
 
-            // Since Web Audio API decodes to 32-bit float, we need to check if original file matches one of the allowed bit depths
-            // Note: It's challenging to get the original bit depth from a WAV file using Web Audio API.
-            // For demonstration, we'll assume the bit depth is acceptable if sample rate is valid.
             resolve("");
           } catch (error) {
             resolve("Failed to decode audio file.");

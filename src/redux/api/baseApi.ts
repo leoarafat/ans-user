@@ -20,4 +20,3 @@ export const imageURL = "https://api.ansbackstage.com";
 export const baseUrl = axios.create({
   baseURL: "https://api.ansbackstage.com",
 });
-export const socketURL = "https://api.ansbackstage.com";

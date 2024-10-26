@@ -79,7 +79,6 @@ const ReleaseInformation: React.FC<Props> = ({ data, onChange }) => {
   const { data: labelData } = useGetApprovedLabelsQuery({});
   const { data: artistData } = useGetArtistsQuery({});
 
-  const classes = useCustomStyles();
   const [open, setOpen] = useState(false);
   const [openArtist, setOpenArtist] = useState(false);
   const artistOptions =
