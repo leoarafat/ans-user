@@ -54,3 +54,33 @@ export type FormData = {
   previewPage: Record<string, unknown>;
   platform: string;
 };
+
+export const requiredFields = {
+  releaseInformation: [
+    "cLine",
+    "format",
+    "genre",
+    "label",
+    "pLine",
+    "primaryArtists",
+    "productionYear",
+    "releaseDate",
+    "releaseTitle",
+  ],
+  trackDetails: [
+    "author",
+    "composer",
+    "contentType",
+    "instrumental",
+    "isrc",
+    "lyricsLanguage",
+    "parentalAdvisory",
+    "previewStart",
+    "price",
+    "primaryTrackType",
+    "secondaryTrackType",
+    "title",
+    "trackTitleLanguage",
+  ],
+  audio: ["audioFile", "coverImage"],
+};

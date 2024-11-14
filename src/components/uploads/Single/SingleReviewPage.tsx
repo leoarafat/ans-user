@@ -74,7 +74,12 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
   }, [releaseInformation?.featuringArtists]);
 
   if (!audio || !audio.audioFile) {
-    return <Container>No audio file selected.</Container>;
+    return (
+      <div className="text-center">
+        <p className="text-red-800 text-[30px]">Missing!</p>
+        <p>No audio file selected.</p>
+      </div>
+    );
   }
   const renderWarning = (field: any, message: string) => {
     return !field ? (
