@@ -21,7 +21,7 @@ const TracksInformation = ({ data, onChange }: any) => {
   const releaseFormData = JSON.parse(
     localStorage.getItem("releaseFormData") || "{}"
   );
-  console.log(releaseFormData);
+
   if (!data.trackDetails.isrc) {
     data.trackDetails.isrc = isrc;
   }
@@ -898,7 +898,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                       <TextField
                         {...params}
                         fullWidth
-                        label="Mood"
+                        label="Select Mood"
                         variant="filled"
                         sx={{
                           backgroundColor: "rgba(255, 255, 255, 0.85)",
@@ -933,7 +933,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                   </Tooltip>
                   <TextField
                     fullWidth
-                    value={data.trackDetails.crbtTitle}
+                    value={data.trackDetails.title}
                     onChange={handleChange}
                     variant="filled"
                     sx={{

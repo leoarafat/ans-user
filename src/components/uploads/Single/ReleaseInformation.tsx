@@ -315,7 +315,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                       getOptionLabel={(option) => option.label}
                       value={
                         artistOptions.find(
-                          (option) => option.value === artist
+                          (option: any) => option.value === artist
                         ) || null
                       }
                       onChange={(event, newValue) =>
@@ -523,7 +523,6 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   onChange={handleSubgenreChange}
                   renderInput={(params) => (
                     <TextField
-                      required
                       {...params}
                       label="Subgenre"
                       variant="filled"
@@ -564,8 +563,9 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                   options={labelOptions}
                   getOptionLabel={(option) => option.label}
                   value={
-                    labelOptions.find((opt) => opt.value === formData.label) ||
-                    null
+                    labelOptions.find(
+                      (opt: any) => opt.value === formData.label
+                    ) || null
                   }
                   onChange={(event, newValue) => handleLabelChange(newValue)}
                   renderInput={(params) => (
@@ -594,6 +594,7 @@ eg.: Limited Edition, 25th Anniversary Edition, Karaoke Version, etc..."
                           color: "#333",
                         },
                       }}
+                      //@ts-ignore
                       required
                       fullWidth
                     />
