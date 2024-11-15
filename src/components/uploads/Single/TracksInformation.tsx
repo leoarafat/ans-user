@@ -17,7 +17,8 @@ import { inputStyles } from "./SingleUtils";
 
 const TracksInformation = ({ data, onChange }: any) => {
   const [isrc, setIsrc] = useState("");
-
+  const [authorError, setAuthorError] = useState<string>("");
+  const [composerError, setComposerError] = useState<string>("");
   const [askValue, setAskValue] = useState<string>("Yes");
   const releaseFormData = JSON.parse(
     localStorage.getItem("releaseFormData") || "{}"
@@ -42,11 +43,31 @@ const TracksInformation = ({ data, onChange }: any) => {
   if (!data.trackDetails.parentalAdvisory) {
     data.trackDetails.parentalAdvisory = "Not Explicit";
   }
-
+  const validateName = (name: string): boolean => {
+    return name.trim().split(" ").length >= 2;
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    if (name === "author") {
+      if (!validateName(value)) {
+        setAuthorError("Please enter both first and last names.");
+      } else {
+        setAuthorError("");
+      }
+    }
+
+    if (name === "composer") {
+      if (!validateName(value)) {
+        setComposerError("Please enter both first and last names.");
+      } else {
+        setComposerError("");
+      }
+    }
+
     onChange("trackDetails", { ...data.trackDetails, [name]: value });
   };
+
   const handleAskChange = (
     event: React.SyntheticEvent<Element, Event>,
     newValue: string | null
@@ -239,26 +260,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                     value={data.trackDetails.title}
                     onChange={handleChange}
                     variant="filled"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      "& .MuiFilledInput-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.85)",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        },
-                        "&.Mui-focused": {
-                          backgroundColor: "rgba(255, 255, 255, 1)",
-                        },
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#333",
-                      },
-                      "& .MuiInputBase-input": {
-                        color: "#333",
-                      },
-                    }}
+                    sx={inputStyles}
                     label="Title"
                     required
                     name="title"
@@ -277,26 +279,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                     value={data.trackDetails.remixer}
                     onChange={handleChange}
                     variant="filled"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      "& .MuiFilledInput-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.85)",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        },
-                        "&.Mui-focused": {
-                          backgroundColor: "rgba(255, 255, 255, 1)",
-                        },
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#333",
-                      },
-                      "& .MuiInputBase-input": {
-                        color: "#333",
-                      },
-                    }}
+                    sx={inputStyles}
                     label="Remixer"
                     name="remixer"
                   />
@@ -313,29 +296,12 @@ const TracksInformation = ({ data, onChange }: any) => {
                     value={data.trackDetails.author}
                     onChange={handleChange}
                     variant="filled"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      "& .MuiFilledInput-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.85)",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        },
-                        "&.Mui-focused": {
-                          backgroundColor: "rgba(255, 255, 255, 1)",
-                        },
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#333",
-                      },
-                      "& .MuiInputBase-input": {
-                        color: "#333",
-                      },
-                    }}
+                    sx={inputStyles}
                     label="Author"
                     required
                     name="author"
+                    error={!!authorError}
+                    helperText={authorError}
                   />
                 </Grid>
 
@@ -350,32 +316,14 @@ const TracksInformation = ({ data, onChange }: any) => {
                     value={data.trackDetails.composer}
                     onChange={handleChange}
                     variant="filled"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      "& .MuiFilledInput-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.85)",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        },
-                        "&.Mui-focused": {
-                          backgroundColor: "rgba(255, 255, 255, 1)",
-                        },
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#333",
-                      },
-                      "& .MuiInputBase-input": {
-                        color: "#333",
-                      },
-                    }}
+                    sx={inputStyles}
                     label="Composer"
                     required
                     name="composer"
+                    error={!!composerError}
+                    helperText={composerError}
                   />
                 </Grid>
-
                 <Grid item xs={6}>
                   <Tooltip title="Select as your wish">
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
@@ -387,26 +335,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                     value={data.trackDetails.arranger}
                     onChange={handleChange}
                     variant="filled"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      "& .MuiFilledInput-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.85)",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        },
-                        "&.Mui-focused": {
-                          backgroundColor: "rgba(255, 255, 255, 1)",
-                        },
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#333",
-                      },
-                      "& .MuiInputBase-input": {
-                        color: "#333",
-                      },
-                    }}
+                    sx={inputStyles}
                     label="Arranger"
                     name="arranger"
                     // required
@@ -424,26 +353,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                     value={data.trackDetails.producer}
                     onChange={handleChange}
                     variant="filled"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      "& .MuiFilledInput-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.85)",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        },
-                        "&.Mui-focused": {
-                          backgroundColor: "rgba(255, 255, 255, 1)",
-                        },
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#333",
-                      },
-                      "& .MuiInputBase-input": {
-                        color: "#333",
-                      },
-                    }}
+                    sx={inputStyles}
                     label="Producer"
                     name="producer"
                     // required
@@ -461,26 +371,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                     value={data.trackDetails.publisher}
                     onChange={handleChange}
                     variant="filled"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      "& .MuiFilledInput-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.85)",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        },
-                        "&.Mui-focused": {
-                          backgroundColor: "rgba(255, 255, 255, 1)",
-                        },
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#333",
-                      },
-                      "& .MuiInputBase-input": {
-                        color: "#333",
-                      },
-                    }}
+                    sx={inputStyles}
                     label="Publisher"
                     name="publisher"
                     // required
@@ -592,26 +483,7 @@ const TracksInformation = ({ data, onChange }: any) => {
                     value={data.trackDetails.previewStart}
                     onChange={handleChange}
                     variant="filled"
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      "& .MuiFilledInput-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.85)",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        },
-                        "&.Mui-focused": {
-                          backgroundColor: "rgba(255, 255, 255, 1)",
-                        },
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#333",
-                      },
-                      "& .MuiInputBase-input": {
-                        color: "#333",
-                      },
-                    }}
+                    sx={inputStyles}
                     label="Preview Start"
                     name="previewStart"
                   />

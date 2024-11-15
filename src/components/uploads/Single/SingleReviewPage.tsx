@@ -254,6 +254,10 @@ const SingleTrackReviewPage = ({ data, onChange }: any) => {
                     primary="Production Year"
                     secondary={releaseInformation?.productionYear}
                   />
+                  {renderWarning(
+                    trackDetails?.productionYear,
+                    "Production Year missing"
+                  )}
                 </ListItem>
                 <ListItem>
                   <ListItemText
