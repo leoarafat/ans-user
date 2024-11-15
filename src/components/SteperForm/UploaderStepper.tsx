@@ -1818,7 +1818,7 @@ const UploaderStepperForm = () => {
     //!
     try {
       const formDataToSend = prepareFormData(formData);
-      console.log(formDataToSend);
+
       const data = await uploadFormData(formDataToSend, setUploadProgress);
 
       if (data?.success) {

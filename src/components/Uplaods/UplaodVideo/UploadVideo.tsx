@@ -43,6 +43,9 @@ import { useProfileQuery } from "@/redux/slices/admin/userApi";
 import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PublishIcon from "@mui/icons-material/Publish";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 
 const steps = [
   { label: "Details", icon: <VideoLibraryIcon /> },

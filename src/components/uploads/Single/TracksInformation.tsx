@@ -51,7 +51,9 @@ const TracksInformation = ({ data, onChange }: any) => {
 
     if (name === "author") {
       if (!validateName(value)) {
-        setAuthorError("Please enter both first and last names.");
+        setAuthorError(
+          "Digital Music Stores require full first and last (family) name"
+        );
       } else {
         setAuthorError("");
       }
@@ -59,7 +61,9 @@ const TracksInformation = ({ data, onChange }: any) => {
 
     if (name === "composer") {
       if (!validateName(value)) {
-        setComposerError("Please enter both first and last names.");
+        setComposerError(
+          "Digital Music Stores require full first and last (family) name"
+        );
       } else {
         setComposerError("");
       }
@@ -286,7 +290,13 @@ const TracksInformation = ({ data, onChange }: any) => {
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  <Tooltip title="Digital Music Stores require full first and last (family) name">
+                  <Tooltip
+                    title="Please only enter one name per field.
+
+For example, don't enter Akash Sarker & Niloy Sarker in the Author (or Composer) field, but Akash sarker in the first field and Niloy Sarker in a separate field. To add an additional Author (or Composer), click Add a new author.
+
+Incomplete data ('J. Doe' instead of 'Jane Doe') or simplified information such as 'Rights Reserved' or 'Public domain' (as well as RR, PD, etc.) will no longer be accepted by stores."
+                  >
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
                       ?
                     </span>
@@ -306,7 +316,13 @@ const TracksInformation = ({ data, onChange }: any) => {
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  <Tooltip title="Digital Music Stores require full first and last (family) name">
+                  <Tooltip
+                    title="Please only enter one name per field.
+
+For example, don't enter Akash Sarker & Niloy Sarker in the Author (or Composer) field, but Akash sarker in the first field and Niloy Sarker in a separate field. To add an additional Author (or Composer), click Add a new author.
+
+Incomplete data ('J. Doe' instead of 'Jane Doe') or simplified information such as 'Rights Reserved' or 'Public domain' (as well as RR, PD, etc.) will no longer be accepted by stores."
+                  >
                     <span className="text-red-600 font-bold pr-2 cursor-pointer">
                       ?
                     </span>
