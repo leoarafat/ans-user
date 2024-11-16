@@ -205,7 +205,62 @@ const UploadVideo = () => {
       return;
     }
     setOpenModal(false);
+    const missingFields: string[] = [];
 
+    if (!thumbnail) missingFields.push("Thumbnail");
+    if (!videoFile) missingFields.push("Video File");
+    if (!data.title) missingFields.push("Title");
+    if (!primaryArtists || primaryArtists.length === 0)
+      missingFields.push("Primary Artist");
+    if (!selectedGenre) missingFields.push("Genre");
+    if (!data.vevoChannel) missingFields.push("Vevo Channel");
+    if (!isrc) missingFields.push("ISRC");
+    if (!data.audioIsrc) missingFields.push("Audio ISRC");
+
+    if (missingFields.length > 0) {
+      const missingFieldsList = missingFields
+        .map((field) => {
+          const fieldName = field.split(".").pop();
+
+          return `
+          <li class="missing-field-item">
+            <svg class="field-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+              <path d="M4.257 5.099a.5.5 0 0 1 .574-.224l.085.038 3.5 1.75a.5.5 0 0 1 .258.58l-.036.093-1.25 3.5a.5.5 0 0 1-.768.183L4.1 7.737l-1.25 3.5a.5.5 0 0 1-.768.183L1.1 9.737l-3-4a.5.5 0 0 1 .574-.824l3 4a.5.5 0 0 1 .258.58l-.036.093-1.25 3.5a.5.5 0 0 1-.768.183L.1 7.737 0 8a.5.5 0 0 1 .5-.5h0z"/>
+            </svg>
+            ${fieldName}
+          </li>
+        `;
+        })
+        .join("");
+
+      await MySwal.fire({
+        title: "🚧 Missing Required Fields",
+        html: `
+          <div class="swal-custom-content">
+            <p>Please fill in the following required fields:</p>
+            <ul class="missing-fields-list">
+              ${missingFieldsList}
+            </ul>
+          </div>
+        `,
+        icon: "warning",
+        confirmButtonText: "Got it!",
+        customClass: {
+          popup: "swal2-custom-popup",
+          title: "swal2-custom-title",
+          htmlContainer: "swal2-custom-html",
+          confirmButton: "swal2-custom-confirm",
+        },
+        showClass: {
+          popup: "animate__animated animate__fadeInDown",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOutUp",
+        },
+      });
+      return;
+    }
     try {
       const formData = new FormData();
       if (videoFile) {
