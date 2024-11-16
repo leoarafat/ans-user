@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { PhotoCamera, RemoveCircle, AddCircle } from "@mui/icons-material";
 import { MdClose } from "react-icons/md";
-import { genres, genresForVideo } from "@/MockData/MockData";
+import { genresForVideo } from "@/MockData/MockData";
 
 import { allLanguage } from "@/utils/languages";
 
@@ -706,10 +706,27 @@ const DetailsForm = ({
                 labelId="alreadyHaveAnVevoChannel-label"
                 label="alreadyHaveAnVevoChannel"
               >
-                <MenuItem onClick={() => setHaveChannel(true)} value="Yes">
+                {/* <MenuItem onClick={() => setHaveChannel(true)} value="Yes">
                   Yes
                 </MenuItem>
                 <MenuItem onClick={() => setHaveChannel(false)} value="No">
+                  No
+                </MenuItem> */}
+                <MenuItem
+                  onClick={() => {
+                    setHaveChannel(true);
+                  }}
+                  value="Yes"
+                >
+                  Yes
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setHaveChannel(false);
+                    setValue("vevoChannel", "");
+                  }}
+                  value="No"
+                >
                   No
                 </MenuItem>
               </Select>
@@ -737,14 +754,29 @@ const DetailsForm = ({
                 {...field}
                 options={channelOptions}
                 getOptionLabel={(option) => option.label || ""}
+                // value={
+                //   channelOptions.find(
+                //     (option: any, value: any) => option.value === value.label
+                //   ) || null
+                // }
                 value={
                   channelOptions.find(
-                    (option: any, value: any) => option.value === value.label
+                    (option: any) => option.value === field.value
                   ) || null
                 }
+                // onChange={(event, value) => {
+                //   field.onChange(value?.label || "");
+                //   setValue("vevoChannel", value?.value || "");
+                // }}
                 onChange={(event, value) => {
                   field.onChange(value?.label || "");
-                  setValue("vevoChannel", value?.value || null);
+                  setValue("vevoChannel", value?.value || "");
+
+                  // if (!value) {
+                  //   setHaveChannel(false);
+                  // } else {
+                  //   setHaveChannel(true);
+                  // }
                 }}
                 renderInput={(params) => (
                   <TextField
@@ -820,105 +852,6 @@ const DetailsForm = ({
           )}
         />
       </Grid>
-      {/* <Grid item xs={12}>
-        <Controller
-          name="keywords"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              className={classes.input}
-              {...field}
-              label="Keywords"
-              variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
-              fullWidth
-              multiline
-              rows={4}
-            />
-          )}
-        />
-      </Grid> */}
-      {/* <Grid item xs={12}>
-        <Controller
-          name="keywords"
-          control={control}
-          defaultValue={[]}
-          render={({ field }) => (
-            <Autocomplete
-              multiple
-              freeSolo
-              {...field}
-              options={[]} // No predefined options
-              // onChange={(event, newValue) => {
-              //   field.onChange(newValue);
-              // }}
-              onChange={(event, newValue) => {
-                const uniqueKeywords = Array.from(new Set(newValue));
-                field.onChange(uniqueKeywords);
-              }}
-              value={field.value || []}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
-                    variant="outlined"
-                    label={option}
-                    {...getTagProps({ index })}
-                    key={index}
-                  />
-                ))
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Keywords"
-                  variant="filled"
-                  placeholder="Add keywords"
-                  sx={{
-                    backgroundColor: "rgba(255, 255, 255, 0.85)",
-                    borderRadius: "8px",
-                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                    "& .MuiFilledInput-root": {
-                      backgroundColor: "rgba(255, 255, 255, 0.85)",
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      },
-                      "&.Mui-focused": {
-                        backgroundColor: "rgba(255, 255, 255, 1)",
-                      },
-                    },
-                    "& .MuiFormLabel-root": {
-                      color: "#333",
-                    },
-                    "& .MuiInputBase-input": {
-                      color: "#333",
-                    },
-                  }}
-                  fullWidth
-                />
-              )}
-            />
-          )}
-        />
-      </Grid> */}
       <Grid item xs={12}>
         <Controller
           name="keywords"
@@ -929,9 +862,8 @@ const DetailsForm = ({
               multiple
               freeSolo
               {...field}
-              options={[]} // No predefined options
+              options={[]}
               onChange={(event, newValue) => {
-                // Remove duplicate keywords and trim whitespace
                 const uniqueKeywords = Array.from(
                   new Set(newValue.map((k) => k.trim()))
                 ).filter((k) => k !== "");

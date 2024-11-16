@@ -210,8 +210,14 @@ const UploadVideo = () => {
     if (!thumbnail) missingFields.push("Thumbnail");
     if (!videoFile) missingFields.push("Video File");
     if (!data.title) missingFields.push("Title");
-    if (!primaryArtists || primaryArtists.length === 0)
+
+    if (
+      !primaryArtists ||
+      primaryArtists.length === 0 ||
+      primaryArtists.some((artist) => !artist.name.trim())
+    ) {
       missingFields.push("Primary Artist");
+    }
     if (!selectedGenre) missingFields.push("Genre");
     if (!data.vevoChannel) missingFields.push("Vevo Channel");
     if (!isrc) missingFields.push("ISRC");
@@ -617,7 +623,7 @@ const UploadVideo = () => {
                         <Button
                           variant="contained"
                           onClick={handleNext}
-                          type="button" // Explicitly set type to button
+                          type="button"
                           sx={{
                             background:
                               "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
