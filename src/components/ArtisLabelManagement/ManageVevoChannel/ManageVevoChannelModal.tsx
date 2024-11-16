@@ -25,10 +25,10 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
   const [spotifyId, setSpotifyId] = useState("");
   const [appleId, setAppleId] = useState("");
   const [facebookUrl, setFacebookUrl] = useState("");
-
+  const [instagramError, setInstagramError] = useState("");
   const [appleIdError, setAppleIdError] = useState("");
   const [spotifyIdError, setSpotifyIdError] = useState("");
-
+  const [facebookError, setFacebookError] = useState("");
   const [addArtist, { isLoading }] = useAddChannelMutation();
 
   const validateAppleId = (id: string): boolean => {
@@ -44,7 +44,70 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
       return false;
     }
   };
-
+  const validateInstagramId = (id: string): boolean => {
+    if (id.trim() === "") {
+      // Instagram ID is optional
+      setInstagramError("");
+      return true;
+    }
+    // Check if input is a URL
+    if (id.startsWith("http://") || id.startsWith("https://")) {
+      try {
+        const parsedUrl = new URL(id);
+        const validHostnames = ["www.instagram.com", "instagram.com"];
+        if (validHostnames.includes(parsedUrl.hostname)) {
+          setInstagramError("");
+          return true;
+        } else {
+          setInstagramError("Please enter a valid Instagram URL.");
+          return false;
+        }
+      } catch {
+        setInstagramError("Please enter a valid Instagram URL.");
+        return false;
+      }
+    } else {
+      // Assume it's an Instagram ID; define pattern as needed
+      const pattern = /^[A-Za-z0-9._]{1,30}$/; // Example pattern
+      if (!pattern.test(id)) {
+        setInstagramError("Please enter a valid Instagram ID.");
+        return false;
+      }
+      setInstagramError("");
+      return true;
+    }
+  };
+  const validateFacebookUrl = (url: string): boolean => {
+    if (url.trim() === "") {
+      // Facebook URL is optional
+      setFacebookError("");
+      return true;
+    }
+    try {
+      const parsedUrl = new URL(url);
+      const validHostnames = ["www.facebook.com", "facebook.com"];
+      if (validHostnames.includes(parsedUrl.hostname)) {
+        setFacebookError("");
+        return true;
+      } else {
+        setFacebookError("Please enter a valid Facebook URL.");
+        return false;
+      }
+    } catch {
+      setFacebookError("Please enter a valid Facebook URL.");
+      return false;
+    }
+  };
+  const handleInstagramIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    setInstagramId(input);
+    validateInstagramId(input);
+  };
+  const handleFacebookUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    setFacebookUrl(input);
+    validateFacebookUrl(input);
+  };
   const validateSpotifyId = (id: string): boolean => {
     const pattern = /^[A-Za-z0-9]{22}$/;
     return pattern.test(id);
@@ -57,7 +120,6 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
     setArtistName(sanitizedInput);
   };
 
-  // Handler for Spotify ID Change
   const handleSpotifyIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setSpotifyId(input);
@@ -154,11 +216,8 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
   // Handler for Saving the Form
   const handleSave = async () => {
     // Final validation before saving
-    const isValid =
-      !appleIdError &&
-      !spotifyIdError &&
-      appleId.trim() !== "" &&
-      spotifyId.trim() !== "";
+    const isValid = !appleIdError && !spotifyIdError;
+    // Removed appleId.trim() !== "" && spotifyId.trim() !== "" to make them optional
 
     if (!isValid) {
       toast.error("Please fix the errors before saving.");
@@ -228,10 +287,13 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
             onChange={handleArtistNameChange}
             helperText="Channel name should not contain spaces."
           />
-          <span>
-            {artistName}
-            {artistName && "VEVO"}
-          </span>
+          <div className="flex items-center">
+            <p className="mr-2 text-sm">Preview:</p>{" "}
+            <span className="text-blue-700 font-bold">
+              {artistName}
+              {artistName && "VEVO"}
+            </span>
+          </div>
           <TextField
             margin="dense"
             id="instagram-id"
@@ -239,7 +301,11 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
             type="text"
             fullWidth
             value={instagramId}
-            onChange={(e) => setInstagramId(e.target.value)}
+            onChange={handleInstagramIdChange}
+            error={!!instagramError}
+            helperText={
+              instagramError || "Enter a valid Instagram URL or ID (optional)."
+            }
           />
           <TextField
             margin="dense"
@@ -280,7 +346,12 @@ const AddVevoChannelModal: React.FC<AddVevoChannelModalProps> = ({
             type="text"
             fullWidth
             value={facebookUrl}
-            onChange={(e) => setFacebookUrl(e.target.value)}
+            // onChange={(e) => setFacebookUrl(e.target.value)}
+            onChange={handleFacebookUrlChange}
+            error={!!facebookError}
+            helperText={
+              facebookError || "Enter a valid Facebook URL (optional)."
+            }
           />
         </DialogContent>
         <DialogActions>
