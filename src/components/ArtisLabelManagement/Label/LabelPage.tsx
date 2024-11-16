@@ -173,7 +173,6 @@ const LabelManage = () => {
               </TableCell>
               <TableCell>Youtube Channel</TableCell>
               <TableCell>Youtube URL</TableCell>
-              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -193,14 +192,6 @@ const LabelManage = () => {
                     >
                       {row.youtubeUrl}
                     </Link>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      color="error"
-                      onClick={() => handleDelete(row.labelId)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

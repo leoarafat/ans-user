@@ -197,7 +197,7 @@ const ArtistManage = () => {
               <TableCell>Spotify ID</TableCell>
               <TableCell>Apple ID</TableCell>
               <TableCell>Facebook URL</TableCell>
-              <TableCell>Actions</TableCell>
+              {/* <TableCell>Actions</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -210,7 +210,7 @@ const ArtistManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.primaryArtistName}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           handleInputChange(e, "primaryArtistName")
                         }
                         variant="outlined"
@@ -224,7 +224,7 @@ const ArtistManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.primaryArtistInstagramId}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           handleInputChange(e, "primaryArtistInstagramId")
                         }
                         variant="outlined"
@@ -238,7 +238,7 @@ const ArtistManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.primaryArtistSpotifyId}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           handleInputChange(e, "primaryArtistSpotifyId")
                         }
                         variant="outlined"
@@ -252,7 +252,7 @@ const ArtistManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.primaryArtistAppleId}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           handleInputChange(e, "primaryArtistAppleId")
                         }
                         variant="outlined"
@@ -266,7 +266,7 @@ const ArtistManage = () => {
                     {editMode[row._id] ? (
                       <TextField
                         value={editRowData.primaryArtistFacebookId}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           handleInputChange(e, "primaryArtistFacebookId")
                         }
                         variant="outlined"
@@ -275,32 +275,6 @@ const ArtistManage = () => {
                     ) : (
                       row?.primaryArtistFacebookId?.slice(0, 15)
                     )}
-                  </TableCell>
-                  <TableCell>
-                    {editMode[row._id] ? (
-                      <IconButton
-                        aria-label="save"
-                        onClick={() => handleSaveClick(row._id)}
-                        color="primary"
-                      >
-                        <SaveIcon />
-                      </IconButton>
-                    ) : (
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => handleEditClick(row._id, row)}
-                        color="primary"
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    )}
-                    <IconButton
-                      onClick={() => handleDelete(row?._id)}
-                      aria-label="delete"
-                      color="secondary"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

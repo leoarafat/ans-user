@@ -191,7 +191,6 @@ const VevoChannelManage = () => {
               <TableCell>Apple ID</TableCell>
               <TableCell>Facebook URL</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -270,32 +269,6 @@ const VevoChannelManage = () => {
                     )}
                   </TableCell>
                   <TableCell>{row?.isApproved}</TableCell>
-                  <TableCell>
-                    {editMode[row._id] ? (
-                      <IconButton
-                        aria-label="save"
-                        onClick={() => handleSaveClick(row._id)}
-                        color="primary"
-                      >
-                        <SaveIcon />
-                      </IconButton>
-                    ) : (
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => handleEditClick(row._id, row)}
-                        color="primary"
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    )}
-                    <IconButton
-                      onClick={() => handleDelete(row?._id)}
-                      aria-label="delete"
-                      color="secondary"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
