@@ -520,6 +520,11 @@ const Dashboard = () => {
             <div className="header-right">
               {isVerifiedUser && (
                 <>
+                  <Tooltip title="Live Support">
+                    <Link to="/chat" className="notification-icon">
+                      <MessageCircle size={24} color="#d0d0d0" />
+                    </Link>
+                  </Tooltip>
                   <Tooltip title="Notifications">
                     <Link to="/notifications" className="notification-icon">
                       <Bell size={24} color="#d0d0d0" />
