@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Avatar, Layout, Menu, Tooltip } from "antd";
+import { Avatar, Badge, Layout, Menu, Tooltip } from "antd";
 import { Bell, LogOut, MessageCircle } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/original-logo.jpg";
@@ -520,19 +520,19 @@ const Dashboard = () => {
             <div className="header-right">
               {isVerifiedUser && (
                 <>
-                  <Tooltip title="Live Support">
-                    <Link to="/chat" className="notification-icon">
-                      <MessageCircle size={24} color="#d0d0d0" />
+                  <Badge style={{ fontSize: "10px" }} count={11}>
+                    <Link to={"/chat"}>
+                      <MessageCircle size={25} color="#fff" />
                     </Link>
-                  </Tooltip>
-                  <Tooltip title="Notifications">
-                    <Link to="/notifications" className="notification-icon">
-                      <Bell size={24} color="#d0d0d0" />
+                  </Badge>
+                  <Badge className="mx-3" count={11}>
+                    <Link to={"/notifications"}>
+                      <Bell size={25} color="#fff" />
                     </Link>
-                  </Tooltip>
+                  </Badge>
                   {isApproved && (
                     <Tooltip title="Profile">
-                      <div className="profile-section">
+                      <div className="profile-section ml-3">
                         <Link to="/settings/profile">
                           <Avatar
                             src={`${myProfile?.image}`}
