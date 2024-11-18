@@ -3,8 +3,18 @@ import { useEffect, useRef, useState } from "react";
 import { FaPaperPlane, FaEllipsisV, FaUserCircle } from "react-icons/fa";
 import { BsEmojiSmile } from "react-icons/bs";
 import EmojiPicker from "emoji-picker-react";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+interface Message {
+  id: number;
+  sender: string;
+  avatarUrl: string;
+  text: string;
+  image?: string;
+  timestamp: string;
+  isOwn: boolean;
+}
 
-const initialMessages = [
+const initialMessages: Message[] = [
   {
     id: 1,
     sender: "John Doe",
@@ -22,7 +32,7 @@ const initialMessages = [
     isOwn: true,
   },
   {
-    id: 3, // Changed from id:2 to id:3 to ensure uniqueness
+    id: 3,
     sender: "You",
     avatarUrl: "",
     text: "I'm good, thanks! How about you?",
@@ -32,13 +42,13 @@ const initialMessages = [
 ];
 
 const ChatWindow = () => {
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState("");
   const [isEmojiModalOpen, setIsEmojiModalOpen] = useState(false);
-  const messagesEndRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToBottom = () => {
-    //@ts-ignore
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -47,14 +57,24 @@ const ChatWindow = () => {
   }, [messages]);
 
   // Handle sending a new message
-  const handleSend = () => {
-    if (input.trim() === "") return;
+  const handleSend = async () => {
+    if (input.trim() === "" && !selectedImage) return;
 
-    const newMessage = {
+    let imageUrl: string | undefined = undefined;
+
+    if (selectedImage) {
+      // Convert image to base64
+      imageUrl = await convertToBase64(selectedImage);
+      // Reset the selected image
+      setSelectedImage(null);
+    }
+
+    const newMessage: Message = {
       id: messages.length + 1, // Ensure unique ID
       sender: "You",
       avatarUrl: "",
       text: input,
+      image: imageUrl, // Include image URL if available
       timestamp: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -66,17 +86,33 @@ const ChatWindow = () => {
     setInput("");
   };
 
+  // Helper function to convert image file to base64 string
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          resolve(reader.result);
+        } else {
+          reject("Failed to convert image.");
+        }
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   // Toggle the emoji picker modal
   const toggleEmojiModal = () => {
     setIsEmojiModalOpen(!isEmojiModalOpen);
   };
 
-  const onEmojiClick = (emojiObject: any) => {
-    setInput((prevInput) => prevInput + emojiObject.emoji);
+  const onEmojiClick = (emojiData: any, event: MouseEvent) => {
+    setInput((prevInput) => prevInput + emojiData.emoji);
   };
 
   useEffect(() => {
-    const handleKeyDown = (e: any) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isEmojiModalOpen) {
         setIsEmojiModalOpen(false);
       }
@@ -94,8 +130,24 @@ const ChatWindow = () => {
     }
   }, [isEmojiModalOpen]);
 
+  // Handle image selection
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+
+      if (file.size > maxSize) {
+        alert("File size exceeds 5MB. Please choose a smaller image.");
+        return;
+      }
+
+      setSelectedImage(file);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
+      {/* Header */}
       <div className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-600 to-blue-500 text-white shadow-md">
         <div className="flex items-center">
           <div className="relative">
@@ -117,6 +169,7 @@ const ChatWindow = () => {
         </button>
       </div>
 
+      {/* Messages */}
       <div className="flex-1 p-6 overflow-y-auto bg-gradient-to-b from-purple-50 to-blue-100">
         {messages.map((msg) => (
           <div
@@ -147,7 +200,14 @@ const ChatWindow = () => {
                     : "bg-white text-gray-800 rounded-tl-lg"
                 } transition-transform transform hover:scale-105`}
               >
-                {msg.text}
+                {msg.text && <p>{msg.text}</p>}
+                {msg.image && (
+                  <img
+                    src={msg.image}
+                    alt="Sent Image"
+                    className="mt-2 max-w-full h-auto rounded"
+                  />
+                )}
               </div>
               <span className="block text-xs text-gray-500 mt-1">
                 {msg.timestamp}
@@ -172,7 +232,9 @@ const ChatWindow = () => {
         <div ref={messagesEndRef} />
       </div>
 
+      {/* Input Area */}
       <div className="flex items-center p-4 bg-white shadow-inner relative">
+        {/* Emoji Picker Button */}
         <button
           className="text-2xl text-gray-400 hover:text-purple-500 transition-colors"
           onClick={toggleEmojiModal}
@@ -181,6 +243,31 @@ const ChatWindow = () => {
           <BsEmojiSmile />
         </button>
 
+        {/* Hidden File Input */}
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          id="imageUpload"
+          onChange={handleImageChange}
+        />
+
+        {/* Image Upload Button */}
+        <label
+          htmlFor="imageUpload"
+          className="cursor-pointer text-2xl text-gray-400 hover:text-purple-500 transition-colors ml-2"
+          tabIndex={0}
+          onKeyPress={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              document.getElementById("imageUpload")?.click();
+            }
+          }}
+          aria-label="Upload image"
+        >
+          <AddPhotoAlternateIcon />
+        </label>
+
+        {/* Message Input */}
         <input
           type="text"
           placeholder="Type a message"
@@ -194,6 +281,7 @@ const ChatWindow = () => {
           }}
         />
 
+        {/* Send Button */}
         <button
           onClick={handleSend}
           className="p-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
@@ -202,6 +290,7 @@ const ChatWindow = () => {
           <FaPaperPlane />
         </button>
 
+        {/* Emoji Picker Modal */}
         {isEmojiModalOpen && (
           <div className="fixed inset-0 flex items-end justify-center z-50 sm:items-center sm:justify-center">
             <div
@@ -212,6 +301,24 @@ const ChatWindow = () => {
             <div className="bg-white rounded-lg shadow-lg p-2 sm:w-96 w-full mx-4">
               <EmojiPicker onEmojiClick={onEmojiClick} />
             </div>
+          </div>
+        )}
+
+        {/* Image Preview */}
+        {selectedImage && (
+          <div className="absolute bottom-20 left-4 bg-white p-2 rounded shadow-md flex items-center">
+            <img
+              src={URL.createObjectURL(selectedImage)}
+              alt="Selected"
+              className="w-16 h-16 object-cover rounded"
+            />
+            <button
+              className="ml-2 text-red-500"
+              onClick={() => setSelectedImage(null)}
+              aria-label="Remove selected image"
+            >
+              ✕
+            </button>
           </div>
         )}
       </div>
