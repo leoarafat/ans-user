@@ -61,6 +61,7 @@ import VideoUploaderStepperForm from "@/components/SteperForm/VideoStepperForm";
 import SubUserPage from "@/components/SubUser/SubUserPage";
 import EditAudio from "@/components/MyUploads/CorrectionMusic/EditAudio";
 import EditVideo from "@/components/MyUploads/CorrectionVideo/EditVideo";
+import MessagePage from "@/components/Message/MessagePage";
 
 const router = createBrowserRouter([
   {
@@ -392,6 +393,14 @@ const router = createBrowserRouter([
         element: (
           <IsVerifiedRoutes>
             <HelpPage />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/chat",
+        element: (
+          <IsVerifiedRoutes>
+            <MessagePage />
           </IsVerifiedRoutes>
         ),
       },
