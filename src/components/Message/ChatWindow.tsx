@@ -34,7 +34,8 @@ const initialMessages: Message[] = [
   {
     id: 3,
     sender: "You",
-    avatarUrl: "",
+    avatarUrl:
+      "https://res.cloudinary.com/arafatleo/image/upload/v1731941146/12102024_173322.Helena_Atik_true_DSLR_2_-01.jpeg_yfaxxm.jpg",
     text: "I'm good, thanks! How about you?",
     timestamp: "10:32 AM",
     isOwn: true,
@@ -74,7 +75,7 @@ const ChatWindow = () => {
       sender: "You",
       avatarUrl: "",
       text: input,
-      image: imageUrl, // Include image URL if available
+      image: imageUrl,
       timestamp: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
