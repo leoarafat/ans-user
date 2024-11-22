@@ -24,10 +24,10 @@ import PublicIcon from "@mui/icons-material/Public";
 import StoreIcon from "@mui/icons-material/Store"; //
 import Loader from "@/utils/Loader";
 import { countCountryOccurrences } from "@/utils/countCountryOccurrences";
-import { EyeIcon } from "lucide-react";
+import { EyeIcon, SquareChevronRight } from "lucide-react";
 import MusicDetailsModal from "./SingleMusicDetailsModa";
-import { imageURL } from "@/redux/api/baseApi";
 import AlbumDetailsModal from "../SuccessAlbum/AlbumDetailsModal";
+import { Link } from "react-router-dom";
 
 const StoreDataCell = ({ songId }: { songId: string }) => {
   const { data: storeData, isLoading, isError } = useGetStoredSongQuery(songId);
@@ -121,7 +121,7 @@ const SuccessSongsTable = ({ searchQuery }: any) => {
               <TableRow>
                 <TableCell>Cover</TableCell>
                 <TableCell>ReleaseID</TableCell>
-                <TableCell>Type</TableCell>
+
                 <TableCell>Release Title</TableCell>
                 <TableCell>Label</TableCell>
                 <TableCell>Release Date</TableCell>
@@ -130,6 +130,7 @@ const SuccessSongsTable = ({ searchQuery }: any) => {
                 <TableCell>Territories</TableCell>
                 <TableCell>Store</TableCell>
                 <TableCell>Details</TableCell>
+                <TableCell>Promo</TableCell>
               </TableRow>
             </TableHead>
 
@@ -157,7 +158,7 @@ const SuccessSongsTable = ({ searchQuery }: any) => {
                             />
                           </TableCell>
                           <TableCell>{row.releaseId}</TableCell>
-                          <TableCell>{row?.songType?.toUpperCase()}</TableCell>
+
                           <TableCell>{row.releaseTitle}</TableCell>
                           <TableCell>{row.audio[0]?.label}</TableCell>
                           <TableCell>{row.physicalReleaseDate}</TableCell>
@@ -206,7 +207,7 @@ const SuccessSongsTable = ({ searchQuery }: any) => {
                           />
                         </TableCell>
                         <TableCell>{row.releaseId}</TableCell>
-                        <TableCell>{row.songType?.toUpperCase()}</TableCell>
+
                         <TableCell>{row.releaseTitle}</TableCell>
                         <TableCell>{row.label?.labelName}</TableCell>
                         <TableCell>{row.releaseDate}</TableCell>
@@ -233,6 +234,14 @@ const SuccessSongsTable = ({ searchQuery }: any) => {
                             className="cursor-pointer"
                             onClick={() => handleViewDetails(row)}
                           />
+                        </TableCell>
+                        <TableCell>
+                          <Link
+                            to={`/promo-card/${row?._id}?banner=${row?.image}&title=${row?.title}`}
+                          >
+                            {" "}
+                            <SquareChevronRight />
+                          </Link>
                         </TableCell>
                       </TableRow>
                     )}
