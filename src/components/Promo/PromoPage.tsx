@@ -1,6 +1,3 @@
-// src/pages/PromoPage.jsx
-
-import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { Grid, Container, Typography } from "@mui/material";
 import PromoCard from "./PromoCard";
@@ -10,8 +7,19 @@ const PromoPage = () => {
   const [searchParams] = useSearchParams();
   const banner = searchParams.get("banner");
   const title = searchParams.get("title");
+  if (!banner || !title) {
+    return (
+      <Container maxWidth="md" sx={{ textAlign: "center", mt: 10 }}>
+        <Typography variant="h4" component="h1">
+          Invalid Promo URL
+        </Typography>
+        <Typography variant="body1">
+          Please provide a valid banner and title in the URL.
+        </Typography>
+      </Container>
+    );
+  }
 
-  // Shuffle the layoutTemplates to ensure randomness
   const shuffledTemplates = [...layoutTemplates].sort(
     () => 0.5 - Math.random()
   );
