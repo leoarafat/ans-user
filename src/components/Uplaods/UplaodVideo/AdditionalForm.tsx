@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 
 import { Controller } from "react-hook-form";
+import { commonStyles } from "./CommonStyles";
 const AdditionalForm = ({ control, classes }: any) => {
   return (
     <>
@@ -22,26 +23,7 @@ const AdditionalForm = ({ control, classes }: any) => {
               {...field}
               label="UPC Code"
               variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
+              sx={commonStyles}
               fullWidth
             />
           )}
@@ -57,26 +39,7 @@ const AdditionalForm = ({ control, classes }: any) => {
               {...field}
               label="Audio ISRC"
               variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
+              sx={commonStyles}
               fullWidth
               required
             />
@@ -84,30 +47,7 @@ const AdditionalForm = ({ control, classes }: any) => {
         />
       </Grid>
       <Grid item xs={6}>
-        <FormControl
-          fullWidth
-          variant="filled"
-          sx={{
-            backgroundColor: "rgba(255, 255, 255, 0.85)",
-            borderRadius: "8px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            "& .MuiFilledInput-root": {
-              backgroundColor: "rgba(255, 255, 255, 0.85)",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-              },
-              "&.Mui-focused": {
-                backgroundColor: "rgba(255, 255, 255, 1)",
-              },
-            },
-            "& .MuiFormLabel-root": {
-              color: "#333",
-            },
-            "& .MuiInputBase-input": {
-              color: "#333",
-            },
-          }}
-        >
+        <FormControl fullWidth variant="filled" sx={commonStyles}>
           <InputLabel id="version-label">Version</InputLabel>
           <Controller
             name="version"
@@ -143,26 +83,7 @@ const AdditionalForm = ({ control, classes }: any) => {
               {...field}
               label="Writer"
               variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
+              sx={commonStyles}
               fullWidth
             />
           )}
@@ -178,26 +99,7 @@ const AdditionalForm = ({ control, classes }: any) => {
               {...field}
               label="Composer"
               variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
+              sx={commonStyles}
               fullWidth
             />
           )}
@@ -213,26 +115,7 @@ const AdditionalForm = ({ control, classes }: any) => {
               {...field}
               label="Producer"
               variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
+              sx={commonStyles}
               fullWidth
             />
           )}
@@ -248,26 +131,7 @@ const AdditionalForm = ({ control, classes }: any) => {
               {...field}
               label="Editor"
               variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
+              sx={commonStyles}
               fullWidth
             />
           )}
@@ -283,26 +147,7 @@ const AdditionalForm = ({ control, classes }: any) => {
               {...field}
               label="Copyright©"
               variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
+              sx={commonStyles}
               fullWidth
               // required
             />
@@ -319,26 +164,7 @@ const AdditionalForm = ({ control, classes }: any) => {
               {...field}
               label="Copyright© Year"
               variant="filled"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "& .MuiFilledInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.85)",
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                  "&.Mui-focused": {
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                  },
-                },
-                "& .MuiFormLabel-root": {
-                  color: "#333",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#333",
-                },
-              }}
+              sx={commonStyles}
               type="number"
               fullWidth
               // required
