@@ -10,27 +10,21 @@ import {
   TableRow,
   Paper,
   Typography,
-  IconButton,
   TextField,
   Button,
   TableSortLabel,
   Box,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SaveIcon from "@mui/icons-material/Save";
+
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 
-import {
-  useDeleteChannelMutation,
-  useEditChannelMutation,
-  useGetChannelsQuery,
-} from "@/redux/slices/ArtistAndLabel/artistLabelApi";
+import { useGetChannelsQuery } from "@/redux/slices/ArtistAndLabel/artistLabelApi";
 import Loader from "@/utils/Loader";
-import toast from "react-hot-toast";
 import { Pagination } from "@mui/material";
 import AddVevoChannelModal from "./ManageVevoChannelModal";
+import { Link } from "react-router-dom";
+import { Edit2 } from "lucide-react";
 
 const VevoChannelManage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,8 +34,6 @@ const VevoChannelManage = () => {
   const [editMode, setEditMode] = useState<any>({});
   const [editRowData, setEditRowData] = useState<any>({});
   const { data: artistsData, isLoading } = useGetChannelsQuery({});
-  const [deleteArtist] = useDeleteChannelMutation();
-  const [updateArtist] = useEditChannelMutation();
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -58,24 +50,6 @@ const VevoChannelManage = () => {
     setOpen(true);
   };
 
-  const handleEditClick = (id: string, rowData: any) => {
-    setEditMode({ ...editMode, [id]: true });
-    setEditRowData(rowData);
-  };
-
-  const handleSaveClick = async (id: string) => {
-    try {
-      const res = await updateArtist({ id, ...editRowData });
-
-      if (res?.data?.success === true) {
-        toast.success("Channel Updated");
-        setEditMode({ ...editMode, [id]: false });
-      }
-    } catch (error: any) {
-      toast.error(error?.message);
-    }
-  };
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: string
@@ -83,17 +57,6 @@ const VevoChannelManage = () => {
     setEditRowData({ ...editRowData, [field]: e.target.value });
   };
 
-  const handleDelete = async (id: string) => {
-    try {
-      const res = await deleteArtist(id);
-
-      if (res?.data?.success === true) {
-        toast.success("Channel Deleted");
-      }
-    } catch (error: any) {
-      toast.error(error?.message);
-    }
-  };
   //@ts-ignore
   const artistData = artistsData?.data?.data;
 
@@ -191,6 +154,7 @@ const VevoChannelManage = () => {
               <TableCell>Apple ID</TableCell>
               <TableCell>Facebook URL</TableCell>
               <TableCell>Status</TableCell>
+              <TableCell>Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -268,7 +232,12 @@ const VevoChannelManage = () => {
                       row?.channelFacebookId?.slice(0, 15)
                     )}
                   </TableCell>
-                  <TableCell>{row?.isApproved}</TableCell>
+                  <TableCell>{row?.isApproved?.toUpperCase()}</TableCell>
+                  <TableCell>
+                    <Link to={`/edit-channel/${row?._id}`}>
+                      <Edit2 />
+                    </Link>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

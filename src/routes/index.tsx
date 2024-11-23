@@ -63,6 +63,7 @@ import EditAudio from "@/components/MyUploads/CorrectionMusic/EditAudio";
 import EditVideo from "@/components/MyUploads/CorrectionVideo/EditVideo";
 import MessagePage from "@/components/Message/MessagePage";
 import PromoPage from "@/components/Promo/PromoPage";
+import ChannelPage from "@/components/ArtisLabelManagement/ManageVevoChannel/UpdateCHannelPage";
 
 const router = createBrowserRouter([
   {
@@ -410,6 +411,14 @@ const router = createBrowserRouter([
         element: (
           <IsVerifiedRoutes>
             <PromoPage />
+          </IsVerifiedRoutes>
+        ),
+      },
+      {
+        path: "/edit-channel/:id",
+        element: (
+          <IsVerifiedRoutes>
+            <ChannelPage />
           </IsVerifiedRoutes>
         ),
       },

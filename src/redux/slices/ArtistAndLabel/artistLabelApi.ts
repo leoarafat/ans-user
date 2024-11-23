@@ -65,6 +65,13 @@ export const artistLabelApi = baseApi.injectEndpoints({
       }),
       providesTags: ["admin"],
     }),
+    singleChannel: build.query({
+      query: (id) => ({
+        url: `channel/single/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["channel"],
+    }),
     getArtists: build.query({
       query: (arg: Record<string, any>) => {
         return {
@@ -159,6 +166,14 @@ export const artistLabelApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["channel"],
     }),
+    editRequest: build.mutation({
+      query: (data) => ({
+        url: `channel/edit-request`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["channel"],
+    }),
   }),
 });
 
@@ -178,4 +193,6 @@ export const {
   useEditChannelMutation,
   useGetChannelsQuery,
   useGetApprovedChannelsQuery,
+  useEditRequestMutation,
+  useSingleChannelQuery,
 } = artistLabelApi;
